@@ -20,3 +20,6 @@ These files define how automated agents should work in this repository to keep t
 - 05-accessibility-performance.md
 - 06-linting-build.md
 - 07-hooks-utilities-ui.md
+- 08-folder-structure.md
+- 09-tailwind-standards.md
+- 10-documentation-standards.md
