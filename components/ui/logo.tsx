@@ -12,7 +12,7 @@ const sizeClasses: Record<NonNullable<LogoProps["size"]>, string> = {
 export function Logo({ size = "md", className }: LogoProps) {
   return (
     <div
-      className={`inline-flex items-center justify-center rounded-full bg-primary text-primary-foreground font-semibold tracking-tight ${sizeClasses[size]} ${className ?? ""}`}
+      className={`inline-flex items-center justify-center rounded-md border border-current bg-transparent text-primary font-semibold tracking-tight ${sizeClasses[size]} ${className ?? ""}`}
       aria-label="DP logo"
     >
       DP
