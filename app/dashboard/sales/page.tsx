@@ -1,4 +1,8 @@
 import { Icon } from "@/components/ui/icon";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 const kpis = [
   { title: "Total Revenue", value: "$1,250.00", delta: "+12.5%", note: "Trending up this month" },
@@ -24,9 +28,9 @@ export default function SalesDashboard() {
             <Icon name="Sparkles" size={18} className="text-foreground" />
             <span className="text-sm font-semibold">Acme Inc.</span>
           </div>
-          <button className="mb-4 w-full rounded bg-primary px-3 py-2 text-sm text-primary-foreground">
+          <Button className="mb-4 w-full" size="sm">
             Quick Create
-          </button>
+          </Button>
           <nav className="space-y-1 text-sm">
             <a className="flex items-center gap-2 rounded px-2 py-1 hover:bg-muted" href="#">
               <Icon name="LayoutDashboard" size={16} /> Dashboard
@@ -44,6 +48,7 @@ export default function SalesDashboard() {
               <Icon name="Users" size={16} /> Team
             </a>
           </nav>
+          <Separator className="my-4" />
           <div className="mt-6 text-xs text-muted-foreground">Documents</div>
           <nav className="mt-2 space-y-1 text-sm">
             <a className="flex items-center gap-2 rounded px-2 py-1 hover:bg-muted" href="#">
@@ -66,71 +71,88 @@ export default function SalesDashboard() {
               <h1 className="text-lg font-semibold">Documents</h1>
             </div>
             <div className="flex items-center gap-2">
-              <button className="rounded border border-border bg-background px-3 py-1 text-xs">Last 3 months</button>
-              <button className="rounded border border-border bg-background px-3 py-1 text-xs">Last 30 days</button>
-              <button className="rounded border border-border bg-background px-3 py-1 text-xs">Last 7 days</button>
+              <Button variant="outline" size="xs">Last 3 months</Button>
+              <Button variant="outline" size="xs">Last 30 days</Button>
+              <Button variant="outline" size="xs">Last 7 days</Button>
             </div>
           </div>
 
           <section className="grid gap-4 md:grid-cols-4">
             {kpis.map((kpi) => (
-              <div key={kpi.title} className="rounded-lg border border-border bg-card p-4">
-                <div className="mb-2 flex items-center justify-between text-xs text-muted-foreground">
-                  <span>{kpi.title}</span>
-                  <span className="rounded bg-muted px-2 py-0.5 text-[10px] text-foreground">{kpi.delta}</span>
-                </div>
-                <div className="text-2xl font-semibold">{kpi.value}</div>
-                <div className="mt-2 text-xs text-muted-foreground">{kpi.note}</div>
-              </div>
+              <Card key={kpi.title} className="gap-0">
+                <CardHeader className="pb-2">
+                  <div className="flex items-center justify-between text-xs text-muted-foreground">
+                    <span>{kpi.title}</span>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <span className="rounded bg-muted px-2 py-0.5 text-[10px] text-foreground">{kpi.delta}</span>
+                      </TooltipTrigger>
+                      <TooltipContent>Compared to previous period</TooltipContent>
+                    </Tooltip>
+                  </div>
+                  <CardTitle className="text-2xl font-semibold">{kpi.value}</CardTitle>
+                  <CardDescription className="text-xs">{kpi.note}</CardDescription>
+                </CardHeader>
+              </Card>
             ))}
           </section>
 
-          <section className="mt-6 rounded-lg border border-border bg-card p-4">
-            <div className="mb-3 flex items-center justify-between">
-              <div>
-                <h2 className="text-sm font-semibold">Total Visitors</h2>
-                <p className="text-xs text-muted-foreground">Total for the last 3 months</p>
-              </div>
-              <div className="flex items-center gap-2">
-                <button className="rounded border border-border bg-background px-3 py-1 text-xs">Last 3 months</button>
-                <button className="rounded border border-border bg-background px-3 py-1 text-xs">Last 30 days</button>
-                <button className="rounded border border-border bg-background px-3 py-1 text-xs">Last 7 days</button>
-              </div>
-            </div>
-            <div className="h-48 w-full rounded-md border border-border bg-gradient-to-b from-primary/40 via-primary/10 to-transparent" />
+          <section className="mt-6">
+            <Card>
+              <CardHeader className="flex-row items-center justify-between">
+                <div>
+                  <CardTitle className="text-sm">Total Visitors</CardTitle>
+                  <CardDescription>Total for the last 3 months</CardDescription>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Button variant="outline" size="xs">Last 3 months</Button>
+                  <Button variant="outline" size="xs">Last 30 days</Button>
+                  <Button variant="outline" size="xs">Last 7 days</Button>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="h-48 w-full rounded-md border border-border bg-gradient-to-b from-primary/40 via-primary/10 to-transparent" />
+              </CardContent>
+            </Card>
           </section>
 
-          <section className="mt-6 rounded-lg border border-border bg-card p-4">
-            <div className="mb-3 flex items-center gap-2 text-xs text-muted-foreground">
-              <span className="rounded bg-muted px-2 py-0.5 text-foreground">Outline</span>
-              <span>Past Performance</span>
-              <span>Key Personnel</span>
-              <span>Focus Documents</span>
-            </div>
-            <div className="overflow-hidden rounded-md border border-border">
-              <table className="w-full text-sm">
-                <thead className="bg-muted text-xs text-muted-foreground">
-                  <tr>
-                    <th className="px-3 py-2 text-left">Header</th>
-                    <th className="px-3 py-2 text-left">Section Type</th>
-                    <th className="px-3 py-2 text-left">Target</th>
-                    <th className="px-3 py-2 text-left">Limit</th>
-                    <th className="px-3 py-2 text-left">Reviewer</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {tableRows.map((row) => (
-                    <tr key={row.section} className="border-t border-border">
-                      <td className="px-3 py-2">{row.section}</td>
-                      <td className="px-3 py-2 text-xs text-muted-foreground">{row.type}</td>
-                      <td className="px-3 py-2">{row.target}</td>
-                      <td className="px-3 py-2">{row.limit}</td>
-                      <td className="px-3 py-2">{row.reviewer}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+          <section className="mt-6">
+            <Card>
+              <CardHeader>
+                <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                  <Button variant="secondary" size="xs">Outline</Button>
+                  <span>Past Performance</span>
+                  <span>Key Personnel</span>
+                  <span>Focus Documents</span>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="overflow-hidden rounded-md border border-border">
+                  <table className="w-full text-sm">
+                    <thead className="bg-muted text-xs text-muted-foreground">
+                      <tr>
+                        <th className="px-3 py-2 text-left">Header</th>
+                        <th className="px-3 py-2 text-left">Section Type</th>
+                        <th className="px-3 py-2 text-left">Target</th>
+                        <th className="px-3 py-2 text-left">Limit</th>
+                        <th className="px-3 py-2 text-left">Reviewer</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {tableRows.map((row) => (
+                        <tr key={row.section} className="border-t border-border">
+                          <td className="px-3 py-2">{row.section}</td>
+                          <td className="px-3 py-2 text-xs text-muted-foreground">{row.type}</td>
+                          <td className="px-3 py-2">{row.target}</td>
+                          <td className="px-3 py-2">{row.limit}</td>
+                          <td className="px-3 py-2">{row.reviewer}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </CardContent>
+            </Card>
           </section>
         </main>
       </div>

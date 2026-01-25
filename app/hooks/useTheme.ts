@@ -112,9 +112,21 @@ export function useTheme() {
     const colorValue = COLOR_CONFIG[newColor];
     const root = document.documentElement;
 
-    // Update primary color variables
+    // Update primary/accent tokens to match selected color
     root.style.setProperty('--primary-color', colorValue.hex);
     root.style.setProperty('--color-custom-accent', newColor);
+    root.style.setProperty('--primary', colorValue.hex);
+    root.style.setProperty('--accent', colorValue.hex);
+    root.style.setProperty('--ring', colorValue.hex);
+
+    const hex = colorValue.hex.replace('#', '');
+    const r = parseInt(hex.substring(0, 2), 16) / 255;
+    const g = parseInt(hex.substring(2, 4), 16) / 255;
+    const b = parseInt(hex.substring(4, 6), 16) / 255;
+    const luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+    const foreground = luminance > 0.5 ? '#000000' : '#FFFFFF';
+    root.style.setProperty('--primary-foreground', foreground);
+    root.style.setProperty('--accent-foreground', foreground);
 
     localStorage.setItem(COLOR_STORAGE_KEY, newColor);
     setColorState(newColor);
