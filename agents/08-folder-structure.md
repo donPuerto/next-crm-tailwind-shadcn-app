@@ -2,160 +2,114 @@
 
 ## Official Directory Structure
 
-This document defines the standard folder organization for the project.
+Organized by scope, with shadcn/ui prioritized for UI components.
 
-## Root Structure
+---
+
+## Complete Project Structure
 
 ```
 components/
-├── ui/                     # Global reusable UI primitives
-│   ├── Button.tsx
-│   ├── Input.tsx
-│   ├── Card.tsx
-│   └── Table.tsx
+├── ui/                        # shadcn/ui components (PRIMARY - copy-paste only)
+│   ├── button.tsx
+│   ├── card.tsx
+│   ├── input.tsx
+│   ├── dialog.tsx
+│   ├── dropdown-menu.tsx
+│   ├── table.tsx
+│   ├── form.tsx
+│   ├── tabs.tsx
+│   └── ...
 │
-└── layout/                 # Global layout components (appear on multiple pages)
-    ├── Footer.tsx
+├── custom/                    # Custom components (only if shadcn doesn't have it)
+│   └── (ask before adding)
+│
+└── layout/                    # Global layout components (appear on all pages)
     ├── Header.tsx
-    ├── Navbar.tsx
-    └── Sidebar.tsx
+    ├── Footer.tsx
+    ├── Sidebar.tsx
+    └── Navigation.tsx
 
 app/
-├── hooks/                  # Custom React hooks
-├── layout.tsx              # Root layout (wraps everything)
-├── page.tsx                # Homepage (/)
-└── globals.css             # Global styles
+├── hooks/
+├── layout.tsx
+├── page.tsx
+└── globals.css
 
-lib/                        # Utility functions
-    # Root layout
-├── page.tsx                # Homepage (/)
-│
-├── sales/
-│   ├── layout.tsx          # Sales dashboard layout (sidebar, nav)
-│   ├── page.tsx            # /sales (sales overview)
-│   ├── components/         # Sales-only components
-│   │   ├── SalesChart.tsx
-│   │   └── LeadCard.tsx
-│   ├── reports/
-│   │   └── page.tsx        # /sales/reports
-│   └── leads/
-│       └── page.tsx        # /sales/leads
-│
-└── admin/
-    ├── layout.tsx          # Admin dashboard layout (sidebar, nav)
-    ├── page.tsx            # /admin (admin overview)
-    ├── components/         # Admin-only components
-    │   ├── AdminStats.tsx
-    │   └── UserCard.tsx
-    ├── users/
-    │   ├── page.tsx        # /admin/users
-    │   ├── UserTable.tsx   # Page-specific component
-    │   └── UserFilters.tsx # Page-specific component
-    └── settings/
-        └── page.tsx        # /sales/reports
-│   └── leads/
-│       └── page.tsx    # /sales/leads
-│
-└── admin/
-   Component Organization
+lib/
+├── utils.ts                   # shadcn utilities (DO NOT MODIFY)
+└── (other utilities)
 
-Components are organized by scope and reusability:
-
-| Scope | Location | Examples | When to Use |
-|-------|----------|----------|-------------|
-| **Global UI Primitives** | `components/ui/` | Button, Input, Card, Table | Used in multiple pages/sections |
-| **Global Layout** | `components/layout/` | Footer, Header, Navbar, Sidebar | Appears on multiple pages |
-| **Section-Specific** | `app/section/components/` | AdminStats, SalesChart | Only used within one section (/admin/*, /sales/*) |
-| **Page-Specific** | `app/section/page/` | UserTable, UserFilters | Only used by one page (/admin/users) |
-
-### Global Component Usage
-
-Global components are imported and used in **root layout** or **section layouts**:
-
-**app/layout.tsx** (Root layout - wraps all pages):
-```tsx
-import { Footer } from "@/components/layout/Footer";
-
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <html>
-      <body>
-        {children}
-        <Footer />  {/* Appears on every page */}
-      </body>
-    </html>
-  );
-}
+agents/                        # Agent instructions
 ```
 
-**app/admin/layout.tsx** (Section layout - wraps admin pages):
-```tsx
-import { Button } from "@/components/ui/Button";
-import { AdminStats } from "./components/AdminStats";
+---
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="flex">
-      <aside>Admin Sidebar</aside>
-      <main>
-        <AdminStats />
-        {children}
-        <Button>Add New</Button>
-      </main>
-    </div>
-  );
-}
-```ettings
-```
-
-### Why Separate Paths?
-
-- Clear URL structure (`/sales/*` vs `/admin/*`)
-- Easy route protection with middleware
-- Different layouts per dashboard type
-- Simple role-based access control
-
-## Alternative: Route Groups (Advanced)
-
-For shared URLs with different layouts:
+## Dashboard Structure
 
 ```
 app/
 ├── layout.tsx
-├── (marketing)/
-│   ├── layout.tsx      # Marketing layout (header + footer)
-│   ├── page.tsx        # /
-│   └── about/
-│       └── page.tsx    # /about
+├── page.tsx
 │
-└── (app)/
-    ├── layout.tsx      # App layout (sidebar)
-    └── dashboard/
-        └── page.tsx    # /dashboard
+├── sales/
+│   ├── layout.tsx
+│   ├── page.tsx
+│   ├── components/            # Sales-specific (ask before adding)
+│   ├── reports/
+│   │   └── page.tsx
+│   └── leads/
+│       └── page.tsx
+│
+└── admin/
+    ├── layout.tsx
+    ├── page.tsx
+    ├── components/            # Admin-specific (ask before adding)
+    ├── users/
+    │   ├── page.tsx
+    │   ├── components/        # User page-specific (ask before adding)
+    │   └── [id]/
+    │       └── page.tsx
+    └── settings/
+        └── page.tsx
 ```
 
-**Note:** `(marketing)` and `(app)` are route groups - they don't appear in URLs.
+---
 
-## Page Types
+## Component Organization & Decision Tree
 
-| File | Purpose | Required |
-|------|---------|----------|
-| `layout.tsx` | Wrapper/frame for pages | ✅ Root only |
-| `page.tsx` | Actual page content | ✅ For routes |
-| `loading.tsx` | Loading UI fallback | ❌ Optional |
-| `error.tsx` | Error boundary | ❌ Optional |
-| `not-found.tsx` | 404 page | ❌ Optional |
+**When you need a component, ask yourself:**
+
+1. Is it available in shadcn/ui? → YES: Run `npx shadcn-ui@latest add [component]`
+2. Is it NOT in shadcn? → Ask before creating in `components/custom/`
+3. Is it global layout? → Add to `components/layout/`
+4. Is it section-specific? → Add to `app/section/components/`
+5. Is it page-specific? → Add to `app/section/page/components/` or same folder
+
+| Scope | Location | Decision |
+|-------|----------|----------|
+| **Global UI** | `components/ui/` | shadcn only - use `add` command |
+| **Custom UI** | `components/custom/` | Not in shadcn - ask first |
+| **Global Layout** | `components/layout/` | Header, Footer, Sidebar |
+| **Section Components** | `app/section/components/` | Used only in /section/* |
+| **Page Components** | `app/section/page/components/` | Used only in this page |
+
+---
 
 ## Naming Rules
 
-- Use lowercase with hyphens for folders: `user-profile/`, `sales-reports/`
-- Dynamic routes use brackets: `[id]/`, `[slug]/`
-- Route groups use parentheses: `(auth)/`, `(marketing)/`
-- Always use `.tsx` extension for TypeScript files
+- **shadcn components:** lowercase (`button.tsx`, `card.tsx`)
+- **Custom components:** PascalCase (`Header.tsx`, `AdminStats.tsx`)
+- **Folders:** lowercase with hyphens (`user-profile/`, `sales-reports/`)
+- **Dynamic routes:** brackets (`[id]/`, `[slug]/`)
+- **Route groups:** parentheses (`(auth)/`, `(marketing)/`)
+- **File extension:** always `.tsx`
+
+---
 
 ## Do Not
 
-- ❌ Create folders without confirmation
+- ❌ Create folders without asking
+- ❌ Add custom code to `components/ui/` (shadcn only)
+- ❌ Modify `lib/utils.ts`
 - ❌ Mix naming conventions
-- ❌ Duplicate folder structures
-- ❌ Create nested route groups unnecessarily
