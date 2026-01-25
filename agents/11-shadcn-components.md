@@ -33,6 +33,8 @@ Creates:
 npx shadcn-ui@latest add button
 npx shadcn-ui@latest add card
 npx shadcn-ui@latest add input
+npx shadcn-ui@latest add separator
+npx shadcn-ui@latest add tooltip
 ```
 
 Components are **copied to** `components/ui/`.
@@ -72,6 +74,8 @@ Is it available in shadcn/ui?
 | Badge | `add badge` |
 | Select | `add select` |
 | Checkbox | `add checkbox` |
+| Separator | `add separator` |
+| Tooltip | `add tooltip` |
 
 ---
 

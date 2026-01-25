@@ -24,3 +24,6 @@ These files define how automated agents should work in this repository to keep t
 - 09-tailwind-standards.md
 - 10-documentation-standards.md
 - 11-shadcn-components.md
+- 12-theme-system.md
+- 13-theme-colors.md
+- 14-typography.md
