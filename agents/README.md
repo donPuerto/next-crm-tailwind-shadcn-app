@@ -23,3 +23,4 @@ These files define how automated agents should work in this repository to keep t
 - 08-folder-structure.md
 - 09-tailwind-standards.md
 - 10-documentation-standards.md
+- 11-shadcn-components.md

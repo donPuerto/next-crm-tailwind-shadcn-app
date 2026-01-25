@@ -1,0 +1,236 @@
+# 11 - shadcn/ui Components
+
+## What is shadcn/ui?
+
+shadcn/ui is a collection of copy-paste component building blocks based on Radix UI and Tailwind CSS. It's **not a package**—you copy components directly into your project.
+
+**Key advantages:**
+- Full control over component code
+- No dependency bloat
+- Easy to customize
+- Uses Tailwind CSS + Radix UI
+
+---
+
+## Installation
+
+### 1. Initialize shadcn/ui in Your Project
+
+```bash
+npx shadcn-ui@latest init
+```
+
+**When prompted:**
+- Style: `Default`
+- Base color: `Slate`
+- CSS Variables: `Yes`
+
+This creates:
+- `components/ui/` folder (where shadcn components go)
+- `lib/utils.ts` (utility functions)
+- Updates `tailwind.config.ts`
+
+### 2. Add Components
+
+```bash
+npx shadcn-ui@latest add button
+npx shadcn-ui@latest add card
+npx shadcn-ui@latest add input
+```
+
+Components are copied to `components/ui/`.
+
+---
+
+## Project Structure with shadcn
+
+```
+components/
+├── ui/                        # shadcn/ui components (copied)
+│   ├── button.tsx
+│   ├── card.tsx
+│   ├── input.tsx
+│   ├── dialog.tsx
+│   └── ...
+│
+└── layout/                    # Your custom global components
+    ├── Header.tsx
+    ├── Footer.tsx
+    └── Sidebar.tsx
+
+app/
+├── hooks/
+├── layout.tsx
+└── page.tsx
+
+lib/
+├── utils.ts                   # shadcn utilities (auto-generated)
+└── other-utilities.ts
+
+agents/                         # Agent instructions
+```
+
+---
+
+## Using shadcn Components
+
+### Example: Button Component
+
+```tsx
+import { Button } from "@/components/ui/button"
+
+export function MyComponent() {
+  return (
+    <Button variant="outline" size="lg">
+      Click me
+    </Button>
+  )
+}
+```
+
+### Common Components
+
+| Component | Use Case | Command |
+|-----------|----------|---------|
+| Button | Actions, links | `npx shadcn-ui@latest add button` |
+| Card | Content containers | `npx shadcn-ui@latest add card` |
+| Input | Form fields | `npx shadcn-ui@latest add input` |
+| Dialog | Modals | `npx shadcn-ui@latest add dialog` |
+| Dropdown Menu | Menu | `npx shadcn-ui@latest add dropdown-menu` |
+| Table | Data display | `npx shadcn-ui@latest add table` |
+| Form | Forms with validation | `npx shadcn-ui@latest add form` |
+| Tabs | Tabbed content | `npx shadcn-ui@latest add tabs` |
+
+---
+
+## Customizing Components
+
+shadcn components are in `components/ui/` and fully yours to modify:
+
+```tsx
+// components/ui/button.tsx
+import { cva, type VariantProps } from "class-variance-authority"
+import { cn } from "@/lib/utils"
+
+const buttonVariants = cva(
+  "inline-flex items-center justify-center whitespace-nowrap rounded-md",
+  {
+    variants: {
+      variant: {
+        default: "bg-primary text-white hover:bg-blue-600",
+        outline: "border border-gray-300 hover:bg-gray-50",
+        // Add custom variants here
+      },
+    },
+  }
+)
+
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonVariants> {}
+
+export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ className, variant, size, ...props }, ref) => (
+    <button
+      className={cn(buttonVariants({ variant, size, className }))}
+      ref={ref}
+      {...props}
+    />
+  )
+)
+```
+
+---
+
+## Naming Convention
+
+- **shadcn components:** lowercase file names (`button.tsx`, `card.tsx`)
+- **Your custom components:** PascalCase (`Header.tsx`, `Footer.tsx`)
+
+---
+
+## With Your Project Structure
+
+### Adding a shadcn Card to Your Page
+
+```tsx
+// app/admin/users/page.tsx
+import { Card } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { UserTable } from "./UserTable"
+
+export default function UsersPage() {
+  return (
+    <Card>
+      <h1>Users</h1>
+      <UserTable />
+      <Button>Add User</Button>
+    </Card>
+  )
+}
+```
+
+---
+
+## When to Use shadcn
+
+✅ **Use shadcn for:**
+- Complex UI primitives (modals, dropdowns, tabs)
+- Form components with validation
+- Accessible components (built on Radix)
+- When you need full control over the code
+
+❌ **Don't use shadcn for:**
+- Simple components (use Tailwind + plain HTML)
+- App-specific logic (create custom components instead)
+- Marketing landing pages (overkill)
+
+---
+
+## Common Setups
+
+### Form with Validation
+
+```bash
+npx shadcn-ui@latest add form
+npx shadcn-ui@latest add input
+npx shadcn-ui@latest add button
+```
+
+```tsx
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+
+export function MyForm() {
+  const form = useForm({
+    resolver: zodResolver(schema),
+  })
+
+  return (
+    <form onSubmit={form.handleSubmit(onSubmit)}>
+      <Input placeholder="Enter name" />
+      <Button type="submit">Submit</Button>
+    </form>
+  )
+}
+```
+
+---
+
+## Best Practices
+
+1. **Don't modify `lib/utils.ts`** — it's auto-generated by shadcn
+2. **Customize in `components/ui/`** — the components are yours to change
+3. **Use variants** — shadcn components use `variant` props for styling
+4. **Keep it simple** — don't add logic to UI components
+5. **Combine with custom components** — shadcn for UI, your components for features
+
+---
+
+## Helpful Links
+
+- [shadcn/ui Docs](https://ui.shadcn.com/)
+- [Component Gallery](https://ui.shadcn.com/docs/components/button)
+- [Customization Guide](https://ui.shadcn.com/docs/customization/theming)

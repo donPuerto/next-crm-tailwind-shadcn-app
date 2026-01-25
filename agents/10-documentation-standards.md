@@ -10,25 +10,20 @@ When writing documentation (markdown, comments, examples), **avoid displaying Ta
 
 ### ❌ Wrong (Triggers Linter Warnings)
 
-```markdown
-### Bad Example
-\`\`\`tsx
-className="w-[158px] border-black/[.08]"  // DON'T DO THIS
-\`\`\`
-```
+Don't show arbitrary syntax in code blocks—ever.
 
-**Problem:** Linter flags `w-[158px]` and `border-black/[.08]` even in docs.
+**Problem:** Linter flags arbitrary syntax even in docs.
 
 ### ✅ Right (No Warnings)
 
-Use plain text, bullet lists, or tables WITHOUT code blocks:
+Use plain text, bullet lists, or tables WITHOUT showing the syntax:
 
 ```markdown
 ### Bad Patterns (Don't Use These)
 
-- `158px` width values → Use `w-40` instead
-- `border-black/[.08]` opacity → Use `border-black/8` instead
-- Hex colors like `#383838` → Use color names like `bg-gray-700` instead
+- Arbitrary pixel widths → Use native width classes instead
+- Arbitrary opacity syntax → Use native opacity classes instead  
+- Hex colors → Use color names like bg-gray-700 instead
 
 ### Good Example
 \`\`\`tsx
@@ -44,22 +39,22 @@ className="w-40 border-black/8 hover:bg-gray-700"
 
 1. **Plain text with arrows:**
    ```
-   Instead of writing: arbitrary values
-   Use: native Tailwind classes
+   Instead of: pixel values
+   Use: w-40, w-36, w-32
    ```
 
 2. **Bullet points:**
    ```
-   - Don't use: 158px → Use: w-40
-   - Don't use: #383838 → Use: bg-gray-700
+   - Avoid: arbitrary widths → Use: w-40
+   - Avoid: arbitrary opacity → Use: border-black/8
    ```
 
 3. **Tables (no code blocks):**
    ```
    | Avoid | Use Instead |
    |-------|-------------|
-   | 158px width | w-40 |
-   | Hex #383838 | bg-gray-700 |
+   | Pixel values | Native width classes |
+   | Hex codes | Color names |
    ```
 
 4. **Comments in code blocks (only for CORRECT code):**
@@ -67,73 +62,52 @@ className="w-40 border-black/8 hover:bg-gray-700"
    // ✅ Good: Use native classes
    className="w-40 border-black/8 bg-gray-700"
    
-   // Note: Don't use arbitrary values like w-[158px]
+   // Note: Never use arbitrary syntax
    ```
 
 ### ❌ Never Do This
 
-- ❌ Code blocks showing arbitrary values
+- ❌ Code blocks with arbitrary syntax
 - ❌ Copy-paste arbitrary values anywhere in docs
-- ❌ Inline code like `\`w-[158px]\`` in prose
+- ❌ Show arbitrary values even in "bad examples"
 
 ---
 
 ## Examples
 
-### Creating an Instruction (Like This File)
+### Creating an Instruction
 
 **Bad:**
 ```markdown
-## Wrong
-Use className="w-[158px]" is wrong, use w-40 instead
+Don't use arbitrary pixel widths, use w-40 instead
 ```
 
 **Good:**
 ```markdown
-## Correct Pattern
-
-Use `w-40` for 160px width values instead of arbitrary pixel sizes.
+Use native Tailwind classes like w-40 for width values.
 ```
 
 ---
 
 ### Creating Code Examples
 
-**Bad:**
-```markdown
-# Example
-\`\`\`tsx
-<div className="w-[158px] bg-[#383838]">Bad</div>
-\`\`\`
-```
+Only show CORRECT code in code blocks:
 
-**Good:**
-```markdown
-# Example
-\`\`\`tsx
-// ✅ Use native Tailwind classes
-<div className="w-40 bg-gray-700">Good</div>
-\`\`\`
+```tsx
+// ✅ Good: Use native Tailwind classes
+<div className="w-40 bg-gray-700">Content</div>
 ```
 
 ---
 
 ### Conversion Guides
 
-**Bad:**
 ```markdown
-| Don't | Do |
-|------|-----|
-| w-[158px] | w-40 |
-| bg-[#383838] | bg-gray-700 |
-```
-
-**Good:**
-```markdown
-| Instead Of | Use This |
-|------------|----------|
-| 158px width | w-40 |
-| Hex #383838 | bg-gray-700 |
+| Avoid | Use Instead |
+|-------|-------------|
+| Custom pixel values | Native Tailwind sizes |
+| Hex color codes | Built-in color names |
+| Decimal opacity | Tailwind opacity scale |
 ```
 
 ---
@@ -141,16 +115,17 @@ Use `w-40` for 160px width values instead of arbitrary pixel sizes.
 ## Pre-Commit Checklist for Docs
 
 Before adding/updating documentation:
-- ✅ No arbitrary values `[...]` in code blocks
-- ✅ Bad examples shown as plain text, not code
+- ✅ No arbitrary syntax in any code blocks
+- ✅ Bad examples shown as plain text only
 - ✅ Only correct code shown in \`\`\`tsx blocks
-- ✅ Use bullet points or tables for comparisons
-- ✅ No inline arbitrary values in prose
+- ✅ Use bullet points or tables for patterns
+- ✅ No inline arbitrary values anywhere
 
 ---
 
 ## Summary
 
-**Golden Rule:** If you wouldn't write it in real code, don't show it in a code block in docs.
+**Golden Rule:** Never display arbitrary values in documentation, even as examples of "what NOT to do."
 
-Use plain text, bullet lists, and tables to discuss bad patterns instead.
+Use descriptions, tables, and bullet points instead.
+
