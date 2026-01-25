@@ -51,7 +51,6 @@ export function Navbar() {
         <div className="flex items-center gap-2">
           <Link href="/" className="flex items-center gap-2 text-sm font-semibold tracking-tight text-foreground">
             <Logo size="sm" />
-            <span>DP</span>
           </Link>
           <span className="ml-2 rounded bg-muted px-2 py-0.5 text-xs text-muted-foreground">
             {THEME_CONFIG[theme]?.name ?? theme}
