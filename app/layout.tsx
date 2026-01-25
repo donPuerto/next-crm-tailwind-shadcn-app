@@ -46,7 +46,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" data-theme="vercel">
+    <html lang="en" data-theme="vercel" className="layout-full">
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${notoSans.variable} ${nunitoSans.variable} ${figtree.variable} antialiased`}
       >
