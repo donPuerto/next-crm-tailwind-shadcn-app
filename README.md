@@ -1,38 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Next.js App
 
-Agent guidance lives in [agents/README.md](agents/README.md).
+A modern Next.js application built with TypeScript and Tailwind CSS.
+
+## Tech Stack
+
+- **Framework:** Next.js 16 (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS v4
+- **Package Manager:** Bun
+- **Fonts:** Geist Sans & Geist Mono
+
+## Project Structure
+
+```
+app/
+├── hooks/          # Custom React hooks
+├── layout.tsx      # Root layout
+├── page.tsx        # Homepage
+└── globals.css     # Global styles
+
+components/
+└── ui/             # Reusable UI components
+
+lib/                # Utility functions
+
+agents/             # Agent instructions for AI-assisted development
+```
+
+## Agent Guidance
+
+This project includes structured agent instructions to maintain code quality and consistency. See [agents/README.md](agents/README.md) for details.
 
 ## Getting Started
 
-First, run the development server:
+Install dependencies and run the development server:
+
+```bash
+bun install
+bun dev
+```
+
+Or with npm/yarn:
 
 ```bash
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Features
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- ✅ Next.js App Router with Server Components
+- ✅ TypeScript for type safety
+- ✅ Tailwind CSS v4 for styling
+- ✅ Dark mode support
+- ✅ Optimized fonts with next/font
+- ✅ Structured folder organization
+- ✅ Agent-guided development workflow
+
+## Development Guidelines
+
+- Follow the agent instructions in the `agents/` folder
+- Keep components small and well-typed
+- Add comments for beginners
+- Use Server Components by default
+- Run `bun run lint` before committing
 
 ## Learn More
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Learn Next.js](https://nextjs.org/learn)
+- [Tailwind CSS](https://tailwindcss.com/docs)
