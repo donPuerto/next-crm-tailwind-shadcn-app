@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Icon } from "@/components/ui/icon";
+import { Logo } from "@/components/ui/logo";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "@/components/ui/select";
@@ -38,6 +39,8 @@ export function Navbar() {
     setRadius,
     setStyle,
     setFonts,
+    layoutMode,
+    setLayoutMode,
     isDark,
     setDarkMode
   } = useTheme();
@@ -46,9 +49,9 @@ export function Navbar() {
     <header className="sticky top-0 z-40 w-full border-b bg-card/80 backdrop-blur-sm">
       <div className="mx-auto flex h-12 max-w-6xl items-center justify-between px-4">
         <div className="flex items-center gap-2">
-          <Icon name="Sparkles" size={16} className="text-foreground" />
-          <Link href="/" className="text-sm font-semibold tracking-tight text-foreground">
-            Themed App
+          <Link href="/" className="flex items-center gap-2 text-sm font-semibold tracking-tight text-foreground">
+            <Logo size="sm" />
+            <span>DP</span>
           </Link>
           <span className="ml-2 rounded bg-muted px-2 py-0.5 text-xs text-muted-foreground">
             {THEME_CONFIG[theme]?.name ?? theme}
@@ -175,6 +178,19 @@ export function Navbar() {
                           {STYLE_CONFIG[s].name}
                         </SelectItem>
                       ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="grid gap-1">
+                  <span className="text-xs text-muted-foreground">Toggle layout</span>
+                  <Select value={layoutMode} onValueChange={(v) => setLayoutMode(v as any)}>
+                    <SelectTrigger aria-label="Select Layout" size="sm" className="w-full">
+                      <SelectValue placeholder="Layout" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="layout-full">Layout Full</SelectItem>
+                      <SelectItem value="layout-fixed">Layout Fixed</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>

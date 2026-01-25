@@ -1,8 +1,22 @@
+import { AppSidebar } from "@/components/app-sidebar";
 import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 
 const kpis = [
   { title: "Total Revenue", value: "$1,250.00", delta: "+12.5%", note: "Trending up this month" },
@@ -20,50 +34,30 @@ const tableRows = [
 
 export default function SalesDashboard() {
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <div className="flex">
-        {/* Sidebar */}
-        <aside className="hidden w-60 shrink-0 border-r border-border bg-card p-4 md:block">
-          <div className="mb-6 flex items-center gap-2">
-            <Icon name="Sparkles" size={18} className="text-foreground" />
-            <span className="text-sm font-semibold">Acme Inc.</span>
+    <SidebarProvider>
+      <AppSidebar />
+      <SidebarInset>
+        <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
+          <div className="flex items-center gap-2 px-4">
+            <SidebarTrigger className="-ml-1" />
+            <Separator
+              orientation="vertical"
+              className="mr-2 data-[orientation=vertical]:h-4"
+            />
+            <Breadcrumb>
+              <BreadcrumbList>
+                <BreadcrumbItem className="hidden md:block">
+                  <BreadcrumbLink href="#">Dashboard</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator className="hidden md:block" />
+                <BreadcrumbItem>
+                  <BreadcrumbPage>Sales</BreadcrumbPage>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
           </div>
-          <Button className="mb-4 w-full" size="sm">
-            Quick Create
-          </Button>
-          <nav className="space-y-1 text-sm">
-            <a className="flex items-center gap-2 rounded px-2 py-1 hover:bg-muted" href="#">
-              <Icon name="LayoutDashboard" size={16} /> Dashboard
-            </a>
-            <a className="flex items-center gap-2 rounded px-2 py-1 hover:bg-muted" href="#">
-              <Icon name="Layers" size={16} /> Lifecycle
-            </a>
-            <a className="flex items-center gap-2 rounded px-2 py-1 hover:bg-muted" href="#">
-              <Icon name="PieChart" size={16} /> Analytics
-            </a>
-            <a className="flex items-center gap-2 rounded px-2 py-1 hover:bg-muted" href="#">
-              <Icon name="Folder" size={16} /> Projects
-            </a>
-            <a className="flex items-center gap-2 rounded px-2 py-1 hover:bg-muted" href="#">
-              <Icon name="Users" size={16} /> Team
-            </a>
-          </nav>
-          <Separator className="my-4" />
-          <div className="mt-6 text-xs text-muted-foreground">Documents</div>
-          <nav className="mt-2 space-y-1 text-sm">
-            <a className="flex items-center gap-2 rounded px-2 py-1 hover:bg-muted" href="#">
-              <Icon name="Database" size={16} /> Data Library
-            </a>
-            <a className="flex items-center gap-2 rounded px-2 py-1 hover:bg-muted" href="#">
-              <Icon name="FileText" size={16} /> Reports
-            </a>
-            <a className="flex items-center gap-2 rounded px-2 py-1 hover:bg-muted" href="#">
-              <Icon name="PenSquare" size={16} /> Word Assistant
-            </a>
-          </nav>
-        </aside>
+        </header>
 
-        {/* Main */}
         <main className="flex-1 p-6">
           <div className="mb-6 flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -155,7 +149,7 @@ export default function SalesDashboard() {
             </Card>
           </section>
         </main>
-      </div>
-    </div>
+      </SidebarInset>
+    </SidebarProvider>
   );
 }

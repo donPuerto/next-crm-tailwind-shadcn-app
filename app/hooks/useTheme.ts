@@ -28,7 +28,8 @@ import {
   STYLE_STORAGE_KEY,
   RADIUS_STORAGE_KEY,
   MENU_ACCENT_STORAGE_KEY,
-  DARK_MODE_STORAGE_KEY
+  DARK_MODE_STORAGE_KEY,
+  LAYOUT_MODE_STORAGE_KEY
 } from '@/lib/constants/themes';
 
 /**
@@ -43,6 +44,7 @@ export function useTheme() {
   const [radius, setRadiusState] = useState<RadiusOption>('md');
   const [menuAccent, setMenuAccentState] = useState<MenuAccent>(DEFAULT_MENU_ACCENT);
   const [isDark, setIsDark] = useState(false);
+  const [layoutMode, setLayoutModeState] = useState<'layout-full' | 'layout-fixed'>('layout-full');
 
   // Font overrides (optional) - defaults to theme-defined fonts
   type FontChoice = 'default' | 'inter' | 'noto' | 'nunito' | 'figtree';
@@ -60,6 +62,7 @@ export function useTheme() {
     const savedRadius = localStorage.getItem(RADIUS_STORAGE_KEY) as RadiusOption | null;
     const savedMenuAccent = localStorage.getItem(MENU_ACCENT_STORAGE_KEY) as MenuAccent | null;
     const savedDarkMode = localStorage.getItem(DARK_MODE_STORAGE_KEY);
+    const savedLayoutMode = localStorage.getItem(LAYOUT_MODE_STORAGE_KEY) as 'layout-full' | 'layout-fixed' | null;
 
     const initialTheme = (savedTheme && AVAILABLE_THEMES.includes(savedTheme)) ? savedTheme : DEFAULT_THEME;
     const initialColor = (savedColor && AVAILABLE_COLORS.includes(savedColor)) ? savedColor : DEFAULT_COLOR;
@@ -68,6 +71,7 @@ export function useTheme() {
     const initialRadius = (savedRadius && AVAILABLE_RADII.includes(savedRadius)) ? savedRadius : 'md';
     const initialMenuAccent = (savedMenuAccent && AVAILABLE_MENU_ACCENTS.includes(savedMenuAccent)) ? savedMenuAccent : DEFAULT_MENU_ACCENT;
     const initialDark = savedDarkMode === 'true';
+    const initialLayout = savedLayoutMode === 'layout-fixed' ? 'layout-fixed' : 'layout-full';
 
     setThemeState(initialTheme);
     setColorState(initialColor);
@@ -76,6 +80,7 @@ export function useTheme() {
     setRadiusState(initialRadius);
     setMenuAccentState(initialMenuAccent);
     setIsDark(initialDark);
+    setLayoutModeState(initialLayout);
 
     applyAll({
       theme: initialTheme,
@@ -85,6 +90,7 @@ export function useTheme() {
       radius: initialRadius,
       menuAccent: initialMenuAccent,
       dark: initialDark,
+      layoutMode: initialLayout,
       fontSans,
       fontSerif,
       fontMono
@@ -209,6 +215,17 @@ export function useTheme() {
   };
 
   /**
+   * Apply layout mode by toggling html class
+   */
+  const applyLayoutMode = (nextMode: 'layout-full' | 'layout-fixed') => {
+    const root = document.documentElement;
+    root.classList.remove('layout-full', 'layout-fixed');
+    root.classList.add(nextMode);
+    localStorage.setItem(LAYOUT_MODE_STORAGE_KEY, nextMode);
+    setLayoutModeState(nextMode);
+  };
+
+  /**
    * Apply font overrides (optional)
    */
   const applyFonts = (opts: { sans?: FontChoice; serif?: 'default' | 'georgia'; mono?: 'default' | 'geist-mono' }) => {
@@ -261,6 +278,7 @@ export function useTheme() {
     radius?: RadiusOption;
     menuAccent?: MenuAccent;
     dark?: boolean;
+    layoutMode?: 'layout-full' | 'layout-fixed';
     fontSans?: FontChoice;
     fontSerif?: 'default' | 'georgia';
     fontMono?: 'default' | 'geist-mono';
@@ -272,6 +290,7 @@ export function useTheme() {
     if (opts.radius) applyRadius(opts.radius);
     if (opts.menuAccent) applyMenuAccent(opts.menuAccent);
     if (typeof opts.dark === 'boolean') applyDarkMode(opts.dark);
+    if (opts.layoutMode) applyLayoutMode(opts.layoutMode);
     applyFonts({ sans: opts.fontSans, serif: opts.fontSerif, mono: opts.fontMono });
   };
 
@@ -283,6 +302,7 @@ export function useTheme() {
     radius,
     menuAccent,
     isDark,
+    layoutMode,
     fontSans,
     fontSerif,
     fontMono,
@@ -293,6 +313,7 @@ export function useTheme() {
     setRadius: applyRadius,
     setMenuAccent: applyMenuAccent,
     setDarkMode: applyDarkMode,
+    setLayoutMode: applyLayoutMode,
     setFonts: applyFonts,
     setThemeAndColor: applyThemeAndColor,
     applyAll,

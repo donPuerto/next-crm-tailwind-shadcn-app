@@ -96,6 +96,7 @@ export const STYLE_STORAGE_KEY = 'app-style';
 export const RADIUS_STORAGE_KEY = 'app-radius';
 export const MENU_ACCENT_STORAGE_KEY = 'app-menu-accent';
 export const DARK_MODE_STORAGE_KEY = 'app-dark-mode';
+export const LAYOUT_MODE_STORAGE_KEY = 'app-layout-mode';
 
 /**
  * Convert hex color to oklch
