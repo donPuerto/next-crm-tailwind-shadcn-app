@@ -66,6 +66,7 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
+    font-weight: 500;
   }
   body {
     @apply bg-background text-foreground;
@@ -96,6 +97,29 @@
     position: absolute !important;
     left: 0;
     right: auto;
+  }
+
+  /* Sidebar matches dashboard shell height */
+  [data-slot="sidebar-wrapper"] {
+    align-items: stretch;
+    height: 100%;
+  }
+
+  [data-slot="sidebar-container"] {
+    height: 100% !important;
+  }
+
+  [data-slot="sidebar-inner"] {
+    height: 100%;
+  }
+
+  /* Sidebar header alignment */
+  html.layout-full [data-slot="sidebar-header"] {
+    margin-top: 70px;
+  }
+
+  html.layout-fixed [data-slot="sidebar-header"] {
+    margin-top: 0.5rem;
   }
 }
 
