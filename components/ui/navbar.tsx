@@ -48,7 +48,7 @@ export function Navbar() {
 
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-card/80 backdrop-blur-sm">
-      <div className="navbar-container layout-container mx-auto flex h-12 items-center justify-between px-6">
+      <div className="navbar-container layout-container layout-padding mx-auto flex h-12 items-center justify-between">
         <div className="flex items-center gap-2">
           <Link href="/" className="flex items-center gap-2 text-sm font-semibold tracking-tight text-foreground">
             <Logo size="sm" />

@@ -12,7 +12,7 @@ import { SidebarTrigger } from "@/components/ui/sidebar"
 export default function Page() {
   return (
     <>
-      <header className="flex h-16 shrink-0 items-center gap-2 px-6 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
+      <header className="layout-padding flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
         <div className="flex w-full items-center gap-2">
           <SidebarTrigger className="-ml-1" />
           <Separator
@@ -34,7 +34,7 @@ export default function Page() {
           </Breadcrumb>
         </div>
       </header>
-      <div className="flex flex-1 flex-col gap-4 px-6 pb-6">
+      <div className="layout-padding flex flex-1 flex-col gap-4 pb-6">
         <div className="grid auto-rows-min gap-4 md:grid-cols-3">
           <div className="bg-muted/50 aspect-video rounded-xl" />
           <div className="bg-muted/50 aspect-video rounded-xl" />

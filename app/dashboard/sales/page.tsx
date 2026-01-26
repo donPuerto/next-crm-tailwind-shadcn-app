@@ -30,7 +30,7 @@ const tableRows = [
 export default function SalesDashboard() {
   return (
     <>
-      <header className="flex h-16 shrink-0 items-center gap-2 px-6 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
+      <header className="layout-padding flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
         <div className="flex w-full items-center gap-2">
           <SidebarTrigger className="-ml-1" />
           <Separator
@@ -51,7 +51,7 @@ export default function SalesDashboard() {
         </div>
       </header>
 
-      <main className="w-full flex-1 px-6 pb-6">
+      <main className="layout-padding w-full flex-1 pb-6">
         <div className="mb-6 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Icon name="FileText" size={18} className="text-muted-foreground" />

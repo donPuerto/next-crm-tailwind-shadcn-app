@@ -7,10 +7,10 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <SidebarProvider>
+    <SidebarProvider className="layout-container mx-auto w-full">
       <AppSidebar />
       <SidebarInset>
-        <div className="dashboard-shell layout-container mx-auto w-full border-l border-r border-border">
+        <div className="dashboard-shell w-full border-l border-r border-border">
           {children}
         </div>
       </SidebarInset>
