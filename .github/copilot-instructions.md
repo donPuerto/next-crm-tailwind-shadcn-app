@@ -1,5 +1,16 @@
 # AI Copilot Instructions for nextjs-app
 
+> **CRITICAL**: Before implementing any changes, read the relevant instruction files from `.github/instructions/` folder. This ensures consistency with project standards and patterns.
+
+## ⚠️ Auto-Resolve Warnings Instruction
+
+**When you see file-not-found warnings:**
+1. **Stop and analyze** — Check the error paths in the Problems panel
+2. **Auto-resolve** — Run: `bun run lint` to identify breaking references
+3. **Fix immediately** — Update relative paths to point to `.github/instructions/[file].md`
+4. **Verify** — Confirm all warnings clear before proceeding
+5. **Rule**: All instruction file links must use format: `[text](./instructions/01-project-context.md)` (example)
+
 ## Project Overview
 **Next.js 16 dashboard application** with TypeScript, Tailwind CSS v4, and shadcn/ui components. Uses **Server Components by default** with careful Client Component integration. Package manager: **Bun** (npm/yarn acceptable).
 
@@ -60,7 +71,7 @@ npx shadcn-ui@latest add [component]
 
 ### 1. **Component Decision Tree** (READ BEFORE IMPLEMENTING UI)
 1. **Is it in shadcn/ui?** → Use existing component from `components/ui/`
-   - Check [instruction/11-shadcn-components.md](../instruction/11-shadcn-components.md) for list
+   - Check [./instructions/11-shadcn-components.md](./instructions/11-shadcn-components.md) for list
 2. **Not in shadcn?** → ASK USER before creating custom component
 3. **Use custom?** → Create in `components/custom/[ComponentName].tsx` (PascalCase)
 4. **Section-specific?** → Add to `app/[section]/components/` (PascalCase)
@@ -93,7 +104,8 @@ lib/
 ├── constants/
 │   └── themes.ts         # Theme config (colors, presets, etc.)
 
-instruction/              # Documentation (01-14 .md files)
+.github/
+└── instructions/         # Documentation (01-14 .md files)
 ```
 
 ### 3. **Naming Conventions**
@@ -198,7 +210,7 @@ export function ClientChart() {
 4. Use `app-sidebar.tsx` navigation if adding menu item
 
 ### Creating a New UI Component
-1. Check `components/ui/` and [agents/11-shadcn-components.md](../agents/11-shadcn-components.md)
+1. Check `components/ui/` and [./instructions/11-shadcn-components.md](./instructions/11-shadcn-components.md)
 2. If shadcn has it → Import from `@/components/ui/[component]`
 3. If not → Ask user; then create in `components/custom/[Name].tsx`
 4. Example shadcn import: `import { Button } from '@/components/ui/button'`
@@ -248,31 +260,34 @@ export function useCustom(initialValue: string) {
 
 ## Complete Instruction Files
 
-All 14 instruction files guide development:
+All 15 instruction files guide development:
+
+**ESLint & Warnings (Read First if you see warnings):**
+0. [./instructions/00-eslint-warnings.md](./instructions/00-eslint-warnings.md) — Warning categories, fixes, and resolution
 
 **Foundation (Start here):**
-1. [instruction/01-project-context.md](../instruction/01-project-context.md) — Stack, assumptions, core tech
-2. [instruction/02-structure-standards.md](../instruction/02-structure-standards.md) — Routing & organization rules
-3. [instruction/08-folder-structure.md](../instruction/08-folder-structure.md) — Complete directory layout & organization
+1. [./instructions/01-project-context.md](./instructions/01-project-context.md) — Stack, assumptions, core tech
+2. [./instructions/02-structure-standards.md](./instructions/02-structure-standards.md) — Routing & organization rules
+3. [./instructions/08-folder-structure.md](./instructions/08-folder-structure.md) — Complete directory layout & organization
 
 **UI & Components:**
-4. [instruction/11-shadcn-components.md](../instruction/11-shadcn-components.md) — UI component workflow (shadcn-first approach)
-5. [instruction/03-styling-standards.md](../instruction/03-styling-standards.md) — Tailwind CSS v4 & layout utilities
-6. [instruction/09-tailwind-standards.md](../instruction/09-tailwind-standards.md) — Tailwind conventions & patterns
-7. [instruction/14-typography.md](../instruction/14-typography.md) — Font system & text styling
+4. [./instructions/11-shadcn-components.md](./instructions/11-shadcn-components.md) — UI component workflow (shadcn-first approach)
+5. [./instructions/03-styling-standards.md](./instructions/03-styling-standards.md) — Tailwind CSS v4 & layout utilities
+6. [./instructions/09-tailwind-standards.md](./instructions/09-tailwind-standards.md) — Tailwind conventions & patterns
+7. [./instructions/14-typography.md](./instructions/14-typography.md) — Font system & text styling
 
 **Theme & Design:**
-8. [instruction/12-theme-system.md](../instruction/12-theme-system.md) — Theme variables & CSS structure
-9. [instruction/13-theme-colors.md](../instruction/13-theme-colors.md) — Color palette definitions
+8. [./instructions/12-theme-system.md](./instructions/12-theme-system.md) — Theme variables & CSS structure
+9. [./instructions/13-theme-colors.md](./instructions/13-theme-colors.md) — Color palette definitions
 
 **Code Quality:**
-10. [instruction/04-typescript-standards.md](../instruction/04-typescript-standards.md) — TypeScript strict mode & types
-11. [instruction/07-hooks-utilities-ui.md](../instruction/07-hooks-utilities-ui.md) — Custom hooks, utilities, UI patterns
+10. [./instructions/04-typescript-standards.md](./instructions/04-typescript-standards.md) — TypeScript strict mode & types
+11. [./instructions/07-hooks-utilities-ui.md](./instructions/07-hooks-utilities-ui.md) — Custom hooks, utilities, UI patterns
 
 **Development:**
-12. [instruction/06-linting-build.md](../instruction/06-linting-build.md) — Build, lint, and deployment
-13. [instruction/05-accessibility-performance.md](../instruction/05-accessibility-performance.md) — A11y & performance standards
-14. [instruction/10-documentation-standards.md](../instruction/10-documentation-standards.md) — Code comments & documentation
+12. [./instructions/06-linting-build.md](./instructions/06-linting-build.md) — Build, lint, and deployment
+13. [./instructions/05-accessibility-performance.md](./instructions/05-accessibility-performance.md) — A11y & performance standards
+14. [./instructions/10-documentation-standards.md](./instructions/10-documentation-standards.md) — Code comments & documentation
 
 ## Do Not
 
@@ -287,4 +302,4 @@ All 14 instruction files guide development:
 
 ## Questions?
 
-If uncertain about patterns, component placement, or architectural decisions, refer to the `instruction/` folder first. It contains comprehensive, maintainable standards that guide all code changes.
+If uncertain about patterns, component placement, or architectural decisions, refer to the `.github/instructions/` folder first. It contains comprehensive, maintainable standards that guide all code changes.
