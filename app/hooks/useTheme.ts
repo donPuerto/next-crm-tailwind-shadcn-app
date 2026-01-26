@@ -223,6 +223,26 @@ export function useTheme() {
     root.classList.add(nextMode);
     localStorage.setItem(LAYOUT_MODE_STORAGE_KEY, nextMode);
     setLayoutModeState(nextMode);
+    
+    // Auto-expand/collapse sidebar based on layout mode
+    const sidebarToggle = document.querySelector('[data-sidebar="sidebar"]');
+    if (sidebarToggle) {
+      const sidebar = sidebarToggle.closest('[data-state]');
+      const trigger = document.querySelector('[data-sidebar="trigger"]');
+      
+      if (sidebar && trigger instanceof HTMLElement) {
+        const currentState = sidebar.getAttribute('data-state');
+        
+        // Collapse in fixed mode
+        if (nextMode === 'layout-fixed' && currentState === 'expanded') {
+          trigger.click();
+        }
+        // Expand in full mode
+        else if (nextMode === 'layout-full' && currentState === 'collapsed') {
+          trigger.click();
+        }
+      }
+    }
   };
 
   /**

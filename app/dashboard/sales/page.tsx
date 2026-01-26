@@ -1,14 +1,9 @@
-import { AppSidebar } from "@/components/app-sidebar";
 import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar";
+import { SidebarTrigger } from "@/components/ui/sidebar";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -34,42 +29,40 @@ const tableRows = [
 
 export default function SalesDashboard() {
   return (
-    <SidebarProvider>
-      <AppSidebar />
-      <SidebarInset>
-        <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
-          <div className="flex w-full items-center gap-2 px-6">
-            <SidebarTrigger className="-ml-1" />
-            <Separator
-              orientation="vertical"
-              className="mr-2 data-[orientation=vertical]:h-4"
-            />
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="#">Dashboard</BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator className="hidden md:block" />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>Sales</BreadcrumbPage>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
-          </div>
-        </header>
+    <>
+      <header className="flex h-16 shrink-0 items-center gap-2 px-6 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
+        <div className="flex w-full items-center gap-2">
+          <SidebarTrigger className="-ml-1" />
+          <Separator
+            orientation="vertical"
+            className="mr-2 data-[orientation=vertical]:h-4"
+          />
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem className="hidden md:block">
+                <BreadcrumbLink href="#">Dashboard</BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator className="hidden md:block" />
+              <BreadcrumbItem>
+                <BreadcrumbPage>Sales</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+        </div>
+      </header>
 
-        <main className="flex-1 p-6">
-          <div className="mb-6 flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Icon name="FileText" size={18} className="text-muted-foreground" />
-              <h1 className="text-lg font-semibold">Documents</h1>
-            </div>
-            <div className="flex items-center gap-2">
-              <Button variant="outline" size="xs">Last 3 months</Button>
-              <Button variant="outline" size="xs">Last 30 days</Button>
-              <Button variant="outline" size="xs">Last 7 days</Button>
-            </div>
+      <main className="w-full flex-1 px-6 pb-6">
+        <div className="mb-6 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Icon name="FileText" size={18} className="text-muted-foreground" />
+            <h1 className="text-lg font-semibold">Documents</h1>
           </div>
+          <div className="flex items-center gap-2">
+            <Button variant="outline" size="xs">Last 3 months</Button>
+            <Button variant="outline" size="xs">Last 30 days</Button>
+            <Button variant="outline" size="xs">Last 7 days</Button>
+          </div>
+        </div>
 
           <section className="grid gap-4 md:grid-cols-4">
             {kpis.map((kpi) => (
@@ -148,8 +141,7 @@ export default function SalesDashboard() {
               </CardContent>
             </Card>
           </section>
-        </main>
-      </SidebarInset>
-    </SidebarProvider>
+      </main>
+    </>
   );
 }

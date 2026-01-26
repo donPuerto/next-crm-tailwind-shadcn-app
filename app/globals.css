@@ -74,13 +74,25 @@
   
   /* Layout modes */
   html.layout-full .layout-container {
-    @apply max-w-none;
+    @apply w-full;
   }
   
   html.layout-fixed .layout-container {
-    @apply max-w-6xl;
+    @apply container;
   }
+
+
   
+  /* Layout-fixed: keep sidebar inside the container */
+  html.layout-fixed [data-slot="sidebar-wrapper"] {
+    @apply relative;
+  }
+
+  html.layout-fixed [data-slot="sidebar-container"] {
+    position: absolute !important;
+    left: 0;
+    right: auto;
+  }
 }
 
 @layer components {
