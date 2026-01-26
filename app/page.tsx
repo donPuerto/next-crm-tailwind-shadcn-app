@@ -4,7 +4,7 @@ import { Icon } from "@/components/ui/icon";
 export default function Home() {
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <main className="mx-auto max-w-5xl px-6 py-10">
+      <main className="layout-container mx-auto px-6 py-10">
         <section className="mb-8">
           <div className="flex items-center gap-3">
             <Icon name="Home" size={22} className="text-foreground" />

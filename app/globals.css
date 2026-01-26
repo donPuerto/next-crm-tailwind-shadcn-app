@@ -71,6 +71,16 @@
     @apply bg-background text-foreground;
     letter-spacing: var(--tracking);
   }
+  
+  /* Layout modes */
+  html.layout-full .layout-container {
+    @apply max-w-none;
+  }
+  
+  html.layout-fixed .layout-container {
+    @apply max-w-6xl;
+  }
+  
 }
 
 @layer components {

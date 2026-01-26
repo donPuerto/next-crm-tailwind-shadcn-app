@@ -46,9 +46,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" data-theme="vercel" className="layout-full">
+    <html lang="en" data-theme="vercel" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${notoSans.variable} ${nunitoSans.variable} ${figtree.variable} antialiased`}
+        suppressHydrationWarning
       >
         <ThemeProvider>
           <Navbar />

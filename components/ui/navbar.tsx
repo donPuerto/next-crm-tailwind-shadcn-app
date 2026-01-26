@@ -42,20 +42,23 @@ export function Navbar() {
     layoutMode,
     setLayoutMode,
     isDark,
-    setDarkMode
+    setDarkMode,
+    mounted
   } = useTheme();
 
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-card/80 backdrop-blur-sm">
-      <div className="mx-auto flex h-12 max-w-6xl items-center justify-between px-4">
+      <div className="layout-container mx-auto flex h-12 items-center justify-between px-4">
         <div className="flex items-center gap-2">
           <Link href="/" className="flex items-center gap-2 text-sm font-semibold tracking-tight text-foreground">
             <Logo size="sm" />
             <span>Don Puerto</span>
           </Link>
-          <span className="ml-2 rounded bg-muted px-2 py-0.5 text-xs text-muted-foreground">
-            {THEME_CONFIG[theme]?.name ?? theme}
-          </span>
+          {mounted && (
+            <span className="ml-2 rounded bg-muted px-2 py-0.5 text-xs text-muted-foreground">
+              {THEME_CONFIG[theme]?.name ?? theme}
+            </span>
+          )}
         </div>
 
         <nav className="flex items-center gap-2">
@@ -189,8 +192,18 @@ export function Navbar() {
                       <SelectValue placeholder="Layout" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="layout-full">Layout Full</SelectItem>
-                      <SelectItem value="layout-fixed">Layout Fixed</SelectItem>
+                      <SelectItem value="layout-full">
+                        <div className="flex items-center gap-2">
+                          <Icon name="GalleryHorizontal" size={14} />
+                          <span>Layout Full</span>
+                        </div>
+                      </SelectItem>
+                      <SelectItem value="layout-fixed">
+                        <div className="flex items-center gap-2">
+                          <Icon name="PanelLeft" size={14} />
+                          <span>Layout Fixed</span>
+                        </div>
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -198,14 +211,34 @@ export function Navbar() {
             </DropdownMenuContent>
           </DropdownMenu>
 
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button variant="outline" size="icon" aria-label="Toggle dark mode" onClick={() => setDarkMode(!isDark)}>
-                <Icon name={isDark ? "Sun" : "Moon"} size={16} />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>{isDark ? "Switch to light" : "Switch to dark"}</TooltipContent>
-          </Tooltip>
+          {mounted && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button 
+                  variant="outline" 
+                  size="icon" 
+                  aria-label="Toggle layout mode" 
+                  onClick={() => setLayoutMode(layoutMode === 'layout-full' ? 'layout-fixed' : 'layout-full')}
+                >
+                  <Icon name={layoutMode === 'layout-full' ? "GalleryHorizontal" : "PanelLeft"} size={16} />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                {layoutMode === 'layout-full' ? "Switch to fixed width" : "Switch to full width"}
+              </TooltipContent>
+            </Tooltip>
+          )}
+
+          {mounted && (
+              <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="outline" size="icon" aria-label="Toggle dark mode" onClick={() => setDarkMode(!isDark)}>
+                  <Icon name={isDark ? "Sun" : "Moon"} size={16} />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>{isDark ? "Switch to light" : "Switch to dark"}</TooltipContent>
+            </Tooltip>
+          )}
         </nav>
       </div>
     </header>

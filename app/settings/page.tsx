@@ -8,7 +8,7 @@ export const metadata = {
 export default function SettingsPage() {
   return (
     <div className="min-h-screen w-full bg-background text-foreground">
-      <div className="mx-auto max-w-3xl px-6 py-10">
+      <div className="layout-container mx-auto px-6 py-10">
         <header className="mb-6 flex items-center gap-3">
           <Icon name="Settings" size={20} className="text-foreground" />
           <h1 className="text-2xl font-semibold tracking-tight">Settings</h1>
