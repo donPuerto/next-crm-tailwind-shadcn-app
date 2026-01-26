@@ -8,9 +8,18 @@ These files define how automated agents should work in this repository to keep t
 - Add clear comments to new or edited code (components, modules, and major blocks) to explain intent.
 - If debugging is needed, auto-run basic checks and explain results in simple terms.
 
-## Pre-Work Checklist (Before UI Components)
-- Read: Hooks → Utilities → Components/UI (see 07-hooks-utilities-ui.md).
-- Confirm these rules were reviewed before creating any UI component.
+## Pre-Work Checklist (Before Implementation)
+1. **Read Instructions First**: Always read relevant agent instruction files before implementing any feature.
+2. **Use shadcn/ui Components**: Always use shadcn/ui components from `components/ui/` when available.
+   - Search the `components/ui/` folder to check if the component exists.
+   - If the component is not found, ask the user before creating a custom component.
+   - Reference `11-shadcn-components.md` for available components and usage patterns.
+3. **Component Priority**:
+   - First: Check if shadcn/ui has the component
+   - Second: Search existing `components/ui/` folder
+   - Third: Ask user before creating custom components
+4. **Read Order**: Hooks → Utilities → Components/UI (see 07-hooks-utilities-ui.md).
+5. **Confirm** these rules were reviewed before creating any UI component.
 
 ## Files
 - 01-project-context.md

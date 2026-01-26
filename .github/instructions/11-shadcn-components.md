@@ -43,18 +43,35 @@ Components are **copied to** `components/ui/`.
 
 ## Component Priority Decision
 
-**Ask yourself before adding anything:**
+**CRITICAL: Always follow this workflow before implementing any UI:**
 
 ```
-Is it available in shadcn/ui?
-├─ YES → Run: npx shadcn-ui@latest add [component]
-│        Goes to: components/ui/
+Step 1: Check if component is available in shadcn/ui
+├─ Check the component list below
+├─ Search components/ui/ folder
+│
+Step 2: Component Found?
+├─ YES → Use existing component from components/ui/
+│        Import: import { Component } from "@/components/ui/component"
 │        Status: ✅ Done
 │
-└─ NO → Ask: Should we create a custom component?
-        ├─ YES (confirmed) → Create in: components/custom/[Component].tsx
-        └─ NO → Use different approach
+└─ NO → STOP and ask the user:
+        "This component is not in shadcn/ui. Should I:
+         a) Create a custom component
+         b) Use a different shadcn component
+         c) Install a new shadcn component"
+        
+        After user confirms:
+        ├─ Custom component → Create in: components/custom/[Component].tsx
+        ├─ New shadcn → Run: npx shadcn-ui@latest add [component]
+        └─ Alternative → Use suggested component
 ```
+
+**IMPORTANT:**
+- Never create custom UI components without checking shadcn/ui first
+- Always search `components/ui/` folder before assuming a component doesn't exist
+- Always ask the user if a component is not found
+- Read this file (11-shadcn-components.md) before any UI implementation
 
 ---
 

@@ -47,9 +47,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" data-theme="vercel" suppressHydrationWarning>
+    <html lang="en" data-theme="vercel" suppressHydrationWarning className="dark">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${notoSans.variable} ${nunitoSans.variable} ${figtree.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${notoSans.variable} ${nunitoSans.variable} ${figtree.variable} antialiased bg-background`}
         suppressHydrationWarning
       >
         <ThemeProvider>

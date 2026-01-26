@@ -10,11 +10,9 @@ export default function DashboardLayout({
     <div className="layout-container mx-auto w-full h-svh bg-sidebar">
       <SidebarProvider className="w-full h-full bg-sidebar p-3">
         <AppSidebar />
-        <SidebarInset className="h-full flex-1 flex flex-col pr-[1px] bg-sidebar">
-          <div className="flex-1 rounded-xl border border-border bg-sidebar overflow-hidden shadow-sm group-data-[state=expanded]/sidebar:border-l-0">
-            <div className="h-full overflow-auto">
-              {children}
-            </div>
+        <SidebarInset className="h-full flex-1 pr-px bg-sidebar">
+          <div className="h-full rounded-xl border border-border bg-background overflow-y-auto">
+            {children}
           </div>
         </SidebarInset>
       </SidebarProvider>
