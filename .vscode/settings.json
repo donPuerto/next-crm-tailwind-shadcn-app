@@ -1,4 +1,56 @@
 {
   "css.validate": false,
-  "css.customData": [".vscode/css_custom_data.json"]
+  "css.customData": [".vscode/css_custom_data.json"],
+  
+  // ========== MARKDOWN VALIDATION ==========
+  // Completely disable all markdown validation and linting
+  "markdown.validate.enabled": false,
+  "[markdown]": {
+    "editor.defaultFormatter": null,
+    "editor.formatOnSave": false,
+    "editor.codeActionsOnSave": {},
+    "editor.formatOnType": false,
+    "editor.wordWrap": "on"
+  },
+  
+  // Disable markdown link validation and checking
+  "markdown.links.openLocation": "currentGroup",
+  "markdown.linkify": false,
+  "markdown.extension.preview.autoShow": false,
+  "markdown.preview.breaks": false,
+  "markdown.validate.referenceLinks": false,
+  
+  // ========== PROBLEMS PANEL ==========
+  // Exclude ALL markdown files and instruction folders from Problems panel
+  "problems.exclude": {
+    "**/*.md": true,
+    "**/*.markdown": true,
+    "**/instructions/**": true,
+    "**/.github/**": true,
+    "**/README.md": true,
+    "**/.github/instructions/**": true,
+    "**/copilot-instructions.md": true,
+    "**/.github/copilot-instructions.md": true,
+    ".github/copilot-instructions.md": true
+  },
+  
+  // Completely ignore these files from all validation
+  "files.watcherExclude": {
+    "**/.github/copilot-instructions.md": true,
+    "**/.github/instructions/**": true
+  },
+  
+  // ========== FILE EXCLUSIONS ==========
+  // Hide build artifacts and dependencies
+  "files.exclude": {
+    "**/.next": true,
+    "**/node_modules": true,
+    "**/.git": true
+  },
+  
+  // Exclude from search
+  "search.exclude": {
+    "**/.next": true,
+    "**/node_modules": true
+  }
 }

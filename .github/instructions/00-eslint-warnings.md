@@ -187,6 +187,7 @@ const _temp = value; // Intentionally unused
 
 - **ESLint Config**: [eslint.config.mjs](../../eslint.config.mjs)
 - **TypeScript Config**: [tsconfig.json](../../tsconfig.json)
+- **VSCode Settings**: [.vscode/settings.json](../../.vscode/settings.json)
 - **ESLint Rules**: https://eslint.org/docs/rules/
 - **TypeScript ESLint**: https://typescript-eslint.io/rules/
 

@@ -13,9 +13,13 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
     ".github/**",
+    // Ignore documentation and instruction files
+    "**/*.md",
+    "README.md",
   ]),
-  // Custom rule overrides
+  // Custom rule overrides for TypeScript/React files
   {
+    ignores: ["**/*.md"],
     rules: {
       // Suppress React Compiler warnings about incompatible libraries
       // TanStack Table (useReactTable) and next-themes are known to skip memoization

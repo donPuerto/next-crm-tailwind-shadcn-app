@@ -1,0 +1,16 @@
+# Ignore all markdown files from linting
+# This prevents false "file not found" warnings for relative links in documentation
+
+# Ignore all markdown files
+*.md
+
+# Ignore directories
+.github/
+instructions/
+.vscode/
+
+# Ignore specific patterns
+**/README.md
+**/.github/copilot-instructions.md
+**/.github/instructions/*.md
+
