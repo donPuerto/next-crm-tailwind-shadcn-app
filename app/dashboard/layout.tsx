@@ -10,12 +10,14 @@ export default function DashboardLayout({
 }) {
   return (
     <div className="layout-container mx-auto w-full h-svh bg-sidebar">
-      <SidebarProvider className="w-full h-full bg-sidebar p-3">
+      <SidebarProvider className="w-full h-full bg-sidebar">
         <AppSidebar />
         <SidebarInset className="h-full flex-1 flex flex-col pr-px bg-sidebar overflow-hidden relative">
-          <DashboardNavbar />
-          <main className="flex-1 overflow-y-auto bg-background p-4 md:p-6 mb-16 rounded-xl border border-border pb-20">
-            {children}
+          <main className="flex-1 overflow-y-auto bg-background mb-16 border border-border pb-20">
+            <DashboardNavbar />
+            <div className="flex flex-1 flex-col p-4 md:p-6">
+              {children}
+            </div>
           </main>
           <DashboardFooter />
         </SidebarInset>

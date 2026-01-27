@@ -11,13 +11,27 @@
 
 /* Color customization - applied dynamically via CSS variables */
 :root {
-  --primary-color: #808080; /* Default neutral */
+  --primary-color: #808080;
+  /* Default neutral */
   --color-custom-accent: neutral;
-  --base-color: #737373; /* Default base neutral */
-  --menu-accent-weight: subtle; /* subtle | bold */
-  --spacing-base: 0.25rem; /* style preset spacing baseline */
-  --tracking: 0em; /* letter spacing for style preset */
-  --shadow-weight: subtle; /* subtle | bold */ --sidebar: hsl(0 0% 98%); --sidebar-foreground: hsl(240 5.3% 26.1%); --sidebar-primary: hsl(240 5.9% 10%); --sidebar-primary-foreground: hsl(0 0% 98%); --sidebar-accent: hsl(240 4.8% 95.9%); --sidebar-accent-foreground: hsl(240 5.9% 10%); --sidebar-border: hsl(220 13% 91%); --sidebar-ring: hsl(217.2 91.2% 59.8%);
+  --base-color: #737373;
+  /* Default base neutral */
+  --menu-accent-weight: subtle;
+  /* subtle | bold */
+  --spacing-base: 0.25rem;
+  /* style preset spacing baseline */
+  --tracking: 0em;
+  /* letter spacing for style preset */
+  --shadow-weight: subtle;
+  /* subtle | bold */
+  --sidebar: hsl(0 0% 98%);
+  --sidebar-foreground: hsl(240 5.3% 26.1%);
+  --sidebar-primary: hsl(240 5.9% 10%);
+  --sidebar-primary-foreground: hsl(0 0% 98%);
+  --sidebar-accent: hsl(240 4.8% 95.9%);
+  --sidebar-accent-foreground: hsl(240 5.9% 10%);
+  --sidebar-border: hsl(220 13% 91%);
+  --sidebar-ring: hsl(217.2 91.2% 59.8%);
 }
 
 @theme inline {
@@ -68,58 +82,60 @@
     @apply border-border outline-ring/50;
     font-weight: 500;
   }
+
   body {
     @apply bg-background text-foreground;
     letter-spacing: var(--tracking);
   }
-  
-  /* Layout modes */
-  html.layout-full .layout-container {
-    @apply w-full;
-  }
-  
-  html.layout-fixed .layout-container {
-    @apply container px-0;
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
   }
 
-  .layout-padding {
-    @apply px-6;
+  ::-webkit-scrollbar-track {
+    background: transparent;
   }
 
-
-  
-  /* Layout-fixed: keep sidebar inside the container */
-  html.layout-fixed [data-slot="sidebar-wrapper"] {
-    @apply relative;
+  .animate-collapsible-down {
+    animation: collapsible-down 0.2s ease-out;
   }
 
-  html.layout-fixed [data-slot="sidebar-container"] {
-    position: absolute !important;
-    left: 0;
-    right: auto;
+  .animate-collapsible-up {
+    animation: collapsible-up 0.2s ease-out;
   }
 
-  /* Sidebar matches dashboard shell height */
-  [data-slot="sidebar-wrapper"] {
-    align-items: stretch;
-    height: 100%;
+  @keyframes collapsible-down {
+    from {
+      height: 0;
+      opacity: 0;
+    }
+
+    to {
+      height: var(--radix-collapsible-content-height);
+      opacity: 1;
+    }
   }
 
-  [data-slot="sidebar-container"] {
-    height: 100% !important;
+  @keyframes collapsible-up {
+    from {
+      height: var(--radix-collapsible-content-height);
+      opacity: 1;
+    }
+
+    to {
+      height: 0;
+      opacity: 0;
+    }
   }
 
-  [data-slot="sidebar-inner"] {
-    height: 100%;
+  ::-webkit-scrollbar-thumb {
+    @apply bg-sidebar-border rounded-full;
   }
 
-  /* Sidebar header alignment */
-  html.layout-full [data-slot="sidebar-header"] {
-    margin-top: 70px;
-  }
-
-  html.layout-fixed [data-slot="sidebar-header"] {
-    margin-top: 0.5rem;
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-muted-foreground/50;
   }
 }
 
@@ -127,54 +143,71 @@
   .typography-h1 {
     @apply scroll-m-20 text-4xl font-extrabold tracking-tight text-balance;
   }
+
   .typography-h2 {
     @apply scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0;
   }
+
   .typography-h3 {
     @apply scroll-m-20 text-2xl font-semibold tracking-tight;
   }
+
   .typography-h4 {
     @apply scroll-m-20 text-xl font-semibold tracking-tight;
   }
+
   .typography-p {
     @apply leading-7 [&:not(:first-child)]:mt-6;
   }
+
   .typography-blockquote {
     @apply mt-6 border-l-2 pl-6 italic;
   }
+
   .typography-table {
     @apply my-6 w-full overflow-y-auto;
   }
+
   .typography-table table {
     @apply w-full;
   }
+
   .typography-table thead tr {
     @apply m-0 border-t even:bg-muted;
   }
+
   .typography-table tbody tr {
     @apply m-0 border-t even:bg-muted;
   }
+
   .typography-table th {
     @apply border px-4 py-2 text-left font-bold [&[align=center]]:text-center [&[align=right]]:text-right;
   }
+
   .typography-table td {
     @apply border px-4 py-2 text-left [&[align=center]]:text-center [&[align=right]]:text-right;
   }
+
   .typography-list {
     @apply my-6 ml-6 list-disc [&>li]:mt-2;
   }
+
   .typography-inline-code {
     @apply relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold;
   }
+
   .typography-lead {
     @apply text-xl text-muted-foreground;
   }
+
   .typography-large {
     @apply text-lg font-semibold;
   }
+
   .typography-small {
     @apply text-sm font-medium leading-none;
   }
+
   .typography-muted {
     @apply text-sm text-muted-foreground;
   }
