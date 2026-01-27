@@ -1,6 +1,7 @@
 "use client";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useState, useEffect } from "react";
+import { useTheme } from "@/app/hooks/useTheme";
 import { 
   TrendingUp,
   Users,
@@ -12,12 +13,9 @@ import {
   Calendar
 } from "lucide-react";
 import { Area, AreaChart, Bar, BarChart, CartesianGrid, XAxis, YAxis, ResponsiveContainer } from "recharts";
-import {
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-  type ChartConfig,
-} from "@/components/ui/chart";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from "@/components/ui/chart";
+import { COLOR_CONFIG } from "@/lib/constants/themes";
 
 const revenueData = [
   { month: "Jan", revenue: 45000, target: 40000 },
@@ -48,23 +46,66 @@ const customerAcquisitionData = [
 const chartConfig = {
   revenue: {
     label: "Revenue",
-    color: "hsl(var(--chart-1))",
+    color: "var(--chart-1)",
   },
   target: {
     label: "Target",
-    color: "hsl(var(--chart-2))",
+    color: "var(--chart-2)",
   },
   new: {
     label: "New Customers",
-    color: "hsl(var(--chart-1))",
+    color: "var(--chart-1)",
   },
   churned: {
     label: "Churned",
-    color: "hsl(var(--chart-3))",
+    color: "var(--chart-3)",
   },
 } satisfies ChartConfig;
 
+// Helper function to get computed CSS variable value
+function getComputedColor(variableName: string): string {
+  if (typeof window === 'undefined') return 'oklch(0.81 0.17 75.35)'; // fallback for SSR
+  const value = getComputedStyle(document.documentElement).getPropertyValue(variableName).trim();
+  return value || 'oklch(0.81 0.17 75.35)';
+}
+
 export default function AnalyticsPage() {
+  const { theme, color } = useTheme();
+  const [colors, setColors] = useState({
+    chart1: "oklch(0.81 0.17 75.35)",
+    chart2: "oklch(0.55 0.22 264.53)",
+    chart3: "oklch(0.72 0 0)",
+  });
+
+  // Helper function to adjust color brightness
+  const adjustBrightness = (hex: string, percent: number): string => {
+    const num = parseInt(hex.replace('#', ''), 16);
+    const amt = Math.round(2.55 * percent);
+    const R = Math.min(255, (num >> 16) + amt);
+    const G = Math.min(255, (num >> 8 & 0x00FF) + amt);
+    const B = Math.min(255, (num & 0x0000FF) + amt);
+    return '#' + (0x1000000 + (R < 255 ? R < 1 ? 0 : R : 255) * 0x10000 +
+      (G < 255 ? G < 1 ? 0 : G : 255) * 0x100 +
+      (B < 255 ? B < 1 ? 0 : B : 255))
+      .toString(16).slice(1);
+  };
+
+  // Update chart colors when theme or color changes
+  useEffect(() => {
+    const baseColor = COLOR_CONFIG[color]?.hex || '#EC4899';
+    
+    console.log('Analytics - Theme color changed:', color, 'Base color:', baseColor);
+    
+    // Generate 3 variations of the selected color
+    const newColors = {
+      chart1: baseColor,
+      chart2: adjustBrightness(baseColor, -15), // Darker
+      chart3: adjustBrightness(baseColor, -30), // Much darker
+    };
+    
+    console.log('Analytics - New chart colors:', newColors);
+    setColors(newColors);
+  }, [color, theme]);
   return (
     <div className="flex flex-col gap-6 layout-padding py-6">
       {/* Header */}
@@ -140,7 +181,7 @@ export default function AnalyticsPage() {
             <CardDescription>Monthly revenue performance against targets</CardDescription>
           </CardHeader>
           <CardContent>
-            <ChartContainer config={chartConfig} className="h-[300px] w-full">
+            <ChartContainer config={chartConfig} className="h-75 w-full" key={`revenue-area-${colors.chart1}`}>
               <AreaChart data={revenueData}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis 
@@ -157,17 +198,19 @@ export default function AnalyticsPage() {
                 <Area
                   type="monotone"
                   dataKey="revenue"
-                  stroke="var(--color-revenue)"
-                  fill="var(--color-revenue)"
-                  fillOpacity={0.2}
+                  stroke={colors.chart1}
+                  fill={colors.chart1}
+                  fillOpacity={0.3}
+                  label={{ position: 'top' }}
                 />
                 <Area
                   type="monotone"
                   dataKey="target"
-                  stroke="var(--color-target)"
-                  fill="var(--color-target)"
-                  fillOpacity={0.1}
+                  stroke={colors.chart2}
+                  fill={colors.chart2}
+                  fillOpacity={0.15}
                   strokeDasharray="5 5"
+                  label={{ position: 'top' }}
                 />
               </AreaChart>
             </ChartContainer>
@@ -180,7 +223,7 @@ export default function AnalyticsPage() {
             <CardDescription>Lead journey through sales pipeline</CardDescription>
           </CardHeader>
           <CardContent>
-            <ChartContainer config={chartConfig} className="h-[300px] w-full">
+            <ChartContainer config={chartConfig} className="h-75 w-full">
               <BarChart data={leadConversionData} layout="horizontal">
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis type="number" />
@@ -207,7 +250,7 @@ export default function AnalyticsPage() {
             <CardDescription>New customers vs churned customers</CardDescription>
           </CardHeader>
           <CardContent>
-            <ChartContainer config={chartConfig} className="h-[300px] w-full">
+            <ChartContainer config={chartConfig} className="h-75 w-full" key={`acquisition-bar-${colors.chart1}`}>
               <BarChart data={customerAcquisitionData}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis 
@@ -220,8 +263,8 @@ export default function AnalyticsPage() {
                   axisLine={false}
                 />
                 <ChartTooltip content={<ChartTooltipContent />} />
-                <Bar dataKey="new" fill="var(--color-new)" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="churned" fill="var(--color-churned)" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="new" fill={colors.chart1} radius={[4, 4, 0, 0]} label={{ position: 'top' }} />
+                <Bar dataKey="churned" fill={colors.chart3} radius={[4, 4, 0, 0]} label={{ position: 'top' }} />
               </BarChart>
             </ChartContainer>
           </CardContent>

@@ -231,7 +231,7 @@ export default function CompaniesPage() {
             </div>
             <div className="flex items-center gap-2 text-sm">
               <Mail className="h-3 w-3 text-muted-foreground" />
-              <span className="truncate max-w-[200px]">{company.email}</span>
+              <span className="truncate max-w-50">{company.email}</span>
             </div>
           </div>
         );

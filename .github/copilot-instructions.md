@@ -140,6 +140,76 @@ lib/
 - **Dark mode**: Use `dark:` variants; theme defines both light and dark via CSS variables
 - **Grouping classes**: layout → spacing → typography → color → effects
 
+**Theme Color Integration (CRITICAL)**:
+- **Always use CSS variables for theme colors**: `bg-primary/10`, `text-primary`, `border-primary`
+- **Common CSS variable patterns**:
+  - Backgrounds: `bg-primary`, `bg-primary/10`, `bg-primary/20`
+  - Text: `text-primary`, `text-secondary`, `text-muted-foreground`
+  - Borders: `border-primary`, `border-border`
+  - Icons: `text-primary`, `text-destructive`, `text-warning`
+- **Never use inline hex values**: `style={{ color: '#EC4899' }}` ❌
+- **Why**: CSS variables (`--primary`, `--accent`) auto-update when theme changes
+- **IMPORTANT**: For every new page/component implementation, ensure all theme colors use CSS variables
+- **Pattern for colored elements**:
+  ```tsx
+  {/* Correct - auto-updates with theme changes */}
+  <div className="bg-primary/10">
+    <Icon className="text-primary" />
+  </div>
+  
+  {/* Wrong - won't update when theme changes */}
+  <div style={{ backgroundColor: `${color}20` }}>
+    <Icon style={{ color: color }} />
+  </div>
+  ```
+- **Charts exception**: Recharts requires hex colors - use `colors` state from `useEffect` polling
+- **Chart color localStorage key**: Use `'app-color'` not `'theme-color'`
+  ```tsx
+  const currentColor = (localStorage.getItem('app-color') || 'pink') as keyof typeof COLOR_CONFIG;
+  ```
+- **Chart color updates**: Add `key` prop with ALL color values to force re-render:
+  ```tsx
+  {/* Single color chart */}
+  <ChartContainer key={`chart-${colors.chart1}`}>
+  
+  {/* Multiple colors - include ALL in key */}
+  <ChartContainer key={`chart-${colors.chart1}-${colors.chart2}`}>
+    <AreaChart>
+      <Area stroke={colors.chart1} fill={colors.chart1} />
+      <Area stroke={colors.chart2} fill={colors.chart2} />
+    </AreaChart>
+  </ChartContainer>
+  
+  {/* Pie chart with dynamic data */}
+  <ChartContainer key={`pie-${colors.chart1}-${colors.chart2}`}>
+    <PieChart>
+      <Pie data={data.map((d, i) => ({ ...d, fill: chartColors[i] }))} />
+    </PieChart>
+  </ChartContainer>
+  ```
+
+**Card Header Spacing Pattern**:
+```tsx
+{/* Standard pattern - vertical spacing between title and description */}
+<Card>
+  <CardHeader>
+    <CardTitle>Title Here</CardTitle>
+    <CardDescription>Description here</CardDescription>
+  </CardHeader>
+  <CardContent>
+    {/* Content */}
+  </CardContent>
+</Card>
+
+{/* ❌ AVOID - Removes default spacing */}
+<CardHeader className="flex flex-row items-center justify-between">
+  <div>
+    <CardTitle>Title</CardTitle>
+    <CardDescription>Description</CardDescription>
+  </div>
+</CardHeader>
+```
+
 **Dashboard layout pattern**:
 ```tsx
 <div className="layout-container mx-auto w-full h-svh bg-sidebar">
@@ -210,6 +280,46 @@ export function ClientChart() {
 - **Hook naming**: `use` prefix; one job per hook
 - **Utility pattern**: Pure functions, clear names, brief comments
 - **No custom `lib/utils.ts`**: That's reserved for shadcn; use separate utility files
+
+**Theme Color Sync Pattern** (for components with dynamic colors):
+```tsx
+'use client';
+
+import { useEffect, useState } from 'react';
+import { COLOR_CONFIG } from '@/lib/constants/themes';
+
+export default function DynamicColorComponent() {
+  const [colors, setColors] = useState({
+    chart1: '#EC4899',
+    // ... other color variations
+  });
+
+  useEffect(() => {
+    const updateColors = () => {
+      const currentColor = (localStorage.getItem('theme-color') || 'pink') as keyof typeof COLOR_CONFIG;
+      const baseColor = COLOR_CONFIG[currentColor]?.hex || '#EC4899';
+      setColors({ chart1: baseColor, /* ... */ });
+    };
+
+    updateColors();
+
+    // Listen for theme changes
+    const handleThemeChange = () => updateColors();
+    window.addEventListener('theme-changed', handleThemeChange);
+
+    // Poll for changes (fallback)
+    const intervalId = setInterval(updateColors, 500);
+
+    return () => {
+      window.removeEventListener('theme-changed', handleThemeChange);
+      clearInterval(intervalId);
+    };
+  }, []);
+
+  // Use colors.chart1 for Recharts components
+  return <AreaChart><Area fill={colors.chart1} /></AreaChart>;
+}
+```
 
 ### 8. **Accessibility & Performance**
 - **Keyboard accessible**: All interactive elements work with Tab/Enter/Escape

@@ -107,6 +107,11 @@ export function useTheme() {
     document.documentElement.setAttribute('data-theme', newTheme);
     localStorage.setItem(THEME_STORAGE_KEY, newTheme);
     setThemeState(newTheme);
+    
+    // Dispatch custom event to notify other components
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('theme-changed', { detail: { theme: newTheme } }));
+    }
   };
 
   /**
@@ -136,6 +141,11 @@ export function useTheme() {
 
     localStorage.setItem(COLOR_STORAGE_KEY, newColor);
     setColorState(newColor);
+    
+    // Dispatch custom event to notify other components
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('theme-changed', { detail: { color: newColor } }));
+    }
   };
 
   /**
