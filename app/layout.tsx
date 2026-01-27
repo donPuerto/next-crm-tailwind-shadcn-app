@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter, Noto_Sans, Nunito_Sans, Figtree } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/app/providers/theme-provider";
-import { Navbar } from "@/components/ui/navbar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -53,7 +52,6 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <ThemeProvider>
-          <Navbar />
           {children}
         </ThemeProvider>
       </body>

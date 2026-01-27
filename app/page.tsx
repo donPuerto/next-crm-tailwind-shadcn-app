@@ -1,9 +1,11 @@
 import { ThemeSwitcher } from "@/components/ui/theme-switcher";
 import { Icon } from "@/components/ui/icon";
+import { Navbar } from "@/components/ui/navbar";
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <Navbar />
       <main className="layout-container layout-padding mx-auto py-10">
         <section className="mb-8">
           <div className="flex items-center gap-3">

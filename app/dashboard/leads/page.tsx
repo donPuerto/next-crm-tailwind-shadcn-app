@@ -23,7 +23,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { 
+import {
   TrendingUp,
   TrendingDown,
   Target,
@@ -141,7 +141,7 @@ export default function LeadDashboardPage() {
     if (typeof window !== 'undefined') {
       const currentColor = (localStorage.getItem('app-color') || 'pink') as keyof typeof COLOR_CONFIG;
       const baseColor = COLOR_CONFIG[currentColor]?.hex || '#EC4899';
-      
+
       const adjustBrightness = (hex: string, percent: number): string => {
         const num = parseInt(hex.replace('#', ''), 16);
         const amt = Math.round(2.55 * percent);
@@ -153,7 +153,7 @@ export default function LeadDashboardPage() {
           (B < 255 ? B < 1 ? 0 : B : 255))
           .toString(16).slice(1);
       };
-      
+
       return {
         chart1: baseColor,
         chart2: adjustBrightness(baseColor, -15),
@@ -161,7 +161,7 @@ export default function LeadDashboardPage() {
         chart4: adjustBrightness(baseColor, 15),
       };
     }
-    
+
     // Fallback for SSR
     return {
       chart1: '#EC4899',
@@ -214,7 +214,7 @@ export default function LeadDashboardPage() {
       // Re-read color from localStorage to get latest value
       const currentColor = (localStorage.getItem('app-color') || 'pink') as keyof typeof COLOR_CONFIG;
       const baseColor = COLOR_CONFIG[currentColor]?.hex || '#EC4899';
-      
+
       // Generate 4 variations of the selected color
       const newColors = {
         chart1: baseColor,
@@ -222,7 +222,7 @@ export default function LeadDashboardPage() {
         chart3: adjustBrightness(baseColor, -30), // Much darker
         chart4: adjustBrightness(baseColor, 15),  // Lighter
       };
-      
+
       setColors(newColors);
     };
 
@@ -287,11 +287,11 @@ export default function LeadDashboardPage() {
       const leadDate = new Date(lead.created_at);
       const startDate = new Date(dateRange.from);
       const endDate = new Date(dateRange.to);
-      
+
       // Reset time part to compare only dates
       startDate.setHours(0, 0, 0, 0);
       endDate.setHours(23, 59, 59, 999);
-      
+
       return leadDate >= startDate && leadDate <= endDate;
     });
   }, [dateRange]);
@@ -301,20 +301,20 @@ export default function LeadDashboardPage() {
   const convertedLeads = filteredLeads.filter(l => l.status === "converted").length;
   const lostLeads = filteredLeads.filter(l => l.status === "lost").length;
   const conversionRate = totalLeads > 0 ? ((convertedLeads / totalLeads) * 100).toFixed(1) : "0.0";
-  
+
   // Calculate number of days in range
   const daysDiff = Math.max(1, Math.ceil((dateRange.to.getTime() - dateRange.from.getTime()) / (1000 * 60 * 60 * 24)) + 1);
-  
+
   // Calculate per-day metrics
   const leadsPerDay = (totalLeads / daysDiff).toFixed(1);
   const conversionsPerDay = (convertedLeads / daysDiff).toFixed(1);
   const lostPerDay = (lostLeads / daysDiff).toFixed(1);
-  
+
   // Calculate revenue (assuming $8,450 average per converted lead)
   const avgDealValue = 8450;
   const totalRevenue = convertedLeads * avgDealValue;
   const revenuePerDay = (totalRevenue / daysDiff).toFixed(0);
-  
+
   const totalCallsMade = 511;
   const avgResponseTime = "14 min";
 
@@ -363,7 +363,7 @@ export default function LeadDashboardPage() {
 
     const totalSources = allSourceData.reduce((sum, item) => sum + item.count, 0);
     const chartColors = [colors.chart1, colors.chart2, colors.chart3, colors.chart4, adjustBrightness(colors.chart1, 10), adjustBrightness(colors.chart2, 10), adjustBrightness(colors.chart3, 10), adjustBrightness(colors.chart4, 10)];
-    
+
     const sourceDistributionData = allSourceData.map((item, index) => ({
       name: item.name,
       value: item.count,
@@ -498,12 +498,12 @@ export default function LeadDashboardPage() {
             <CardContent>
               <ChartContainer config={chartConfig} className="h-80 w-full flex items-center justify-center" key={`pie-${colors.chart1}-${colors.chart2}`}>
                 <PieChart width={400} height={320}>
-                  <Pie 
-                    data={sourceDistributionData} 
-                    dataKey="value" 
-                    nameKey="name" 
-                    cx="50%" 
-                    cy="50%" 
+                  <Pie
+                    data={sourceDistributionData}
+                    dataKey="value"
+                    nameKey="name"
+                    cx="50%"
+                    cy="50%"
                     outerRadius={100}
                     label={renderCustomLabel}
                     labelLine={false}
@@ -527,336 +527,301 @@ export default function LeadDashboardPage() {
   // Prevent hydration mismatch for date-dependent content
   if (!mounted) {
     return (
-      <>
-        <header className="flex shrink-0 items-center gap-2 border-b bg-background px-6 py-4">
-          <SidebarTrigger className="-ml-1" />
-          <Separator orientation="vertical" className="mr-2 h-4" />
-          <Breadcrumb>
-            <BreadcrumbList>
-              <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator className="hidden md:block" />
-              <BreadcrumbItem>
-                <BreadcrumbPage>Leads</BreadcrumbPage>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
-        </header>
-        <div className="p-8 flex items-center justify-center h-96">
-          <div className="animate-pulse">Loading...</div>
-        </div>
-      </>
+      <div className="p-4 md:p-6 flex items-center justify-center h-96">
+        <div className="animate-pulse">Loading...</div>
+      </div>
     );
   }
 
   return (
-    <>
-      <header className="flex shrink-0 items-center gap-2 border-b bg-background px-6 py-4">
-        <SidebarTrigger className="-ml-1" />
-        <Separator orientation="vertical" className="mr-2 h-4" />
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem className="hidden md:block">
-              <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator className="hidden md:block" />
-            <BreadcrumbItem>
-              <BreadcrumbPage>Leads</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
-      </header>
-
-      <div className="p-8">
-        <div className="flex flex-col gap-8">
-          {/* Header */}
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-semibold tracking-tight">Lead Dashboard</h1>
-              <p className="text-muted-foreground mt-1">
-                Performance metrics, conversion tracking, and team analytics
-              </p>
-            </div>
-            <div className="flex gap-2">
-              <Button variant="outline" className="gap-2" onClick={() => setShowWidgetSettings(!showWidgetSettings)}>
-                <Settings2 className="h-4 w-4" />
-                Customize Widgets
+    <div className="flex flex-col gap-8">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-semibold tracking-tight">Lead Dashboard</h1>
+          <p className="text-muted-foreground mt-1">
+            Performance metrics, conversion tracking, and team analytics
+          </p>
+        </div>
+        <div className="flex gap-2">
+          <Button variant="outline" className="gap-2" onClick={() => setShowWidgetSettings(!showWidgetSettings)}>
+            <Settings2 className="h-4 w-4" />
+            Customize Widgets
+          </Button>
+          <Popover open={isDatePopoverOpen} onOpenChange={setIsDatePopoverOpen}>
+            <PopoverTrigger asChild>
+              <Button variant="outline" className="min-w-[200px] font-normal">
+                <CalendarIcon className="h-4 w-4 mr-2" />
+                {dateRange?.from ? (
+                  dateRange.to ? (
+                    <>
+                      {format(dateRange.from, "MMM dd, yyyy")} - {format(dateRange.to, "MMM dd, yyyy")}
+                    </>
+                  ) : (
+                    format(dateRange.from, "MMM dd, yyyy")
+                  )
+                ) : (
+                  <span>Pick a date range</span>
+                )}
               </Button>
-              <Popover open={isDatePopoverOpen} onOpenChange={setIsDatePopoverOpen}>
-                <PopoverTrigger asChild>
-                  <Button variant="outline" className="min-w-[200px] font-normal">
-                    <CalendarIcon className="h-4 w-4 mr-2" />
-                    {dateRange?.from ? (
-                      dateRange.to ? (
-                        <>
-                          {format(dateRange.from, "MMM dd, yyyy")} - {format(dateRange.to, "MMM dd, yyyy")}
-                        </>
-                      ) : (
-                        format(dateRange.from, "MMM dd, yyyy")
-                      )
-                    ) : (
-                      <span>Pick a date range</span>
-                    )}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="end">
-                  <div className="flex flex-wrap justify-end gap-2 p-2 border-b">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => {
-                        const today = new Date();
-                        setTempDateRange({ from: today, to: today });
-                      }}
-                    >
-                      Today
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => {
-                        const today = new Date();
-                        const weekAgo = new Date(today);
-                        weekAgo.setDate(weekAgo.getDate() - 7);
-                        setTempDateRange({ from: weekAgo, to: today });
-                      }}
-                    >
-                      Last 7 Days
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => {
-                        const today = new Date();
-                        const monthAgo = new Date(today);
-                        monthAgo.setMonth(monthAgo.getMonth() - 1);
-                        setTempDateRange({ from: monthAgo, to: today });
-                      }}
-                    >
-                      Last 30 Days
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => {
-                        const today = new Date();
-                        const sixMonthsAgo = new Date(today);
-                        sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
-                        setTempDateRange({ from: sixMonthsAgo, to: today });
-                      }}
-                    >
-                      Last 6 Months
-                    </Button>
-                  </div>
-                  <Calendar
-                    mode="range"
-                    defaultMonth={tempDateRange?.from}
-                    selected={{ from: tempDateRange?.from, to: tempDateRange?.to }}
-                    onSelect={(range) => {
-                      if (range?.from && range?.to) {
-                        setTempDateRange({ from: range.from, to: range.to });
-                      }
-                    }}
-                    numberOfMonths={2}
-                  />
-                  <div className="flex justify-end gap-2 p-2 border-t">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => {
-                        setTempDateRange(dateRange);
-                        setIsDatePopoverOpen(false);
-                      }}
-                    >
-                      Cancel
-                    </Button>
-                    <Button
-                      size="sm"
-                      onClick={() => {
-                        console.log('Applying date filter:', tempDateRange);
-                        setDateRange(tempDateRange);
-                        setIsDatePopoverOpen(false);
-                      }}
-                    >
-                      Apply
-                    </Button>
-                  </div>
-                </PopoverContent>
-              </Popover>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="end">
+              <div className="flex flex-wrap justify-end gap-2 p-2 border-b">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => {
+                    const today = new Date();
+                    setTempDateRange({ from: today, to: today });
+                  }}
+                >
+                  Today
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => {
+                    const today = new Date();
+                    const weekAgo = new Date(today);
+                    weekAgo.setDate(weekAgo.getDate() - 7);
+                    setTempDateRange({ from: weekAgo, to: today });
+                  }}
+                >
+                  Last 7 Days
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => {
+                    const today = new Date();
+                    const monthAgo = new Date(today);
+                    monthAgo.setMonth(monthAgo.getMonth() - 1);
+                    setTempDateRange({ from: monthAgo, to: today });
+                  }}
+                >
+                  Last 30 Days
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => {
+                    const today = new Date();
+                    const sixMonthsAgo = new Date(today);
+                    sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+                    setTempDateRange({ from: sixMonthsAgo, to: today });
+                  }}
+                >
+                  Last 6 Months
+                </Button>
+              </div>
+              <Calendar
+                mode="range"
+                defaultMonth={tempDateRange?.from}
+                selected={{ from: tempDateRange?.from, to: tempDateRange?.to }}
+                onSelect={(range) => {
+                  if (range?.from && range?.to) {
+                    setTempDateRange({ from: range.from, to: range.to });
+                  }
+                }}
+                numberOfMonths={2}
+              />
+              <div className="flex justify-end gap-2 p-2 border-t">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    setTempDateRange(dateRange);
+                    setIsDatePopoverOpen(false);
+                  }}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  size="sm"
+                  onClick={() => {
+                    console.log('Applying date filter:', tempDateRange);
+                    setDateRange(tempDateRange);
+                    setIsDatePopoverOpen(false);
+                  }}
+                >
+                  Apply
+                </Button>
+              </div>
+            </PopoverContent>
+          </Popover>
+        </div>
+      </div>
+
+      {/* Widget Settings Panel */}
+      {showWidgetSettings && (
+        <Card className="bg-muted/50">
+          <CardHeader>
+            <CardTitle className="text-lg">Widget Settings</CardTitle>
+            <CardDescription>Enable or disable widgets to customize your dashboard</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+              {widgets.map(widget => (
+                <Button
+                  key={widget.id}
+                  variant={widget.enabled ? "default" : "outline"}
+                  className="h-auto py-3 flex flex-col items-center gap-2"
+                  onClick={() => toggleWidget(widget.id)}
+                >
+                  <span className="text-sm text-center">{widget.title}</span>
+                  <span className="text-xs opacity-70">{widget.enabled ? "Enabled" : "Disabled"}</span>
+                </Button>
+              ))}
             </div>
-          </div>
+          </CardContent>
+        </Card>
+      )}
 
-          {/* Widget Settings Panel */}
-          {showWidgetSettings && (
-            <Card className="bg-muted/50">
-              <CardHeader>
-                <CardTitle className="text-lg">Widget Settings</CardTitle>
-                <CardDescription>Enable or disable widgets to customize your dashboard</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
-                  {widgets.map(widget => (
-                    <Button
-                      key={widget.id}
-                      variant={widget.enabled ? "default" : "outline"}
-                      className="h-auto py-3 flex flex-col items-center gap-2"
-                      onClick={() => toggleWidget(widget.id)}
-                    >
-                      <span className="text-sm text-center">{widget.title}</span>
-                      <span className="text-xs opacity-70">{widget.enabled ? "Enabled" : "Disabled"}</span>
-                    </Button>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          )}
+      {/* KPI Cards */}
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {/* Total Leads */}
+        <Card
+          key={`kpi-leads-${colors.chart1}`}
+          className="overflow-hidden transition-all duration-300 hover:shadow-lg relative"
+          onMouseMove={(e) => handleMouseMove(e, "Total Leads")}
+          onMouseLeave={handleMouseLeave}
+          style={{
+            ...(hoveredCard === "Total Leads" && {
+              background: `radial-gradient(circle 600px at ${mousePosition.x}% ${mousePosition.y}%, var(--muted) 0%, var(--card) 50%, var(--muted) 100%)`,
+            })
+          }}
+        >
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
+            <CardTitle className="text-sm font-medium">Total Leads</CardTitle>
+            <div className="h-10 w-10 rounded-lg flex items-center justify-center bg-primary/10">
+              <Users className="h-5 w-5 text-primary" />
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            <div className="text-3xl font-bold">{totalLeads}</div>
+            <p className="text-xs text-muted-foreground mt-1">
+              <span className="flex items-center gap-1 text-primary">
+                <TrendingUp className="h-3 w-3" />
+                {leadsPerDay} average leads per day
+              </span>
+            </p>
+          </CardContent>
+        </Card>
 
-          {/* KPI Cards */}
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {/* Total Leads */}
-            <Card
-              key={`kpi-leads-${colors.chart1}`}
-              className="overflow-hidden transition-all duration-300 hover:shadow-lg relative"
-              onMouseMove={(e) => handleMouseMove(e, "Total Leads")}
-              onMouseLeave={handleMouseLeave}
-              style={{
-                ...(hoveredCard === "Total Leads" && {
-                  background: `radial-gradient(circle 600px at ${mousePosition.x}% ${mousePosition.y}%, var(--muted) 0%, var(--card) 50%, var(--muted) 100%)`,
-                })
-              }}
-            >
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
-                <CardTitle className="text-sm font-medium">Total Leads</CardTitle>
-                <div className="h-10 w-10 rounded-lg flex items-center justify-center bg-primary/10">
-                  <Users className="h-5 w-5 text-primary" />
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                <div className="text-3xl font-bold">{totalLeads}</div>
-                <p className="text-xs text-muted-foreground mt-1">
-                  <span className="flex items-center gap-1 text-primary">
-                    <TrendingUp className="h-3 w-3" />
-                    {leadsPerDay} average leads per day
-                  </span>
-                </p>
-              </CardContent>
-            </Card>
+        {/* Total Conversions */}
+        <Card
+          key={`kpi-conversions-${colors.chart1}`}
+          className="overflow-hidden transition-all duration-300 hover:shadow-lg relative"
+          onMouseMove={(e) => handleMouseMove(e, "Total Conversions")}
+          onMouseLeave={handleMouseLeave}
+          style={{
+            ...(hoveredCard === "Total Conversions" && {
+              background: `radial-gradient(circle 600px at ${mousePosition.x}% ${mousePosition.y}%, var(--muted) 0%, var(--card) 50%, var(--muted) 100%)`,
+            })
+          }}
+        >
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
+            <CardTitle className="text-sm font-medium">Total Conversions</CardTitle>
+            <div className="h-10 w-10 rounded-lg flex items-center justify-center bg-primary/10">
+              <CheckCircle2 className="h-5 w-5 text-primary" />
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            <div className="text-3xl font-bold">{convertedLeads}</div>
+            <p className="text-xs text-muted-foreground mt-1">
+              <span className="flex items-center gap-1 text-primary">
+                <TrendingUp className="h-3 w-3" />
+                {conversionsPerDay} average conversions per day
+              </span>
+            </p>
+          </CardContent>
+        </Card>
 
-            {/* Total Conversions */}
-            <Card
-              key={`kpi-conversions-${colors.chart1}`}
-              className="overflow-hidden transition-all duration-300 hover:shadow-lg relative"
-              onMouseMove={(e) => handleMouseMove(e, "Total Conversions")}
-              onMouseLeave={handleMouseLeave}
-              style={{
-                ...(hoveredCard === "Total Conversions" && {
-                  background: `radial-gradient(circle 600px at ${mousePosition.x}% ${mousePosition.y}%, var(--muted) 0%, var(--card) 50%, var(--muted) 100%)`,
-                })
-              }}
-            >
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
-                <CardTitle className="text-sm font-medium">Total Conversions</CardTitle>
-                <div className="h-10 w-10 rounded-lg flex items-center justify-center bg-primary/10">
-                  <CheckCircle2 className="h-5 w-5 text-primary" />
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                <div className="text-3xl font-bold">{convertedLeads}</div>
-                <p className="text-xs text-muted-foreground mt-1">
-                  <span className="flex items-center gap-1 text-primary">
-                    <TrendingUp className="h-3 w-3" />
-                    {conversionsPerDay} average conversions per day
-                  </span>
-                </p>
-              </CardContent>
-            </Card>
+        {/* Total Revenue */}
+        <Card
+          key={`kpi-revenue-${colors.chart1}`}
+          className="overflow-hidden transition-all duration-300 hover:shadow-lg relative"
+          onMouseMove={(e) => handleMouseMove(e, "Total Revenue")}
+          onMouseLeave={handleMouseLeave}
+          style={{
+            ...(hoveredCard === "Total Revenue" && {
+              background: `radial-gradient(circle 600px at ${mousePosition.x}% ${mousePosition.y}%, var(--muted) 0%, var(--card) 50%, var(--muted) 100%)`,
+            })
+          }}
+        >
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
+            <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
+            <div className="h-10 w-10 rounded-lg flex items-center justify-center bg-primary/10">
+              <DollarSign className="h-5 w-5 text-primary" />
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            <div className="text-3xl font-bold">${(totalRevenue / 1000).toFixed(0)}k</div>
+            <p className="text-xs text-muted-foreground mt-1">
+              <span className="flex items-center gap-1 text-primary">
+                <TrendingUp className="h-3 w-3" />
+                average ${(Number(revenuePerDay) / 1000).toFixed(1)}k per day
+              </span>
+            </p>
+          </CardContent>
+        </Card>
 
-            {/* Total Revenue */}
-            <Card
-              key={`kpi-revenue-${colors.chart1}`}
-              className="overflow-hidden transition-all duration-300 hover:shadow-lg relative"
-              onMouseMove={(e) => handleMouseMove(e, "Total Revenue")}
-              onMouseLeave={handleMouseLeave}
-              style={{
-                ...(hoveredCard === "Total Revenue" && {
-                  background: `radial-gradient(circle 600px at ${mousePosition.x}% ${mousePosition.y}%, var(--muted) 0%, var(--card) 50%, var(--muted) 100%)`,
-                })
-              }}
-            >
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
-                <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
-                <div className="h-10 w-10 rounded-lg flex items-center justify-center bg-primary/10">
-                  <DollarSign className="h-5 w-5 text-primary" />
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                <div className="text-3xl font-bold">${(totalRevenue / 1000).toFixed(0)}k</div>
-                <p className="text-xs text-muted-foreground mt-1">
-                  <span className="flex items-center gap-1 text-primary">
-                    <TrendingUp className="h-3 w-3" />
-                    average ${(Number(revenuePerDay) / 1000).toFixed(1)}k per day
-                  </span>
-                </p>
-              </CardContent>
-            </Card>
+        {/* Total Lost */}
+        <Card
+          key={`kpi-lost-${colors.chart1}`}
+          className="overflow-hidden transition-all duration-300 hover:shadow-lg relative"
+          onMouseMove={(e) => handleMouseMove(e, "Total Lost")}
+          onMouseLeave={handleMouseLeave}
+          style={{
+            ...(hoveredCard === "Total Lost" && {
+              background: `radial-gradient(circle 600px at ${mousePosition.x}% ${mousePosition.y}%, var(--muted) 0%, var(--card) 50%, var(--muted) 100%)`,
+            })
+          }}
+        >
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
+            <CardTitle className="text-sm font-medium">Total Lost</CardTitle>
+            <div className="h-10 w-10 rounded-lg flex items-center justify-center bg-red-500/10">
+              <X className="h-5 w-5 text-red-500" />
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            <div className="text-3xl font-bold">{lostLeads}</div>
+            <p className="text-xs text-muted-foreground mt-1">
+              <span className="flex items-center gap-1 text-red-500">
+                <TrendingDown className="h-3 w-3" />
+                {lostPerDay} average lost per day
+              </span>
+            </p>
+          </CardContent>
+        </Card>
+      </div>
 
-            {/* Total Lost */}
-            <Card
-              key={`kpi-lost-${colors.chart1}`}
-              className="overflow-hidden transition-all duration-300 hover:shadow-lg relative"
-              onMouseMove={(e) => handleMouseMove(e, "Total Lost")}
-              onMouseLeave={handleMouseLeave}
-              style={{
-                ...(hoveredCard === "Total Lost" && {
-                  background: `radial-gradient(circle 600px at ${mousePosition.x}% ${mousePosition.y}%, var(--muted) 0%, var(--card) 50%, var(--muted) 100%)`,
-                })
-              }}
-            >
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
-                <CardTitle className="text-sm font-medium">Total Lost</CardTitle>
-                <div className="h-10 w-10 rounded-lg flex items-center justify-center bg-red-500/10">
-                  <X className="h-5 w-5 text-red-500" />
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                <div className="text-3xl font-bold">{lostLeads}</div>
-                <p className="text-xs text-muted-foreground mt-1">
-                  <span className="flex items-center gap-1 text-red-500">
-                    <TrendingDown className="h-3 w-3" />
-                    {lostPerDay} average lost per day
-                  </span>
-                </p>
-              </CardContent>
-            </Card>
-          </div>
+      {/* COLLAPSIBLE CATEGORIES */}
+      <Accordion type="multiple" defaultValue={["performance", "team", "sources", "activity"]} className="space-y-4">
+        {/* PERFORMANCE METRICS CATEGORY */}
+        <AccordionItem value="performance" className="border rounded-lg px-6">
+          <AccordionTrigger className="hover:no-underline py-4">
+            <div className="flex items-center gap-2">
+              <div className="h-8 w-1 bg-primary rounded-full" />
+              <h2 className="text-2xl font-bold">Performance Metrics</h2>
+            </div>
+          </AccordionTrigger>
+          <AccordionContent className="pb-6">
+            <div className="grid gap-4 lg:grid-cols-2 pt-2">
+              {activeWidgets.filter(w => w.type === "conversion_number" || w.type === "conversion_value").map(widget => renderWidget(widget))}
+            </div>
+          </AccordionContent>
+        </AccordionItem>
 
-          {/* COLLAPSIBLE CATEGORIES */}
-          <Accordion type="multiple" defaultValue={["performance", "team", "sources", "activity"]} className="space-y-4">
-            {/* PERFORMANCE METRICS CATEGORY */}
-            <AccordionItem value="performance" className="border rounded-lg px-6">
-              <AccordionTrigger className="hover:no-underline py-4">
-                <div className="flex items-center gap-2">
-                  <div className="h-8 w-1 bg-primary rounded-full" />
-                  <h2 className="text-2xl font-bold">Performance Metrics</h2>
-                </div>
-              </AccordionTrigger>
-              <AccordionContent className="pb-6">
-                <div className="grid gap-4 lg:grid-cols-2 pt-2">
-                  {activeWidgets.filter(w => w.type === "conversion_number" || w.type === "conversion_value").map(widget => renderWidget(widget))}
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-
-            {/* TEAM PERFORMANCE CATEGORY */}
-            <AccordionItem value="team" className="border rounded-lg px-6">
-              <AccordionTrigger className="hover:no-underline py-4">
-                <div className="flex items-center gap-2">
-                  <div className="h-8 w-1 bg-primary rounded-full" />
-                  <h2 className="text-2xl font-bold">Team Performance</h2>
-                </div>
-              </AccordionTrigger>
-              <AccordionContent className="pb-6">
+        {/* TEAM PERFORMANCE CATEGORY */}
+        <AccordionItem value="team" className="border rounded-lg px-6">
+          <AccordionTrigger className="hover:no-underline py-4">
+            <div className="flex items-center gap-2">
+              <div className="h-8 w-1 bg-primary rounded-full" />
+              <h2 className="text-2xl font-bold">Team Performance</h2>
+            </div>
+          </AccordionTrigger>
+          <AccordionContent className="pb-6">
             <Card>
               <CardHeader>
                 <CardTitle>Leads per Sales Person</CardTitle>
@@ -869,7 +834,7 @@ export default function LeadDashboardPage() {
                     const barWidth = (member.leads / maxLeads) * 100;
                     const convertedWidth = member.leads > 0 ? (member.converted / member.leads) * 100 : 0;
                     const lostWidth = member.leads > 0 ? (member.lost / member.leads) * 100 : 0;
-                    
+
                     return (
                       <div key={member.name} className="space-y-2">
                         <div className="flex items-center justify-between">
@@ -889,11 +854,11 @@ export default function LeadDashboardPage() {
                           </div>
                         </div>
                         <div className="relative h-8 bg-muted rounded-lg overflow-hidden">
-                          <div 
+                          <div
                             className="absolute left-0 top-0 h-full bg-primary/20 transition-all duration-500"
                             style={{ width: `${barWidth}%` }}
                           />
-                          <div 
+                          <div
                             className="absolute left-0 top-0 h-full bg-primary transition-all duration-500"
                             style={{ width: `${(member.converted / maxLeads) * 100}%` }}
                           />
@@ -912,19 +877,19 @@ export default function LeadDashboardPage() {
                 </div>
               </CardContent>
             </Card>
-              </AccordionContent>
-            </AccordionItem>
+          </AccordionContent>
+        </AccordionItem>
 
-            {/* LEAD SOURCES CATEGORY */}
-            <AccordionItem value="sources" className="border rounded-lg px-6">
-              <AccordionTrigger className="hover:no-underline py-4">
-                <div className="flex items-center gap-2">
-                  <div className="h-8 w-1 bg-primary rounded-full" />
-                  <h2 className="text-2xl font-bold">Lead Sources</h2>
-                </div>
-              </AccordionTrigger>
-              <AccordionContent className="pb-6">
-                <div className="grid gap-4 lg:grid-cols-2 pt-2">
+        {/* LEAD SOURCES CATEGORY */}
+        <AccordionItem value="sources" className="border rounded-lg px-6">
+          <AccordionTrigger className="hover:no-underline py-4">
+            <div className="flex items-center gap-2">
+              <div className="h-8 w-1 bg-primary rounded-full" />
+              <h2 className="text-2xl font-bold">Lead Sources</h2>
+            </div>
+          </AccordionTrigger>
+          <AccordionContent className="pb-6">
+            <div className="grid gap-4 lg:grid-cols-2 pt-2">
               {/* Lead Sources Bar Chart */}
               <Card>
                 <CardHeader>
@@ -937,7 +902,7 @@ export default function LeadDashboardPage() {
                       const Icon = sourceIcons[stat.source as keyof typeof sourceIcons];
                       const maxCount = Math.max(...sourceStats.map(s => s.count));
                       const barWidth = stat.count > 0 ? (stat.count / maxCount) * 100 : 0;
-                      
+
                       return (
                         <div key={stat.source} className="space-y-1">
                           <div className="flex items-center justify-between text-sm">
@@ -951,11 +916,11 @@ export default function LeadDashboardPage() {
                             </div>
                           </div>
                           <div className="relative h-6 bg-muted rounded-md overflow-hidden">
-                            <div 
+                            <div
                               className="absolute left-0 top-0 h-full bg-primary/20 transition-all duration-500"
                               style={{ width: `${barWidth}%` }}
                             />
-                            <div 
+                            <div
                               className="absolute left-0 top-0 h-full bg-primary transition-all duration-500"
                               style={{ width: `${(stat.converted / maxCount) * 100}%` }}
                             />
@@ -974,58 +939,56 @@ export default function LeadDashboardPage() {
 
               {/* Source Distribution Pie Chart */}
               {activeWidgets.filter(w => w.type === "source_distribution").map(widget => renderWidget(widget))}
-                </div>
-              </AccordionContent>
-            </AccordionItem>
+            </div>
+          </AccordionContent>
+        </AccordionItem>
 
-            {/* ACTIVITY & INSIGHTS CATEGORY */}
-            <AccordionItem value="activity" className="border rounded-lg px-6 pb-0">
-              <AccordionTrigger className="hover:no-underline py-4">
-                <div className="flex items-center gap-2">
-                  <div className="h-8 w-1 bg-primary rounded-full" />
-                  <h2 className="text-2xl font-bold">Activity & Insights</h2>
-                </div>
-              </AccordionTrigger>
-              <AccordionContent className="pb-6">
-                <div className="grid gap-4 lg:grid-cols-2 pt-2">
-                  {activeWidgets.filter(w => w.type === "call_activity").map(widget => renderWidget(widget))}
-                  {activeWidgets.filter(w => w.type === "team_performance").map(widget => renderWidget(widget))}
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
+        {/* ACTIVITY & INSIGHTS CATEGORY */}
+        <AccordionItem value="activity" className="border rounded-lg px-6 pb-0">
+          <AccordionTrigger className="hover:no-underline py-4">
+            <div className="flex items-center gap-2">
+              <div className="h-8 w-1 bg-primary rounded-full" />
+              <h2 className="text-2xl font-bold">Activity & Insights</h2>
+            </div>
+          </AccordionTrigger>
+          <AccordionContent className="pb-6">
+            <div className="grid gap-4 lg:grid-cols-2 pt-2">
+              {activeWidgets.filter(w => w.type === "call_activity").map(widget => renderWidget(widget))}
+              {activeWidgets.filter(w => w.type === "team_performance").map(widget => renderWidget(widget))}
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
 
-          {/* QUICK ACTIONS */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Quick Actions</CardTitle>
-              <CardDescription>Common lead management tasks</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                <Link href="/dashboard/leads/all">
-                  <Button variant="outline" className="w-full gap-2">
-                    <Users className="h-4 w-4" />
-                    View All Leads
-                  </Button>
-                </Link>
-                <Link href="/dashboard/leads/add">
-                  <Button variant="outline" className="w-full gap-2">
-                    <Plus className="h-4 w-4" />
-                    Add New Lead
-                  </Button>
-                </Link>
-                <Link href="/dashboard/leads/round-robin">
-                  <Button variant="outline" className="w-full gap-2">
-                    <Zap className="h-4 w-4" />
-                    Round Robin
-                  </Button>
-                </Link>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-    </>
+      {/* QUICK ACTIONS */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Quick Actions</CardTitle>
+          <CardDescription>Common lead management tasks</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            <Link href="/dashboard/leads/all">
+              <Button variant="outline" className="w-full gap-2">
+                <Users className="h-4 w-4" />
+                View All Leads
+              </Button>
+            </Link>
+            <Link href="/dashboard/leads/add">
+              <Button variant="outline" className="w-full gap-2">
+                <Plus className="h-4 w-4" />
+                Add New Lead
+              </Button>
+            </Link>
+            <Link href="/dashboard/leads/round-robin">
+              <Button variant="outline" className="w-full gap-2">
+                <Zap className="h-4 w-4" />
+                Round Robin
+              </Button>
+            </Link>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
   );
 }

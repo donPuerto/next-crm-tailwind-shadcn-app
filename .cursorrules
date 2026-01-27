@@ -12,7 +12,7 @@
 2. **Auto-resolve** — Run: `bun run lint` to identify breaking references
 3. **Fix immediately** — Update relative paths to point to `.github/instructions/[file].md`
 4. **Verify** — Confirm all warnings clear before proceeding
-5. **Rule**: Instruction file references should use format: `instructions/01-project-context.md` (example) — plain text only, no markdown links
+5. **Rule**: Instruction file references should use format: `instructions/01-project-overview.md` (example) — plain text only, no markdown links
 
 ## 🗣️ Communication & Reporting Rules
 
@@ -84,32 +84,17 @@ async function getUserChartData(userId: string) {
 
 ### Core Stack
 - **Framework**: Next.js 16 (App Router) with Server Components by default
-- **Language**: TypeScript (strict mode, no `any` unless unavoidable)
-- **Styling**: Tailwind CSS v4 + CSS variables (theme system in `app/themes/`)
-- **UI Library**: shadcn/ui (Radix UI primitives + Tailwind, copy-paste only)
-
-### Page Structure
-```
-app/
-├── (root pages)     → Navbar visible
-└── dashboard/       → Sidebar + nested layout
-    ├── layout.tsx   → SidebarProvider + AppSidebar wrapper
-    ├── page.tsx     → Dashboard home
-    └── [section]/   → sales, marketing, users, etc.
-        └── page.tsx
-```
-
-**Key**: Dashboard pages are wrapped in a sidebar layout with `h-svh` height management and `overflow-auto` scrolling at the innermost content div.
+- **Language**: TypeScript (strict mode)
+- **Styling**: Tailwind CSS v4 + CSS variables
+- **UI Library**: shadcn/ui
 
 ## Critical Patterns & Rules
 
 ### 1. **Component Decision Tree** (READ BEFORE IMPLEMENTING UI)
 1. **Is it in shadcn/ui?** → Use existing component from `components/ui/`
-   - Check `instructions/11-shadcn-components.md` for list
+   - Check `instructions/05-components-and-hooks.md` for details.
 2. **Not in shadcn?** → ASK USER before creating custom component
 3. **Use custom?** → Create in `components/custom/[ComponentName].tsx` (PascalCase)
-4. **Section-specific?** → Add to `app/[section]/components/` (PascalCase)
-5. **Page-specific?** → Add to `app/[section]/[page]/components/` or same folder (PascalCase)
 
 **Do NOT**: Add custom code to `components/ui/` — shadcn only.
 
@@ -119,24 +104,11 @@ app/
 - **Folders**: lowercase-with-hyphens (`user-profile/`, `sales-reports/`)
 - **Dynamic routes**: brackets (`[id]/`, `[slug]/`)
 - **Hooks**: `use` prefix (`useTheme`, `useMobile`)
-- **All files**: `.tsx` (not `.ts` for components)
 
 ### 3. **Styling Guidelines**
-- **Utility-first**: Use Tailwind classes; avoid custom CSS unless global/required
-- **Layout utilities**: `layout-container`, `layout-padding` for consistent spacing
-- **Dark mode**: Use `dark:` variants; theme defines both light and dark via CSS variables
-- **Grouping classes**: layout → spacing → typography → color → effects
-
-**Theme Color Integration (CRITICAL)**:
-- **Always use CSS variables for theme colors**: `bg-primary/10`, `text-primary`, `border-primary`
-- **Common CSS variable patterns**:
-  - Backgrounds: `bg-primary`, `bg-primary/10`, `bg-primary/20`
-  - Text: `text-primary`, `text-secondary`, `text-muted-foreground`
-  - Borders: `border-primary`, `border-border`
-  - Icons: `text-primary`, `text-destructive`, `text-warning`
-- **Never use inline hex values**: `style={{ color: '#EC4899' }}` ❌
-- **Why**: CSS variables (`--primary`, `--accent`) auto-update when theme changes
-- **IMPORTANT**: For every new page/component implementation, ensure all theme colors use CSS variables
+- **Utility-first**: Use Tailwind classes.
+- **Dark mode**: Use `dark:` variants.
+- **Theme Color Integration (CRITICAL)**: Always use CSS variables for theme colors (`bg-primary/10`, `text-primary`).
 
 **Dashboard layout pattern**:
 ```tsx
@@ -151,19 +123,17 @@ app/
   </SidebarProvider>
 </div>
 ```
-Key: `bg-sidebar` at every container level; `overflow-y-auto` on innermost div; `h-svh` (screen height) + `h-full` nesting.
 
-### 4. **TypeScript Standards**
-- **Strict mode enabled**: No implicit `any`; use `unknown` + type narrowing if needed
-- **Avoid type assertions**: Prefer proper typing; use `as` only when necessary
-- **Export prop types**: Export interfaces for component props (e.g., `ButtonProps`)
-- **Comments**: Add brief comments to new/edited code explaining intent
-- **Keep types near code**: Define types in same file or nearby folder
-
-### 5. **Server vs Client Components**
-- **Server Components by default** (faster, smaller JS bundles)
-- **Client Components only when needed**: Hooks (`useState`, `useEffect`, `useTheme`), event handlers, real-time updates
+### 4. **Server vs Client Components**
+- **Server Components by default**
+- **Client Components only when needed**: Hooks (`useState`, `useEffect`, `useTheme`)
 - **Mark with `'use client'`** at top of file
 
-## Questions?
-If uncertain about patterns, component placement, or architectural decisions, refer to the `.github/instructions/` folder first. It contains comprehensive, maintainable standards that guide all code changes.
+## 📚 Instruction Reference
+Please refer to the `.github/instructions/` folder for details:
+- **01-project-overview.md**: Architecture & Goals
+- **02-app-structure.md**: Folders & Layouts
+- **03-coding-standards.md**: TS, Linting, Docs
+- **04-styling-and-theming.md**: Tailwind & Theme System
+- **05-components-and-hooks.md**: shadcn/ui & Decisions
+- **06-performance-and-best-practices.md**: A11y & Security

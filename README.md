@@ -1,75 +1,67 @@
 # Next.js App
 
-A modern Next.js application built with TypeScript and Tailwind CSS.
+A modern Next.js application built with TypeScript, Tailwind CSS v4, and a dynamic theming system.
 
-## Tech Stack
+## 🚀 Tech Stack
 
 - **Framework:** Next.js 16 (App Router)
 - **Language:** TypeScript
-- **Styling:** Tailwind CSS v4
+- **Styling:** Tailwind CSS v4 + Shadcn UI
 - **Package Manager:** Bun
-- **Fonts:** Geist Sans & Geist Mono
+- **Theme System:** Dynamic Theme Switching (Colors, Radius, Styles)
 
-## Project Structure
+## 📂 Project Structure
 
 ```
 app/
-├── hooks/          # Custom React hooks
-├── layout.tsx      # Root layout
-├── page.tsx        # Homepage
-└── globals.css     # Global styles
+├── (auth)/               # Login/Register routes
+├── dashboard/            # Main application area (Sidebar Layout)
+├── hooks/                # Custom React Hooks
+└── layout.tsx            # Global Root Layout
 
 components/
-└── ui/             # Reusable UI components
+├── ui/                   # shadcn/ui components (Do not modify structure)
+├── custom/               # Custom application components
+└── layout/               # Global layout components (Sidebar, Navbar)
 
-lib/                # Utility functions
-
-agents/             # Agent instructions for AI-assisted development
+lib/
+├── constants/            # Configuration constants
+└── utils.ts              # Utility functions
 ```
 
-## Agent Guidance
+## 👩‍💻 Agent Instructions & Standards
 
-This project includes structured agent instructions to maintain code quality and consistency. See [agents/README.md](agents/README.md) for details.
+This project follows strict coding standards. Please refer to the `.github/instructions/` folder for detailed guidelines.
 
-## Getting Started
+| ID | Topic | Description |
+|---|---|---|
+| **01** | [Project Overview](.github/instructions/01-project-overview.md) | Architecture, Server Components, and Goals. |
+| **02** | [App Structure](.github/instructions/02-app-structure.md) | Folder layout, Dashboard patterns, and Routing. |
+| **03** | [Coding Standards](.github/instructions/03-coding-standards.md) | TypeScript, ESLint, Comments, and Docs. |
+| **04** | [Styling & Theming](.github/instructions/04-styling-and-theming.md) | CSS Variables, Theme System (`useTheme`), Tailwind rules. |
+| **05** | [Components & Hooks](.github/instructions/05-components-and-hooks.md) | Usage of shadcn/ui vs Custom components. |
+| **06** | [Best Practices](.github/instructions/06-performance-and-best-practices.md) | Performance, Accessibility, and Security. |
 
-Install dependencies and run the development server:
+## 🛠️ Getting Started
 
-```bash
-bun install
-bun dev
-```
+1.  **Install dependencies:**
+    ```bash
+    bun install
+    ```
 
-Or with npm/yarn:
+2.  **Run development server:**
+    ```bash
+    bun dev
+    ```
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+3.  **Build for production:**
+    ```bash
+    bun run build
+    ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## ⚠️ Important Rules
 
-## Features
-
-- ✅ Next.js App Router with Server Components
-- ✅ TypeScript for type safety
-- ✅ Tailwind CSS v4 for styling
-- ✅ Dark mode support
-- ✅ Optimized fonts with next/font
-- ✅ Structured folder organization
-- ✅ Agent-guided development workflow
-
-## Development Guidelines
-
-- Follow the agent instructions in the `agents/` folder
-- Keep components small and well-typed
-- Add comments for beginners
-- Use Server Components by default
-- Run `bun run lint` before committing
-
-## Learn More
-
-- [Next.js Documentation](https://nextjs.org/docs)
-- [Learn Next.js](https://nextjs.org/learn)
-- [Tailwind CSS](https://tailwindcss.com/docs)
+- **Strict Mode**: TypeScript strict mode is enabled. No `any`.
+- **Linter**: Run `bun run lint` before committing.
+- **Components**: Always check `components/ui` (shadcn) before creating custom components.
+- **Theming**: Use the `useTheme` hook for color logic; never hardcode hex values.
