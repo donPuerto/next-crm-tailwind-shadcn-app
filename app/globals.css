@@ -24,6 +24,7 @@
   /* letter spacing for style preset */
   --shadow-weight: subtle;
   /* subtle | bold */
+  --primary-rgb: 236 72 153;
   --sidebar: hsl(0 0% 98%);
   --sidebar-foreground: hsl(240 5.3% 26.1%);
   --sidebar-primary: hsl(240 5.9% 10%);

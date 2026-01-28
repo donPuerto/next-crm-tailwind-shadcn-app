@@ -15,7 +15,7 @@ import {
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { 
+import {
   Filter,
   Activity,
   User,
@@ -52,7 +52,7 @@ import {
 type ActivityAction = "login" | "logout" | "create" | "update" | "delete" | "view" | "export";
 type EntityType = "user" | "job" | "quote" | "product" | "inventory" | "customer" | "settings";
 
-interface ActivityLog {
+export interface ActivityLog {
   id: string;
   user_name: string;
   user_role: string;
@@ -259,9 +259,9 @@ export default function ActivityPage() {
     },
   ], []);
 
-  const filteredData = useMemo(() => 
-    filterAction === "all" 
-      ? activityData 
+  const filteredData = useMemo(() =>
+    filterAction === "all"
+      ? activityData
       : activityData.filter(log => log.action === filterAction),
     [filterAction]
   );
@@ -313,7 +313,7 @@ export default function ActivityPage() {
 
       {/* Activity Stats Cards */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-        <Card 
+        <Card
           className="cursor-pointer transition-colors hover:border-primary/50"
           onClick={() => setFilterAction("all")}
         >
@@ -327,7 +327,7 @@ export default function ActivityPage() {
           </CardContent>
         </Card>
 
-        <Card 
+        <Card
           className="cursor-pointer transition-colors hover:border-blue-500/50"
           onClick={() => setFilterAction("create")}
         >
@@ -341,7 +341,7 @@ export default function ActivityPage() {
           </CardContent>
         </Card>
 
-        <Card 
+        <Card
           className="cursor-pointer transition-colors hover:border-orange-500/50"
           onClick={() => setFilterAction("update")}
         >
@@ -355,7 +355,7 @@ export default function ActivityPage() {
           </CardContent>
         </Card>
 
-        <Card 
+        <Card
           className="cursor-pointer transition-colors hover:border-red-500/50"
           onClick={() => setFilterAction("delete")}
         >
@@ -369,7 +369,7 @@ export default function ActivityPage() {
           </CardContent>
         </Card>
 
-        <Card 
+        <Card
           className="cursor-pointer transition-colors hover:border-green-500/50"
           onClick={() => setFilterAction("login")}
         >
@@ -418,9 +418,9 @@ export default function ActivityPage() {
                           {header.isPlaceholder
                             ? null
                             : flexRender(
-                                header.column.columnDef.header,
-                                header.getContext()
-                              )}
+                              header.column.columnDef.header,
+                              header.getContext()
+                            )}
                         </th>
                       ))}
                     </tr>

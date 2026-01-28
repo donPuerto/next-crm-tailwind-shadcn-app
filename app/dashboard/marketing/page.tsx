@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { 
+import {
   TrendingUp,
   Users,
   MousePointerClick,
@@ -55,12 +55,15 @@ const chartConfig = {
 
 export default function MarketingPage() {
   return (
-    <div className="flex flex-col gap-6 layout-padding py-6">
+    <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Marketing Dashboard</h1>
-          <p className="text-muted-foreground mt-1">
+        <div className="flex flex-col gap-1">
+          <div className="flex items-center gap-2">
+            <Target className="h-8 w-8 text-primary" />
+            <h1 className="text-2xl font-bold tracking-tight">Marketing Dashboard</h1>
+          </div>
+          <p className="text-sm font-normal text-muted-foreground mt-1">
             Track campaigns, channels, and marketing ROI
           </p>
         </div>
@@ -189,12 +192,12 @@ export default function MarketingPage() {
             <ChartContainer config={chartConfig} className="h-[300px] w-full">
               <AreaChart data={campaignData}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis 
-                  dataKey="month" 
+                <XAxis
+                  dataKey="month"
                   tickLine={false}
                   axisLine={false}
                 />
-                <YAxis 
+                <YAxis
                   tickLine={false}
                   axisLine={false}
                 />
@@ -234,7 +237,7 @@ export default function MarketingPage() {
                   Website: Eye,
                 };
                 const ChannelIcon = channelIcons[channel.channel as keyof typeof channelIcons];
-                
+
                 return (
                   <div key={channel.channel} className="flex items-center gap-3 p-3 border rounded-lg">
                     <div className="p-2 rounded-lg bg-muted">

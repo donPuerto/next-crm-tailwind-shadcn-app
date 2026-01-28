@@ -413,8 +413,8 @@ export default function LeadDashboardPage() {
                 <BarChart data={conversionDataByValue}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="month" tickLine={false} axisLine={false} />
-                  <YAxis tickLine={false} axisLine={false} tickFormatter={(value) => `$${(value / 1000).toFixed(0)}k`} />
-                  <ChartTooltip content={<ChartTooltipContent formatter={(value) => `$${value.toLocaleString()}`} />} />
+                  <YAxis tickLine={false} axisLine={false} tickFormatter={(value: any) => `$${(value / 1000).toFixed(0)}k`} />
+                  <ChartTooltip content={<ChartTooltipContent formatter={(value: any) => `$${value.toLocaleString()}`} />} />
                   <Bar dataKey="value" fill={colors.chart3} radius={[4, 4, 0, 0]} label={{ position: 'top', formatter: (value) => `$${(value / 1000).toFixed(0)}k` }} />
                 </BarChart>
               </ChartContainer>
@@ -537,9 +537,12 @@ export default function LeadDashboardPage() {
     <div className="flex flex-col gap-8">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Lead Dashboard</h1>
-          <p className="text-muted-foreground mt-1">
+        <div className="flex flex-col gap-1">
+          <div className="flex items-center gap-2">
+            <Users className="h-8 w-8 text-primary" />
+            <h1 className="text-2xl font-bold tracking-tight">Lead Dashboard</h1>
+          </div>
+          <p className="text-sm font-normal text-muted-foreground mt-1">
             Performance metrics, conversion tracking, and team analytics
           </p>
         </div>

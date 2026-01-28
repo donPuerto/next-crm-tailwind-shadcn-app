@@ -3,7 +3,7 @@
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { Separator } from "@/components/ui/separator"
 import { Button } from "@/components/ui/button"
-import { Bell, MessageSquare } from "lucide-react"
+import { Bell, MessageSquare, Home } from "lucide-react"
 
 import { CommandSearch } from "./command-search"
 import { NavbarApps } from "./navbar-apps"
@@ -15,10 +15,10 @@ import { ChatSheet } from "./chat-sheet"
 
 export function DashboardNavbar() {
     return (
-        <header className="sticky top-0 z-10 flex h-16 shrink-0 items-center gap-4 border-b bg-background px-4 shadow-sm">
-            <div className="flex items-center gap-2">
-                <SidebarTrigger />
-                <Separator orientation="vertical" className="h-6" />
+        <header className="sticky top-0 z-10 flex h-16 shrink-0 items-center gap-4 border-b bg-background px-4 md:px-8 shadow-sm">
+            <div className="flex items-center h-full">
+                <SidebarTrigger className="-ml-1" />
+                <div className="w-px h-6 bg-border ml-3 mr-5 shrink-0" aria-hidden="true" />
                 <CommandSearch />
             </div>
 
@@ -39,7 +39,7 @@ export function DashboardNavbar() {
                 {/* Apps Menu */}
                 <NavbarApps />
 
-                <Separator orientation="vertical" className="h-6 bg-border mx-2" />
+                <Separator orientation="vertical" className="h-6 bg-border mx-1" />
 
                 {/* User Profile */}
                 <UserNav />

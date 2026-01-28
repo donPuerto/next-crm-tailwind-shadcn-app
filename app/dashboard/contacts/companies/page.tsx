@@ -15,7 +15,7 @@ import {
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { 
+import {
   Building2,
   Plus,
   Mail,
@@ -33,6 +33,7 @@ import {
   Briefcase
 } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { DUMMY_COMPANIES, DUMMY_OPPORTUNITIES, DUMMY_CONTACTS, type Company, type CompanyStatus } from "@/lib/constants/dummy-data";
 
 /*
  * SUPABASE SCHEMA:
@@ -61,139 +62,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
  * - metadata: jsonb
  */
 
-type CompanyStatus = "prospect" | "customer" | "partner" | "inactive";
-
-interface Company {
-  id: string;
-  name: string;
-  industry: string;
-  website: string;
-  email: string;
-  phone: string;
-  location: string;
-  status: CompanyStatus;
-  employee_count: string;
-  annual_revenue: number;
-  contacts_count: number;
-  deals_count: number;
-  total_value: number;
-  assigned_to: string;
-}
-
-const companiesData: Company[] = [
-  {
-    id: "1",
-    name: "Summit Real Estate Group",
-    industry: "Real Estate",
-    website: "summitrealestate.com",
-    email: "info@summitrealestate.com",
-    phone: "+1 (555) 100-1000",
-    location: "Austin, TX",
-    status: "customer",
-    employee_count: "50-100",
-    annual_revenue: 15000000,
-    contacts_count: 8,
-    deals_count: 5,
-    total_value: 425000,
-    assigned_to: "Emily Rodriguez",
-  },
-  {
-    id: "2",
-    name: "TechStart Innovations Inc",
-    industry: "Technology",
-    website: "techstart.io",
-    email: "hello@techstart.io",
-    phone: "+1 (555) 100-2000",
-    location: "Austin, TX",
-    status: "prospect",
-    employee_count: "10-50",
-    annual_revenue: 5000000,
-    contacts_count: 3,
-    deals_count: 1,
-    total_value: 0,
-    assigned_to: "Michael Chen",
-  },
-  {
-    id: "3",
-    name: "Wellness Pro Gym Network",
-    industry: "Health & Fitness",
-    website: "wellnesspro.com",
-    email: "corporate@wellnesspro.com",
-    phone: "+1 (555) 100-3000",
-    location: "Dallas, TX",
-    status: "customer",
-    employee_count: "100-500",
-    annual_revenue: 12000000,
-    contacts_count: 12,
-    deals_count: 8,
-    total_value: 680000,
-    assigned_to: "Michael Chen",
-  },
-  {
-    id: "4",
-    name: "AutoMax Dealership Group",
-    industry: "Automotive",
-    website: "automaxdealers.com",
-    email: "info@automaxdealers.com",
-    phone: "+1 (555) 100-4000",
-    location: "San Antonio, TX",
-    status: "customer",
-    employee_count: "500+",
-    annual_revenue: 45000000,
-    contacts_count: 15,
-    deals_count: 12,
-    total_value: 1250000,
-    assigned_to: "James Wilson",
-  },
-  {
-    id: "5",
-    name: "Food Distributors LLC",
-    industry: "Food & Beverage",
-    website: "fooddist.com",
-    email: "sales@fooddist.com",
-    phone: "+1 (555) 100-5000",
-    location: "Dallas, TX",
-    status: "customer",
-    employee_count: "100-500",
-    annual_revenue: 28000000,
-    contacts_count: 10,
-    deals_count: 7,
-    total_value: 890000,
-    assigned_to: "Emily Rodriguez",
-  },
-  {
-    id: "6",
-    name: "Rodriguez Law Firm",
-    industry: "Legal Services",
-    website: "rodriguezlaw.com",
-    email: "contact@rodriguezlaw.com",
-    phone: "+1 (555) 100-6000",
-    location: "Houston, TX",
-    status: "prospect",
-    employee_count: "10-50",
-    annual_revenue: 3000000,
-    contacts_count: 2,
-    deals_count: 0,
-    total_value: 0,
-    assigned_to: "Michael Chen",
-  },
-  {
-    id: "7",
-    name: "Home Services Plus",
-    industry: "Home Services",
-    website: "homeservicesplus.com",
-    email: "info@homeservicesplus.com",
-    phone: "+1 (555) 100-7000",
-    location: "Austin, TX",
-    status: "partner",
-    employee_count: "50-100",
-    annual_revenue: 8000000,
-    contacts_count: 6,
-    deals_count: 15,
-    total_value: 1560000,
-    assigned_to: "James Wilson",
-  },
-];
+const companiesData = DUMMY_COMPANIES;
 
 export default function CompaniesPage() {
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -296,7 +165,7 @@ export default function CompaniesPage() {
               <span className="text-muted-foreground">Employees:</span> <span className="font-medium">{company.employee_count}</span>
             </div>
             <div className="text-sm">
-              <span className="text-muted-foreground">Revenue:</span> <span className="font-medium">${(company.annual_revenue / 1000000).toFixed(1)}M</span>
+              <span className="text-muted-foreground">Revenue:</span> <span className="font-medium">${((company.annual_revenue || 0) / 1000000).toFixed(1)}M</span>
             </div>
           </div>
         );
@@ -307,16 +176,20 @@ export default function CompaniesPage() {
       header: "Metrics",
       cell: ({ row }) => {
         const company = row.original;
+        const companyOpportunities = DUMMY_OPPORTUNITIES.filter(o => o.companyId === company.id);
+        const contactCount = DUMMY_CONTACTS.filter(c => c.company === company.name).length;
+        const totalValue = companyOpportunities.reduce((sum, o) => sum + o.value, 0);
+
         return (
           <div className="flex flex-col gap-1">
             <div className="text-sm">
-              <span className="text-muted-foreground">Contacts:</span> <span className="font-medium">{company.contacts_count}</span>
+              <span className="text-muted-foreground">Contacts:</span> <span className="font-medium">{contactCount}</span>
             </div>
             <div className="text-sm">
-              <span className="text-muted-foreground">Deals:</span> <span className="font-medium">{company.deals_count}</span>
+              <span className="text-muted-foreground">Opportunities:</span> <span className="font-medium">{companyOpportunities.length}</span>
             </div>
             <div className="text-sm">
-              <span className="text-muted-foreground">Value:</span> <span className="font-medium text-green-600">${(company.total_value / 1000).toFixed(0)}k</span>
+              <span className="text-muted-foreground">Value:</span> <span className="font-medium text-green-600">${(totalValue / 1000).toFixed(0)}k</span>
             </div>
           </div>
         );
@@ -348,9 +221,9 @@ export default function CompaniesPage() {
     },
   ], []);
 
-  const filteredData = useMemo(() => 
-    filterStatus === "all" 
-      ? companiesData 
+  const filteredData = useMemo(() =>
+    filterStatus === "all"
+      ? companiesData
       : companiesData.filter(c => c.status === filterStatus),
     [filterStatus]
   );
@@ -375,7 +248,7 @@ export default function CompaniesPage() {
     customers: companiesData.filter(c => c.status === "customer").length,
     prospects: companiesData.filter(c => c.status === "prospect").length,
     partners: companiesData.filter(c => c.status === "partner").length,
-    totalValue: companiesData.reduce((sum, c) => sum + c.total_value, 0),
+    totalValue: DUMMY_OPPORTUNITIES.reduce((sum, o) => sum + o.value, 0),
   };
 
   return (
@@ -402,7 +275,7 @@ export default function CompaniesPage() {
 
       {/* Stats Cards */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <Card 
+        <Card
           className="cursor-pointer transition-colors hover:border-primary/50"
           onClick={() => setFilterStatus("all")}
         >
@@ -416,7 +289,7 @@ export default function CompaniesPage() {
           </CardContent>
         </Card>
 
-        <Card 
+        <Card
           className="cursor-pointer transition-colors hover:border-green-500/50"
           onClick={() => setFilterStatus("customer")}
         >
@@ -430,7 +303,7 @@ export default function CompaniesPage() {
           </CardContent>
         </Card>
 
-        <Card 
+        <Card
           className="cursor-pointer transition-colors hover:border-purple-500/50"
           onClick={() => setFilterStatus("prospect")}
         >
@@ -490,9 +363,9 @@ export default function CompaniesPage() {
                           {header.isPlaceholder
                             ? null
                             : flexRender(
-                                header.column.columnDef.header,
-                                header.getContext()
-                              )}
+                              header.column.columnDef.header,
+                              header.getContext()
+                            )}
                         </th>
                       ))}
                     </tr>

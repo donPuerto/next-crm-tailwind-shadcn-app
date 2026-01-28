@@ -137,3 +137,10 @@ Please refer to the `.github/instructions/` folder for details:
 - **04-styling-and-theming.md**: Tailwind & Theme System
 - **05-components-and-hooks.md**: shadcn/ui & Decisions
 - **06-performance-and-best-practices.md**: A11y & Security
+
+## 🗄️ Supabase Schema & Mockup Sync (MANDATORY)
+
+**Rule: Always keep code and schema in sync.**
+1. **Mockup Change**: Every time you add, rename, or modify a field in `lib/constants/dummy-data.ts` or any UI component.
+2. **Schema Update**: You MUST immediately update the corresponding table definition and SQL in `supabase/schema.md`.
+3. **Consistency**: Ensure the TypeScript interfaces in the app match the SQL column types and constraints defined in the schema documentation.

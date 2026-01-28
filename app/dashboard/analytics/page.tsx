@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useTheme } from "@/app/hooks/useTheme";
-import { 
+import {
   TrendingUp,
   Users,
   DollarSign,
@@ -93,26 +93,29 @@ export default function AnalyticsPage() {
   // Update chart colors when theme or color changes
   useEffect(() => {
     const baseColor = COLOR_CONFIG[color]?.hex || '#EC4899';
-    
+
     console.log('Analytics - Theme color changed:', color, 'Base color:', baseColor);
-    
+
     // Generate 3 variations of the selected color
     const newColors = {
       chart1: baseColor,
       chart2: adjustBrightness(baseColor, -15), // Darker
       chart3: adjustBrightness(baseColor, -30), // Much darker
     };
-    
+
     console.log('Analytics - New chart colors:', newColors);
     setColors(newColors);
   }, [color, theme]);
   return (
-    <div className="flex flex-col gap-6 layout-padding py-6">
+    <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Analytics Dashboard</h1>
-          <p className="text-muted-foreground mt-1">
+        <div className="flex flex-col gap-1">
+          <div className="flex items-center gap-2">
+            <TrendingUp className="h-8 w-8 text-primary" />
+            <h1 className="text-2xl font-bold tracking-tight">Analytics Dashboard</h1>
+          </div>
+          <p className="text-sm font-normal text-muted-foreground mt-1">
             Comprehensive insights into your business performance
           </p>
         </div>
@@ -184,12 +187,12 @@ export default function AnalyticsPage() {
             <ChartContainer config={chartConfig} className="h-75 w-full" key={`revenue-area-${colors.chart1}`}>
               <AreaChart data={revenueData}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis 
-                  dataKey="month" 
+                <XAxis
+                  dataKey="month"
                   tickLine={false}
                   axisLine={false}
                 />
-                <YAxis 
+                <YAxis
                   tickLine={false}
                   axisLine={false}
                   tickFormatter={(value) => `$${value / 1000}k`}
@@ -227,8 +230,8 @@ export default function AnalyticsPage() {
               <BarChart data={leadConversionData} layout="horizontal">
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis type="number" />
-                <YAxis 
-                  dataKey="stage" 
+                <YAxis
+                  dataKey="stage"
                   type="category"
                   width={100}
                   tickLine={false}
@@ -253,12 +256,12 @@ export default function AnalyticsPage() {
             <ChartContainer config={chartConfig} className="h-75 w-full" key={`acquisition-bar-${colors.chart1}`}>
               <BarChart data={customerAcquisitionData}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis 
+                <XAxis
                   dataKey="month"
                   tickLine={false}
                   axisLine={false}
                 />
-                <YAxis 
+                <YAxis
                   tickLine={false}
                   axisLine={false}
                 />

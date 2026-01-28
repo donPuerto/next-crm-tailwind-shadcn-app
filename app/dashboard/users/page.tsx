@@ -15,12 +15,12 @@ import {
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { 
-  UserPlus, 
-  Shield, 
-  User as UserIcon, 
-  Crown, 
-  Mail, 
+import {
+  UserPlus,
+  Shield,
+  User as UserIcon,
+  Crown,
+  Mail,
   Phone,
   MoreVertical,
   CheckCircle2,
@@ -41,6 +41,7 @@ import {
   Rocket
 } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { DUMMY_USERS, type User, type UserRole, type UserStatus } from "@/lib/constants/dummy-data";
 
 /*
  * EXPANDED CRM MODULES:
@@ -86,8 +87,8 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
  * - full_name: text
  * - phone: text
  * - avatar_url: text
- * - role: text (CHECK role IN ('admin', 'manager', 'sales', 'support', 'marketing', 'customer_success', 
- *                             'technician', 'dispatcher', 'project_manager', 'installer'))
+ * - role: text (CHECK role IN ('admin', 'manager', 'sales', 'support', 'marketing', 
+ *                             'technician', 'dispatcher', 'project_manager'))
  * - status: text (CHECK status IN ('active', 'inactive', 'pending', 'on_field'))
  * - department: text
  * - territory: text (for sales reps)
@@ -111,224 +112,8 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
  * - Field Workers: Can view all, edit only their own profile and job status
  */
 
-type UserRole = 
-  | "admin" 
-  | "manager" 
-  | "sales" 
-  | "support" 
-  | "marketing" 
-  | "customer_success"
-  | "technician"
-  | "dispatcher"
-  | "project_manager"
-  | "installer";
-
-type UserStatus = "active" | "inactive" | "pending" | "on_field";
-
-interface User {
-  id: string;
-  full_name: string;
-  email: string;
-  phone: string;
-  avatar_url?: string;
-  role: UserRole;
-  status: UserStatus;
-  department: string;
-  territory?: string;
-  certification?: string;
-  last_active_at: string;
-  created_at: string;
-  
-  // Performance metrics
-  deals_managed: number;
-  revenue_generated: number;
-  tickets_resolved: number;
-  leads_converted: number;
-  campaigns_managed: number;
-  jobs_completed: number;
-  current_location?: string;
-}
-
-// Mock data - will be replaced with: const { data: users } = await supabase.from('profiles').select('*')
-const usersData: User[] = [
-    {
-      id: "1",
-      full_name: "Sarah Johnson",
-      email: "sarah.j@company.com",
-      phone: "+1 (555) 123-4567",
-      role: "admin",
-      status: "active",
-      department: "Executive",
-      last_active_at: "2 minutes ago",
-      created_at: "2024-01-15",
-      deals_managed: 45,
-      revenue_generated: 285000,
-      tickets_resolved: 0,
-      leads_converted: 0,
-      campaigns_managed: 0,
-      jobs_completed: 0,
-    },
-    {
-      id: "2",
-      full_name: "Michael Chen",
-      email: "m.chen@company.com",
-      phone: "+1 (555) 234-5678",
-      role: "manager",
-      status: "active",
-      department: "Sales",
-      territory: "West Coast",
-      last_active_at: "15 minutes ago",
-      created_at: "2024-02-10",
-      deals_managed: 32,
-      revenue_generated: 198000,
-      tickets_resolved: 0,
-      leads_converted: 0,
-      campaigns_managed: 0,
-      jobs_completed: 0,
-    },
-    {
-      id: "3",
-      full_name: "Emily Rodriguez",
-      email: "emily.r@company.com",
-      phone: "+1 (555) 345-6789",
-      role: "sales",
-      status: "active",
-      department: "Sales",
-      territory: "East Coast",
-      last_active_at: "1 hour ago",
-      created_at: "2024-03-05",
-      deals_managed: 28,
-      revenue_generated: 167000,
-      tickets_resolved: 0,
-      leads_converted: 42,
-      campaigns_managed: 0,
-      jobs_completed: 0,
-    },
-    {
-      id: "4",
-      full_name: "David Park",
-      email: "d.park@company.com",
-      phone: "+1 (555) 456-7890",
-      role: "support",
-      status: "active",
-      department: "Customer Support",
-      last_active_at: "30 minutes ago",
-      created_at: "2024-03-20",
-      deals_managed: 0,
-      revenue_generated: 0,
-      tickets_resolved: 234,
-      leads_converted: 0,
-      campaigns_managed: 0,
-      jobs_completed: 0,
-    },
-    {
-      id: "5",
-      full_name: "Lisa Thompson",
-      email: "l.thompson@company.com",
-      phone: "+1 (555) 567-8901",
-      role: "marketing",
-      status: "active",
-      department: "Marketing",
-      last_active_at: "2 hours ago",
-      created_at: "2024-04-01",
-      deals_managed: 0,
-      revenue_generated: 0,
-      tickets_resolved: 0,
-      leads_converted: 0,
-      campaigns_managed: 18,
-      jobs_completed: 0,
-    },
-    {
-      id: "6",
-      full_name: "Carlos Martinez",
-      email: "c.martinez@company.com",
-      phone: "+1 (555) 678-9012",
-      role: "technician",
-      status: "on_field",
-      department: "Field Service",
-      certification: "HVAC Master, EPA Certified",
-      current_location: "3847 Maple Ave, Austin, TX",
-      last_active_at: "10 minutes ago",
-      created_at: "2024-04-15",
-      deals_managed: 0,
-      revenue_generated: 0,
-      tickets_resolved: 0,
-      leads_converted: 0,
-      campaigns_managed: 0,
-      jobs_completed: 156,
-    },
-    {
-      id: "7",
-      full_name: "Rachel Kim",
-      email: "r.kim@company.com",
-      phone: "+1 (555) 789-0123",
-      role: "dispatcher",
-      status: "active",
-      department: "Operations",
-      last_active_at: "5 minutes ago",
-      created_at: "2024-05-01",
-      deals_managed: 0,
-      revenue_generated: 0,
-      tickets_resolved: 0,
-      leads_converted: 0,
-      campaigns_managed: 0,
-      jobs_completed: 0,
-    },
-    {
-      id: "8",
-      full_name: "James Wilson",
-      email: "j.wilson@company.com",
-      phone: "+1 (555) 890-1234",
-      role: "project_manager",
-      status: "active",
-      department: "Operations",
-      last_active_at: "1 hour ago",
-      created_at: "2024-05-10",
-      deals_managed: 24,
-      revenue_generated: 425000,
-      tickets_resolved: 0,
-      leads_converted: 0,
-      campaigns_managed: 0,
-      jobs_completed: 18,
-    },
-    {
-      id: "9",
-      full_name: "Marcus Johnson",
-      email: "m.johnson@company.com",
-      phone: "+1 (555) 901-2345",
-      role: "technician",
-      status: "active",
-      department: "Field Service",
-      certification: "Electrical License, Low Voltage",
-      last_active_at: "3 hours ago",
-      created_at: "2024-05-20",
-      deals_managed: 0,
-      revenue_generated: 0,
-      tickets_resolved: 0,
-      leads_converted: 0,
-      campaigns_managed: 0,
-      jobs_completed: 89,
-    },
-    {
-      id: "10",
-      full_name: "Amanda Foster",
-      email: "a.foster@company.com",
-      phone: "+1 (555) 012-3456",
-      role: "installer",
-      status: "on_field",
-      department: "Field Service",
-      certification: "Solar Installation Certified",
-      current_location: "1205 Oak St, Dallas, TX",
-      last_active_at: "20 minutes ago",
-      created_at: "2024-06-01",
-      deals_managed: 0,
-      revenue_generated: 0,
-      tickets_resolved: 0,
-      leads_converted: 0,
-      campaigns_managed: 0,
-      jobs_completed: 67,
-    },
-  ];
+// Data is now imported from @/lib/constants/dummy-data
+const usersData = DUMMY_USERS;
 
 export default function UsersPage() {
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -342,11 +127,9 @@ export default function UsersPage() {
       case "sales": return <TrendingUp className="h-4 w-4 text-green-500" />;
       case "support": return <Headphones className="h-4 w-4 text-purple-500" />;
       case "marketing": return <Users className="h-4 w-4 text-pink-500" />;
-      case "customer_success": return <Heart className="h-4 w-4 text-red-500" />;
       case "technician": return <Wrench className="h-4 w-4 text-orange-500" />;
       case "dispatcher": return <Radio className="h-4 w-4 text-cyan-500" />;
       case "project_manager": return <ClipboardList className="h-4 w-4 text-indigo-500" />;
-      case "installer": return <HardHat className="h-4 w-4 text-amber-500" />;
     }
   };
 
@@ -357,11 +140,9 @@ export default function UsersPage() {
       case "sales": return "bg-green-500/10 text-green-500 border-green-500/20";
       case "support": return "bg-purple-500/10 text-purple-500 border-purple-500/20";
       case "marketing": return "bg-pink-500/10 text-pink-500 border-pink-500/20";
-      case "customer_success": return "bg-red-500/10 text-red-500 border-red-500/20";
       case "technician": return "bg-orange-500/10 text-orange-500 border-orange-500/20";
       case "dispatcher": return "bg-cyan-500/10 text-cyan-500 border-cyan-500/20";
       case "project_manager": return "bg-indigo-500/10 text-indigo-500 border-indigo-500/20";
-      case "installer": return "bg-amber-500/10 text-amber-500 border-amber-500/20";
     }
   };
 
@@ -386,7 +167,7 @@ export default function UsersPage() {
   // TanStack Table Columns - memoized to prevent recreation
   const columns: ColumnDef<User>[] = useMemo(() => [
     {
-      accessorKey: "full_name",
+      accessorKey: "lastName",
       header: ({ column }) => {
         return (
           <Button
@@ -405,11 +186,11 @@ export default function UsersPage() {
           <div className="flex items-center gap-3">
             <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
               <span className="text-sm font-medium text-primary">
-                {user.full_name.split(' ').map(n => n[0]).join('')}
+                {user.firstName[0]}{user.lastName[0]}
               </span>
             </div>
             <div>
-              <div className="font-medium">{user.full_name}</div>
+              <div className="font-medium">{user.firstName} {user.lastName}</div>
               <div className="text-sm text-muted-foreground">{user.department}</div>
             </div>
           </div>
@@ -466,8 +247,8 @@ export default function UsersPage() {
       header: "Performance",
       cell: ({ row }) => {
         const user = row.original;
-        const isFieldWorker = ["technician", "installer"].includes(user.role);
-        const isSales = ["sales", "manager", "customer_success", "project_manager"].includes(user.role);
+        const isFieldWorker = user.role === "technician";
+        const isSales = ["sales", "manager", "project_manager"].includes(user.role);
         const isSupport = user.role === "support";
         const isMarketing = user.role === "marketing";
         const isDispatcher = user.role === "dispatcher";
@@ -477,7 +258,7 @@ export default function UsersPage() {
             {isFieldWorker && (
               <>
                 <div className="text-sm">
-                  <span className="text-muted-foreground">Jobs:</span> <span className="font-medium">{user.jobs_completed}</span>
+                  <span className="text-muted-foreground">Jobs:</span> <span className="font-medium">{user.jobs_completed || 0}</span>
                 </div>
                 {user.current_location && (
                   <div className="text-sm flex items-center gap-1">
@@ -490,17 +271,17 @@ export default function UsersPage() {
             {isSales && (
               <>
                 <div className="text-sm">
-                  <span className="text-muted-foreground">Deals:</span> <span className="font-medium">{user.deals_managed}</span>
+                  <span className="text-muted-foreground">Deals:</span> <span className="font-medium">{user.deals_managed || 0}</span>
                 </div>
                 <div className="text-sm">
-                  <span className="text-muted-foreground">Revenue:</span> <span className="font-medium text-green-600">${(user.revenue_generated / 1000).toFixed(0)}k</span>
+                  <span className="text-muted-foreground">Revenue:</span> <span className="font-medium text-green-600">${((user.revenue_generated || 0) / 1000).toFixed(0)}k</span>
                 </div>
               </>
             )}
             {isSupport && (
               <>
                 <div className="text-sm">
-                  <span className="text-muted-foreground">Tickets:</span> <span className="font-medium">{user.tickets_resolved}</span>
+                  <span className="text-muted-foreground">Tickets:</span> <span className="font-medium">{user.tickets_resolved || 0}</span>
                 </div>
                 <div className="text-sm">
                   <span className="text-muted-foreground">Avg. Time:</span> <span className="font-medium">2.5h</span>
@@ -510,7 +291,7 @@ export default function UsersPage() {
             {isMarketing && (
               <>
                 <div className="text-sm">
-                  <span className="text-muted-foreground">Campaigns:</span> <span className="font-medium">{user.campaigns_managed}</span>
+                  <span className="text-muted-foreground">Campaigns:</span> <span className="font-medium">{user.campaigns_managed || 0}</span>
                 </div>
                 <div className="text-sm">
                   <span className="text-muted-foreground">Leads:</span> <span className="font-medium">1,250</span>
@@ -569,9 +350,9 @@ export default function UsersPage() {
     },
   ], []);
 
-  const filteredData = useMemo(() => 
-    selectedRole === "all" 
-      ? usersData 
+  const filteredData = useMemo(() =>
+    selectedRole === "all"
+      ? usersData
       : usersData.filter(u => u.role === selectedRole),
     [selectedRole]
   );
@@ -619,7 +400,7 @@ export default function UsersPage() {
 
       {/* Role Overview Cards */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <Card 
+        <Card
           className="cursor-pointer transition-colors hover:border-primary/50"
           onClick={() => setSelectedRole("all")}
         >
@@ -635,7 +416,7 @@ export default function UsersPage() {
           </CardContent>
         </Card>
 
-        <Card 
+        <Card
           className="cursor-pointer transition-colors hover:border-orange-500/50"
           onClick={() => setSelectedRole("technician")}
         >
@@ -651,7 +432,7 @@ export default function UsersPage() {
           </CardContent>
         </Card>
 
-        <Card 
+        <Card
           className="cursor-pointer transition-colors hover:border-green-500/50"
           onClick={() => setSelectedRole("sales")}
         >
@@ -690,7 +471,7 @@ export default function UsersPage() {
                 {selectedRole === "all" ? "All Users" : `${selectedRole.charAt(0).toUpperCase() + selectedRole.slice(1).replace('_', ' ')}s`}
               </CardTitle>
               <CardDescription>
-                {selectedRole === "all" 
+                {selectedRole === "all"
                   ? `Showing all ${filteredData.length} team members`
                   : `${filteredData.length} ${selectedRole.replace('_', ' ')}${filteredData.length !== 1 ? 's' : ''} in your organization`
                 }
@@ -718,9 +499,9 @@ export default function UsersPage() {
                           {header.isPlaceholder
                             ? null
                             : flexRender(
-                                header.column.columnDef.header,
-                                header.getContext()
-                              )}
+                              header.column.columnDef.header,
+                              header.getContext()
+                            )}
                         </th>
                       ))}
                     </tr>

@@ -2,12 +2,21 @@ import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { DateRangePicker } from "@/components/dashboard/date-range-picker"
 import OverviewTab from "@/components/dashboard/overview/overview-tab"
+import { LayoutDashboard } from "lucide-react"
 
 export default function DashboardPage() {
   return (
-    <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
+    <div className="space-y-6">
       <div className="flex items-center justify-between space-y-2">
-        <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
+        <div className="flex flex-col gap-1">
+          <div className="flex items-center gap-2">
+            <LayoutDashboard className="h-8 w-8 text-primary" />
+            <h1 className="text-2xl font-bold tracking-tight">Dashboard</h1>
+          </div>
+          <p className="text-sm font-normal text-muted-foreground mt-1">
+            Overview of your business performance and key metrics
+          </p>
+        </div>
         <div className="flex items-center space-x-2">
           <DateRangePicker />
           <Button>Download</Button>
