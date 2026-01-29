@@ -169,4 +169,3 @@ export const leadStats = {
   lost: generatedLeads.filter(l => l.status === "lost").length,
 };
 
-console.log('Generated leads:', leadStats);

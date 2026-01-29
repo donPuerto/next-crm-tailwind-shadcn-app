@@ -94,7 +94,6 @@ export default function AnalyticsPage() {
   useEffect(() => {
     const baseColor = COLOR_CONFIG[color]?.hex || '#EC4899';
 
-    console.log('Analytics - Theme color changed:', color, 'Base color:', baseColor);
 
     // Generate 3 variations of the selected color
     const newColors = {
@@ -103,7 +102,6 @@ export default function AnalyticsPage() {
       chart3: adjustBrightness(baseColor, -30), // Much darker
     };
 
-    console.log('Analytics - New chart colors:', newColors);
     setColors(newColors);
   }, [color, theme]);
   return (

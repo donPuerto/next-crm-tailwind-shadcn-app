@@ -47,6 +47,7 @@ import {
   Wrench
 } from "lucide-react";
 import { Area, AreaChart, Bar, BarChart, CartesianGrid, XAxis, YAxis, Pie, PieChart, Cell } from "recharts";
+import type { NameType, ValueType } from "recharts/types/component/DefaultTooltipContent";
 import {
   ChartContainer,
   ChartTooltip,
@@ -114,6 +115,11 @@ const chartConfig = {
     color: "var(--chart-4)",
   },
 } satisfies ChartConfig;
+
+const getValueNumber = (value: ValueType) => {
+  const rawValue = Array.isArray(value) ? value[0] : value;
+  return Number(rawValue);
+};
 
 type WidgetType = "conversion_number" | "conversion_value" | "call_activity" | "team_performance" | "source_distribution";
 
@@ -255,10 +261,6 @@ export default function LeadDashboardPage() {
 
   // Log when date range changes (for debugging/demonstration)
   useEffect(() => {
-    console.log('Date range filter applied:', {
-      from: format(dateRange.from, "MMM dd, yyyy"),
-      to: format(dateRange.to, "MMM dd, yyyy")
-    });
     // TODO: In production, this would trigger an API call to fetch filtered data
     // For now, the data is static so visual changes won't occur
   }, [dateRange]);
@@ -414,8 +416,8 @@ export default function LeadDashboardPage() {
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="month" tickLine={false} axisLine={false} />
                   <YAxis tickLine={false} axisLine={false} tickFormatter={(value: any) => `$${(value / 1000).toFixed(0)}k`} />
-                  <ChartTooltip content={<ChartTooltipContent formatter={(value: any) => `$${value.toLocaleString()}`} />} />
-                  <Bar dataKey="value" fill={colors.chart3} radius={[4, 4, 0, 0]} label={{ position: 'top', formatter: (value) => `$${(value / 1000).toFixed(0)}k` }} />
+                  <ChartTooltip content={<ChartTooltipContent formatter={(value: ValueType) => `$${getValueNumber(value).toLocaleString()}`} />} />
+                  <Bar dataKey="value" fill={colors.chart3} radius={[4, 4, 0, 0]} label={{ position: 'top', formatter: (value: ValueType) => `$${(getValueNumber(value) / 1000).toFixed(0)}k` }} />
                 </BarChart>
               </ChartContainer>
             </CardContent>
@@ -512,7 +514,11 @@ export default function LeadDashboardPage() {
                       <Cell key={`cell-${index}`} fill={entry.fill} />
                     ))}
                   </Pie>
-                  <ChartTooltip content={<ChartTooltipContent formatter={(value, name) => [`${value} leads (${sourceDistributionData.find(d => d.name === name)?.percentage}%)`, name]} />} />
+                  <ChartTooltip content={<ChartTooltipContent formatter={(value: ValueType, name: NameType) => {
+                    const displayName = String(name);
+                    const percentage = sourceDistributionData.find(d => d.name === displayName)?.percentage;
+                    return [`${getValueNumber(value)} leads (${percentage ?? 0}%)`, displayName];
+                  }} />} />
                 </PieChart>
               </ChartContainer>
             </CardContent>
@@ -642,7 +648,6 @@ export default function LeadDashboardPage() {
                 <Button
                   size="sm"
                   onClick={() => {
-                    console.log('Applying date filter:', tempDateRange);
                     setDateRange(tempDateRange);
                     setIsDatePopoverOpen(false);
                   }}

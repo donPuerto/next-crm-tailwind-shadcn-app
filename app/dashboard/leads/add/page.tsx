@@ -18,7 +18,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { 
+import {
   UserPlus,
   ArrowLeft,
   Save,
@@ -66,16 +66,16 @@ import {
  *   .select()
  */
 
-type LeadSource = 
-  | "website1" 
-  | "website2" 
-  | "trade_site" 
-  | "inbound_call" 
-  | "voicemail" 
-  | "email" 
-  | "facebook_campaign" 
-  | "facebook_messenger" 
-  | "instagram" 
+type LeadSource =
+  | "website1"
+  | "website2"
+  | "trade_site"
+  | "inbound_call"
+  | "voicemail"
+  | "email"
+  | "facebook_campaign"
+  | "facebook_messenger"
+  | "instagram"
   | "whatsapp";
 
 interface LeadFormData {
@@ -266,7 +266,6 @@ export default function AddLeadPage() {
       //
       // if (error) throw error;
 
-      console.log("Lead created:", formData);
 
       // Show success and redirect to leads dashboard
       router.push("/dashboard/leads");
@@ -283,7 +282,7 @@ export default function AddLeadPage() {
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: undefined }));
     }
-    
+
     // Handle address autocomplete - Australian addresses
     if (field === "address" && value.length > 2) {
       const mockSuggestions = [
@@ -301,7 +300,7 @@ export default function AddLeadPage() {
         setShowAddressDetails(false);
       }
     }
-    
+
     // Handle company autocomplete
     if (field === "company") {
       if (value.length === 0) {
@@ -311,7 +310,7 @@ export default function AddLeadPage() {
         setCompanySuggestions(filtered);
       }
     }
-    
+
     // Handle referral autocomplete
     if (field === "referralName" && formData.referralType) {
       const referralList = formData.referralType === "technician" ? mockTechnicians : mockCustomers;
@@ -325,14 +324,14 @@ export default function AddLeadPage() {
       setShowReferralSuggestions(false);
     }
   };
-  
+
   const handleAddressSelect = (address: string) => {
     // Parse Australian address
     const parts = address.split(', ');
     const suburb = parts[1] || "";
     const state = parts[2] || "";
     const country = parts[3] || "Australia";
-    
+
     // Extract postal code from state if present (e.g., "QLD 4000")
     let stateCode = state;
     let postalCode = "";
@@ -341,9 +340,9 @@ export default function AddLeadPage() {
       stateCode = stateParts[0];
       postalCode = stateParts[1] || "";
     }
-    
-    setFormData(prev => ({ 
-      ...prev, 
+
+    setFormData(prev => ({
+      ...prev,
       address,
       suburb,
       state: stateCode,
@@ -353,12 +352,12 @@ export default function AddLeadPage() {
     setShowAddressSuggestions(false);
     setShowAddressDetails(true);
   };
-  
+
   const handleCompanySelect = (company: string) => {
     setFormData(prev => ({ ...prev, company }));
     setShowCompanySuggestions(false);
   };
-  
+
   const handleReferralSelect = (referral: string) => {
     setFormData(prev => ({ ...prev, referralName: referral }));
     setShowReferralSuggestions(false);
@@ -389,549 +388,549 @@ export default function AddLeadPage() {
 
       <div className="p-6">
         <div className="flex flex-col gap-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => router.back()}
-          >
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight">Add New Lead</h1>
-            <p className="text-muted-foreground mt-1">
-              Capture lead information from any source
-            </p>
+          {/* Header */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => router.back()}
+              >
+                <ArrowLeft className="h-4 w-4" />
+              </Button>
+              <div>
+                <h1 className="text-3xl font-bold tracking-tight">Add New Lead</h1>
+                <p className="text-muted-foreground mt-1">
+                  Capture lead information from any source
+                </p>
+              </div>
+            </div>
+            <UserPlus className="h-8 w-8 text-muted-foreground" />
           </div>
-        </div>
-        <UserPlus className="h-8 w-8 text-muted-foreground" />
-      </div>
 
-      {/* Form */}
-      <form onSubmit={handleSubmit}>
-        <div className="grid gap-6 xl:grid-cols-3 lg:grid-cols-1">
-          {/* Main Information */}
-          <div className="xl:col-span-2">
-            <Card>
-              <CardHeader>
-                <CardTitle>Lead Information</CardTitle>
-                <CardDescription>Basic contact details and source information</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {/* First Name and Last Name */}
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <div className="space-y-2">
-                    <Label htmlFor="firstName">
-                      First Name <span className="text-red-500">*</span>
-                    </Label>
-                    <Input
-                      id="firstName"
-                      placeholder="John"
-                      value={formData.firstName}
-                      onChange={(e) => handleChange("firstName", e.target.value)}
-                      className={errors.firstName ? "border-red-500" : ""}
-                    />
-                    {errors.firstName && (
-                      <p className="text-sm text-red-500">{errors.firstName}</p>
-                    )}
-                  </div>
+          {/* Form */}
+          <form onSubmit={handleSubmit}>
+            <div className="grid gap-6 xl:grid-cols-3 lg:grid-cols-1">
+              {/* Main Information */}
+              <div className="xl:col-span-2">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Lead Information</CardTitle>
+                    <CardDescription>Basic contact details and source information</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    {/* First Name and Last Name */}
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      <div className="space-y-2">
+                        <Label htmlFor="firstName">
+                          First Name <span className="text-red-500">*</span>
+                        </Label>
+                        <Input
+                          id="firstName"
+                          placeholder="John"
+                          value={formData.firstName}
+                          onChange={(e) => handleChange("firstName", e.target.value)}
+                          className={errors.firstName ? "border-red-500" : ""}
+                        />
+                        {errors.firstName && (
+                          <p className="text-sm text-red-500">{errors.firstName}</p>
+                        )}
+                      </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="lastName">
-                      Last Name <span className="text-red-500">*</span>
-                    </Label>
-                    <Input
-                      id="lastName"
-                      placeholder="Smith"
-                      value={formData.lastName}
-                      onChange={(e) => handleChange("lastName", e.target.value)}
-                      className={errors.lastName ? "border-red-500" : ""}
-                    />
-                    {errors.lastName && (
-                      <p className="text-sm text-red-500">{errors.lastName}</p>
-                    )}
-                  </div>
-                </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="lastName">
+                          Last Name <span className="text-red-500">*</span>
+                        </Label>
+                        <Input
+                          id="lastName"
+                          placeholder="Smith"
+                          value={formData.lastName}
+                          onChange={(e) => handleChange("lastName", e.target.value)}
+                          className={errors.lastName ? "border-red-500" : ""}
+                        />
+                        {errors.lastName && (
+                          <p className="text-sm text-red-500">{errors.lastName}</p>
+                        )}
+                      </div>
+                    </div>
 
-                {/* Job Title */}
-                <div className="space-y-2">
-                  <Label htmlFor="jobTitle">Job Title</Label>
-                  <Input
-                    id="jobTitle"
-                    placeholder="e.g., Property Manager, Homeowner"
-                    value={formData.jobTitle}
-                    onChange={(e) => handleChange("jobTitle", e.target.value)}
-                  />
-                </div>
-
-                {/* Email - Full Width */}
-                <div className="space-y-2">
-                  <Label htmlFor="email">
-                    Email <span className="text-red-500">*</span>
-                  </Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="john@example.com"
-                    value={formData.email}
-                    onChange={(e) => handleChange("email", e.target.value)}
-                    className={errors.email ? "border-red-500" : ""}
-                  />
-                  {errors.email && (
-                    <p className="text-sm text-red-500">{errors.email}</p>
-                  )}
-                </div>
-
-                {/* Mobile and Phone */}
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <div className="space-y-2">
-                    <Label htmlFor="mobile">Mobile</Label>
-                    <Input
-                      id="mobile"
-                      type="tel"
-                      placeholder="+61 4XX XXX XXX"
-                      value={formData.mobile}
-                      onChange={(e) => handleChange("mobile", e.target.value)}
-                    />
-                    <p className="text-xs text-muted-foreground">
-                      Primary contact number
-                    </p>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="phone">
-                      Phone {!formData.mobile && <span className="text-red-500">*</span>}
-                    </Label>
-                    <Input
-                      id="phone"
-                      type="tel"
-                      placeholder="+61 X XXXX XXXX"
-                      value={formData.phone}
-                      onChange={(e) => handleChange("phone", e.target.value)}
-                      className={errors.phone ? "border-red-500" : ""}
-                    />
-                    {errors.phone && (
-                      <p className="text-sm text-red-500">{errors.phone}</p>
-                    )}
-                  </div>
-                </div>
-
-                {/* Company */}
-                <div className="space-y-2 relative">
-                  <Label htmlFor="company">Company</Label>
-                  <div className="flex gap-2">
-                    <div className="flex-1 relative">
+                    {/* Job Title */}
+                    <div className="space-y-2">
+                      <Label htmlFor="jobTitle">Job Title</Label>
                       <Input
-                        id="company"
-                        placeholder="Search or type company name"
-                        value={formData.company}
-                        onChange={(e) => handleChange("company", e.target.value)}
-                        onFocus={() => {
-                          if (formData.company.length === 0) {
-                            setCompanySuggestions(mockCompanies);
-                          }
-                          setShowCompanySuggestions(true);
-                        }}
-                        onBlur={() => setTimeout(() => setShowCompanySuggestions(false), 200)}
+                        id="jobTitle"
+                        placeholder="e.g., Property Manager, Homeowner"
+                        value={formData.jobTitle}
+                        onChange={(e) => handleChange("jobTitle", e.target.value)}
+                      />
+                    </div>
+
+                    {/* Email - Full Width */}
+                    <div className="space-y-2">
+                      <Label htmlFor="email">
+                        Email <span className="text-red-500">*</span>
+                      </Label>
+                      <Input
+                        id="email"
+                        type="email"
+                        placeholder="john@example.com"
+                        value={formData.email}
+                        onChange={(e) => handleChange("email", e.target.value)}
+                        className={errors.email ? "border-red-500" : ""}
+                      />
+                      {errors.email && (
+                        <p className="text-sm text-red-500">{errors.email}</p>
+                      )}
+                    </div>
+
+                    {/* Mobile and Phone */}
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      <div className="space-y-2">
+                        <Label htmlFor="mobile">Mobile</Label>
+                        <Input
+                          id="mobile"
+                          type="tel"
+                          placeholder="+61 4XX XXX XXX"
+                          value={formData.mobile}
+                          onChange={(e) => handleChange("mobile", e.target.value)}
+                        />
+                        <p className="text-xs text-muted-foreground">
+                          Primary contact number
+                        </p>
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="phone">
+                          Phone {!formData.mobile && <span className="text-red-500">*</span>}
+                        </Label>
+                        <Input
+                          id="phone"
+                          type="tel"
+                          placeholder="+61 X XXXX XXXX"
+                          value={formData.phone}
+                          onChange={(e) => handleChange("phone", e.target.value)}
+                          className={errors.phone ? "border-red-500" : ""}
+                        />
+                        {errors.phone && (
+                          <p className="text-sm text-red-500">{errors.phone}</p>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Company */}
+                    <div className="space-y-2 relative">
+                      <Label htmlFor="company">Company</Label>
+                      <div className="flex gap-2">
+                        <div className="flex-1 relative">
+                          <Input
+                            id="company"
+                            placeholder="Search or type company name"
+                            value={formData.company}
+                            onChange={(e) => handleChange("company", e.target.value)}
+                            onFocus={() => {
+                              if (formData.company.length === 0) {
+                                setCompanySuggestions(mockCompanies);
+                              }
+                              setShowCompanySuggestions(true);
+                            }}
+                            onBlur={() => setTimeout(() => setShowCompanySuggestions(false), 200)}
+                            autoComplete="off"
+                          />
+                          {showCompanySuggestions && companySuggestions.length > 0 && (
+                            <div className="absolute z-50 w-full mt-1 bg-background border rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                              {companySuggestions.map((suggestion, index) => (
+                                <button
+                                  key={index}
+                                  type="button"
+                                  className="w-full px-4 py-2 text-left text-sm hover:bg-muted transition-colors first:rounded-t-lg last:rounded-b-lg"
+                                  onClick={() => handleCompanySelect(suggestion)}
+                                >
+                                  {suggestion}
+                                </button>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="icon"
+                          onClick={() => window.open('/dashboard/companies/add', '_blank')}
+                          title="Add new company"
+                        >
+                          <Plus className="h-4 w-4" />
+                        </Button>
+                      </div>
+                      <p className="text-xs text-muted-foreground">
+                        Link this lead to a company or create new
+                      </p>
+                    </div>
+
+                    {/* Referral */}
+                    <Card>
+                      <CardContent className="p-6 space-y-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="referralType">Referral Source</Label>
+                          <Select
+                            value={formData.referralType}
+                            onValueChange={(value) => handleChange("referralType", value)}
+                          >
+                            <SelectTrigger>
+                              <SelectValue placeholder="How did this lead find you?" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="none">None</SelectItem>
+                              <SelectItem value="technician">Technician Referral</SelectItem>
+                              <SelectItem value="customer">Customer Referral</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+
+                        {formData.referralType && formData.referralType !== "none" && (
+                          <div className="space-y-2">
+                            <Label htmlFor="referralName">Referred By</Label>
+                            <div className="flex gap-2">
+                              <div className="flex-1 relative">
+                                <Input
+                                  id="referralName"
+                                  placeholder="Search or type name"
+                                  value={formData.referralName}
+                                  onChange={(e) => handleChange("referralName", e.target.value)}
+                                  onFocus={() => {
+                                    const referralList = formData.referralType === "technician" ? mockTechnicians : mockCustomers;
+                                    if (formData.referralName.length === 0) {
+                                      setReferralSuggestions(referralList);
+                                    }
+                                    setShowReferralSuggestions(true);
+                                  }}
+                                  onBlur={() => setTimeout(() => setShowReferralSuggestions(false), 200)}
+                                  autoComplete="off"
+                                />
+                                {showReferralSuggestions && referralSuggestions.length > 0 && (
+                                  <div className="absolute z-50 w-full mt-1 bg-background border rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                                    {referralSuggestions.map((suggestion, index) => (
+                                      <button
+                                        key={index}
+                                        type="button"
+                                        className="w-full px-4 py-2 text-left text-sm hover:bg-muted transition-colors first:rounded-t-lg last:rounded-b-lg"
+                                        onClick={() => handleReferralSelect(suggestion)}
+                                      >
+                                        {suggestion}
+                                      </button>
+                                    ))}
+                                  </div>
+                                )}
+                              </div>
+                              <Button
+                                type="button"
+                                variant="outline"
+                                size="icon"
+                                onClick={() => setShowAddReferralDialog(true)}
+                                title="Add new referral"
+                              >
+                                <Plus className="h-4 w-4" />
+                              </Button>
+                            </div>
+                            <p className="text-xs text-muted-foreground">
+                              {formData.referralType === "technician" ? "Select a technician who referred this lead" : "Select a customer who referred this lead"}
+                            </p>
+                          </div>
+                        )}
+                      </CardContent>
+                    </Card>
+
+                    {/* Address with Autocomplete */}
+                    <div className="space-y-2 relative">
+                      <Label htmlFor="address">Address</Label>
+                      <Input
+                        id="address"
+                        placeholder="Start typing address..."
+                        value={formData.address}
+                        onChange={(e) => handleChange("address", e.target.value)}
+                        onFocus={() => formData.address.length > 2 && setShowAddressSuggestions(true)}
                         autoComplete="off"
                       />
-                      {showCompanySuggestions && companySuggestions.length > 0 && (
+                      {showAddressSuggestions && addressSuggestions.length > 0 && (
                         <div className="absolute z-50 w-full mt-1 bg-background border rounded-lg shadow-lg max-h-60 overflow-y-auto">
-                          {companySuggestions.map((suggestion, index) => (
+                          {addressSuggestions.map((suggestion, index) => (
                             <button
                               key={index}
                               type="button"
                               className="w-full px-4 py-2 text-left text-sm hover:bg-muted transition-colors first:rounded-t-lg last:rounded-b-lg"
-                              onClick={() => handleCompanySelect(suggestion)}
+                              onClick={() => handleAddressSelect(suggestion)}
                             >
                               {suggestion}
                             </button>
                           ))}
                         </div>
                       )}
+                      <p className="text-xs text-muted-foreground">
+                        Property address for service location
+                      </p>
                     </div>
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="icon"
-                      onClick={() => window.open('/dashboard/companies/add', '_blank')}
-                      title="Add new company"
-                    >
-                      <Plus className="h-4 w-4" />
-                    </Button>
-                  </div>
-                  <p className="text-xs text-muted-foreground">
-                    Link this lead to a company or create new
-                  </p>
-                </div>
 
-                {/* Referral */}
-                <Card>
-                  <CardContent className="p-6 space-y-4">
+                    {/* Address Details - Show after autocomplete selection */}
+                    {showAddressDetails && (
+                      <div className="grid gap-4 sm:grid-cols-2 p-4 border rounded-lg bg-muted/30">
+                        <div className="space-y-2">
+                          <Label htmlFor="state">State</Label>
+                          <Select
+                            value={formData.state}
+                            onValueChange={(value) => handleChange("state", value)}
+                          >
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select state" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="QLD">Queensland</SelectItem>
+                              <SelectItem value="NSW">New South Wales</SelectItem>
+                              <SelectItem value="VIC">Victoria</SelectItem>
+                              <SelectItem value="WA">Western Australia</SelectItem>
+                              <SelectItem value="SA">South Australia</SelectItem>
+                              <SelectItem value="TAS">Tasmania</SelectItem>
+                              <SelectItem value="ACT">Australian Capital Territory</SelectItem>
+                              <SelectItem value="NT">Northern Territory</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+
+                        <div className="space-y-2">
+                          <Label htmlFor="suburb">Suburb/City</Label>
+                          <Select
+                            value={formData.suburb}
+                            onValueChange={(value) => handleChange("suburb", value)}
+                            disabled={!formData.state}
+                          >
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select suburb" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {formData.state === "QLD" && (
+                                <>
+                                  <SelectItem value="Brisbane">Brisbane</SelectItem>
+                                  <SelectItem value="Gold Coast">Gold Coast</SelectItem>
+                                  <SelectItem value="Sunshine Coast">Sunshine Coast</SelectItem>
+                                  <SelectItem value="Cairns">Cairns</SelectItem>
+                                  <SelectItem value="Townsville">Townsville</SelectItem>
+                                </>
+                              )}
+                              {formData.state === "NSW" && (
+                                <>
+                                  <SelectItem value="Sydney">Sydney</SelectItem>
+                                  <SelectItem value="Newcastle">Newcastle</SelectItem>
+                                  <SelectItem value="Wollongong">Wollongong</SelectItem>
+                                  <SelectItem value="Central Coast">Central Coast</SelectItem>
+                                  <SelectItem value="Blue Mountains">Blue Mountains</SelectItem>
+                                </>
+                              )}
+                              {formData.state === "VIC" && (
+                                <>
+                                  <SelectItem value="Melbourne">Melbourne</SelectItem>
+                                  <SelectItem value="Geelong">Geelong</SelectItem>
+                                  <SelectItem value="Ballarat">Ballarat</SelectItem>
+                                  <SelectItem value="Bendigo">Bendigo</SelectItem>
+                                </>
+                              )}
+                              {formData.state === "WA" && (
+                                <>
+                                  <SelectItem value="Perth">Perth</SelectItem>
+                                  <SelectItem value="Fremantle">Fremantle</SelectItem>
+                                  <SelectItem value="Mandurah">Mandurah</SelectItem>
+                                </>
+                              )}
+                              {formData.state === "SA" && (
+                                <>
+                                  <SelectItem value="Adelaide">Adelaide</SelectItem>
+                                  <SelectItem value="Glenelg">Glenelg</SelectItem>
+                                </>
+                              )}
+                              {formData.state === "TAS" && (
+                                <>
+                                  <SelectItem value="Hobart">Hobart</SelectItem>
+                                  <SelectItem value="Launceston">Launceston</SelectItem>
+                                </>
+                              )}
+                              {formData.state === "ACT" && (
+                                <SelectItem value="Canberra">Canberra</SelectItem>
+                              )}
+                              {formData.state === "NT" && (
+                                <>
+                                  <SelectItem value="Darwin">Darwin</SelectItem>
+                                  <SelectItem value="Alice Springs">Alice Springs</SelectItem>
+                                </>
+                              )}
+                            </SelectContent>
+                          </Select>
+                        </div>
+
+                        <div className="space-y-2">
+                          <Label htmlFor="postalCode">Postal Code</Label>
+                          <Input
+                            id="postalCode"
+                            placeholder="Postal Code"
+                            value={formData.postalCode}
+                            onChange={(e) => handleChange("postalCode", e.target.value)}
+                          />
+                        </div>
+
+                        <div className="space-y-2">
+                          <Label htmlFor="country">Country</Label>
+                          <Input
+                            id="country"
+                            placeholder="Country"
+                            value={formData.country}
+                            onChange={(e) => handleChange("country", e.target.value)}
+                            readOnly
+                          />
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Source */}
                     <div className="space-y-2">
-                      <Label htmlFor="referralType">Referral Source</Label>
+                      <Label htmlFor="source">
+                        Lead Source <span className="text-red-500">*</span>
+                      </Label>
                       <Select
-                        value={formData.referralType}
-                        onValueChange={(value) => handleChange("referralType", value)}
+                        value={formData.source}
+                        onValueChange={(value) => handleChange("source", value)}
                       >
-                        <SelectTrigger>
-                          <SelectValue placeholder="How did this lead find you?" />
+                        <SelectTrigger className={errors.source ? "border-red-500" : ""}>
+                          <SelectValue placeholder="Select source" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="none">None</SelectItem>
-                          <SelectItem value="technician">Technician Referral</SelectItem>
-                          <SelectItem value="customer">Customer Referral</SelectItem>
+                          {sourceOptions.map((option) => (
+                            <SelectItem key={option.value} value={option.value}>
+                              {option.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      {errors.source && (
+                        <p className="text-sm text-red-500">{errors.source}</p>
+                      )}
+                    </div>
+
+                    {/* Notes */}
+                    <div className="space-y-2">
+                      <Label htmlFor="notes">Notes</Label>
+                      <Textarea
+                        id="notes"
+                        placeholder="Add any additional information about this lead..."
+                        rows={4}
+                        value={formData.notes}
+                        onChange={(e) => handleChange("notes", e.target.value)}
+                      />
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Assignment & Priority */}
+              <div className="lg:col-span-1">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Assignment</CardTitle>
+                    <CardDescription>Set priority and assign to team member</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    {/* Priority */}
+                    <div className="space-y-2">
+                      <Label htmlFor="priority">Priority</Label>
+                      <Select
+                        value={formData.priority}
+                        onValueChange={(value) => handleChange("priority", value as "hot" | "warm" | "cold")}
+                      >
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="hot">
+                            <div className="flex items-center gap-2">
+                              <div className="h-2 w-2 rounded-full bg-red-500" />
+                              Hot
+                            </div>
+                          </SelectItem>
+                          <SelectItem value="warm">
+                            <div className="flex items-center gap-2">
+                              <div className="h-2 w-2 rounded-full bg-orange-500" />
+                              Warm
+                            </div>
+                          </SelectItem>
+                          <SelectItem value="cold">
+                            <div className="flex items-center gap-2">
+                              <div className="h-2 w-2 rounded-full bg-blue-500" />
+                              Cold
+                            </div>
+                          </SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
 
-                    {formData.referralType && formData.referralType !== "none" && (
-                      <div className="space-y-2">
-                        <Label htmlFor="referralName">Referred By</Label>
-                        <div className="flex gap-2">
-                          <div className="flex-1 relative">
-                            <Input
-                              id="referralName"
-                              placeholder="Search or type name"
-                              value={formData.referralName}
-                              onChange={(e) => handleChange("referralName", e.target.value)}
-                              onFocus={() => {
-                                const referralList = formData.referralType === "technician" ? mockTechnicians : mockCustomers;
-                                if (formData.referralName.length === 0) {
-                                  setReferralSuggestions(referralList);
-                                }
-                                setShowReferralSuggestions(true);
-                              }}
-                              onBlur={() => setTimeout(() => setShowReferralSuggestions(false), 200)}
-                              autoComplete="off"
-                            />
-                            {showReferralSuggestions && referralSuggestions.length > 0 && (
-                              <div className="absolute z-50 w-full mt-1 bg-background border rounded-lg shadow-lg max-h-60 overflow-y-auto">
-                                {referralSuggestions.map((suggestion, index) => (
-                                  <button
-                                    key={index}
-                                    type="button"
-                                    className="w-full px-4 py-2 text-left text-sm hover:bg-muted transition-colors first:rounded-t-lg last:rounded-b-lg"
-                                    onClick={() => handleReferralSelect(suggestion)}
-                                  >
-                                    {suggestion}
-                                  </button>
-                                ))}
-                              </div>
-                            )}
-                          </div>
-                          <Button
-                            type="button"
-                            variant="outline"
-                            size="icon"
-                            onClick={() => setShowAddReferralDialog(true)}
-                            title="Add new referral"
-                          >
-                            <Plus className="h-4 w-4" />
-                          </Button>
-                        </div>
+                    {/* Assigned To */}
+                    <div className="space-y-2">
+                      <Label htmlFor="assignedTo">Assign To</Label>
+                      <Select
+                        value={formData.assignedTo}
+                        onValueChange={(value) => handleChange("assignedTo", value)}
+                      >
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {teamMembers.map((member) => (
+                            <SelectItem key={member} value={member}>
+                              {member}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    {/* Info Box */}
+                    <div className="pt-4 border-t">
+                      <div className="rounded-lg bg-muted p-4 space-y-2">
+                        <h4 className="font-medium text-sm">Lead Status</h4>
                         <p className="text-xs text-muted-foreground">
-                          {formData.referralType === "technician" ? "Select a technician who referred this lead" : "Select a customer who referred this lead"}
+                          New leads are automatically set to <span className="font-semibold">"New"</span> status and will appear in the team member's queue.
                         </p>
                       </div>
-                    )}
+                    </div>
                   </CardContent>
                 </Card>
 
-                {/* Address with Autocomplete */}
-                <div className="space-y-2 relative">
-                  <Label htmlFor="address">Address</Label>
-                  <Input
-                    id="address"
-                    placeholder="Start typing address..."
-                    value={formData.address}
-                    onChange={(e) => handleChange("address", e.target.value)}
-                    onFocus={() => formData.address.length > 2 && setShowAddressSuggestions(true)}
-                    autoComplete="off"
-                  />
-                  {showAddressSuggestions && addressSuggestions.length > 0 && (
-                    <div className="absolute z-50 w-full mt-1 bg-background border rounded-lg shadow-lg max-h-60 overflow-y-auto">
-                      {addressSuggestions.map((suggestion, index) => (
-                        <button
-                          key={index}
-                          type="button"
-                          className="w-full px-4 py-2 text-left text-sm hover:bg-muted transition-colors first:rounded-t-lg last:rounded-b-lg"
-                          onClick={() => handleAddressSelect(suggestion)}
-                        >
-                          {suggestion}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                  <p className="text-xs text-muted-foreground">
-                    Property address for service location
-                  </p>
-                </div>
-
-                {/* Address Details - Show after autocomplete selection */}
-                {showAddressDetails && (
-                  <div className="grid gap-4 sm:grid-cols-2 p-4 border rounded-lg bg-muted/30">
-                    <div className="space-y-2">
-                      <Label htmlFor="state">State</Label>
-                      <Select
-                        value={formData.state}
-                        onValueChange={(value) => handleChange("state", value)}
-                      >
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select state" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="QLD">Queensland</SelectItem>
-                          <SelectItem value="NSW">New South Wales</SelectItem>
-                          <SelectItem value="VIC">Victoria</SelectItem>
-                          <SelectItem value="WA">Western Australia</SelectItem>
-                          <SelectItem value="SA">South Australia</SelectItem>
-                          <SelectItem value="TAS">Tasmania</SelectItem>
-                          <SelectItem value="ACT">Australian Capital Territory</SelectItem>
-                          <SelectItem value="NT">Northern Territory</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="suburb">Suburb/City</Label>
-                      <Select
-                        value={formData.suburb}
-                        onValueChange={(value) => handleChange("suburb", value)}
-                        disabled={!formData.state}
-                      >
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select suburb" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {formData.state === "QLD" && (
-                            <>
-                              <SelectItem value="Brisbane">Brisbane</SelectItem>
-                              <SelectItem value="Gold Coast">Gold Coast</SelectItem>
-                              <SelectItem value="Sunshine Coast">Sunshine Coast</SelectItem>
-                              <SelectItem value="Cairns">Cairns</SelectItem>
-                              <SelectItem value="Townsville">Townsville</SelectItem>
-                            </>
-                          )}
-                          {formData.state === "NSW" && (
-                            <>
-                              <SelectItem value="Sydney">Sydney</SelectItem>
-                              <SelectItem value="Newcastle">Newcastle</SelectItem>
-                              <SelectItem value="Wollongong">Wollongong</SelectItem>
-                              <SelectItem value="Central Coast">Central Coast</SelectItem>
-                              <SelectItem value="Blue Mountains">Blue Mountains</SelectItem>
-                            </>
-                          )}
-                          {formData.state === "VIC" && (
-                            <>
-                              <SelectItem value="Melbourne">Melbourne</SelectItem>
-                              <SelectItem value="Geelong">Geelong</SelectItem>
-                              <SelectItem value="Ballarat">Ballarat</SelectItem>
-                              <SelectItem value="Bendigo">Bendigo</SelectItem>
-                            </>
-                          )}
-                          {formData.state === "WA" && (
-                            <>
-                              <SelectItem value="Perth">Perth</SelectItem>
-                              <SelectItem value="Fremantle">Fremantle</SelectItem>
-                              <SelectItem value="Mandurah">Mandurah</SelectItem>
-                            </>
-                          )}
-                          {formData.state === "SA" && (
-                            <>
-                              <SelectItem value="Adelaide">Adelaide</SelectItem>
-                              <SelectItem value="Glenelg">Glenelg</SelectItem>
-                            </>
-                          )}
-                          {formData.state === "TAS" && (
-                            <>
-                              <SelectItem value="Hobart">Hobart</SelectItem>
-                              <SelectItem value="Launceston">Launceston</SelectItem>
-                            </>
-                          )}
-                          {formData.state === "ACT" && (
-                            <SelectItem value="Canberra">Canberra</SelectItem>
-                          )}
-                          {formData.state === "NT" && (
-                            <>
-                              <SelectItem value="Darwin">Darwin</SelectItem>
-                              <SelectItem value="Alice Springs">Alice Springs</SelectItem>
-                            </>
-                          )}
-                        </SelectContent>
-                      </Select>
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="postalCode">Postal Code</Label>
-                      <Input
-                        id="postalCode"
-                        placeholder="Postal Code"
-                        value={formData.postalCode}
-                        onChange={(e) => handleChange("postalCode", e.target.value)}
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="country">Country</Label>
-                      <Input
-                        id="country"
-                        placeholder="Country"
-                        value={formData.country}
-                        onChange={(e) => handleChange("country", e.target.value)}
-                        readOnly
-                      />
-                    </div>
-                  </div>
-                )}
-
-                {/* Source */}
-                <div className="space-y-2">
-                  <Label htmlFor="source">
-                    Lead Source <span className="text-red-500">*</span>
-                  </Label>
-                  <Select
-                    value={formData.source}
-                    onValueChange={(value) => handleChange("source", value)}
+                {/* Action Buttons */}
+                <div className="mt-6 space-y-3">
+                  <Button
+                    type="submit"
+                    className="w-full gap-2"
+                    disabled={isSubmitting}
                   >
-                    <SelectTrigger className={errors.source ? "border-red-500" : ""}>
-                      <SelectValue placeholder="Select source" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {sourceOptions.map((option) => (
-                        <SelectItem key={option.value} value={option.value}>
-                          {option.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  {errors.source && (
-                    <p className="text-sm text-red-500">{errors.source}</p>
-                  )}
-                </div>
-
-                {/* Notes */}
-                <div className="space-y-2">
-                  <Label htmlFor="notes">Notes</Label>
-                  <Textarea
-                    id="notes"
-                    placeholder="Add any additional information about this lead..."
-                    rows={4}
-                    value={formData.notes}
-                    onChange={(e) => handleChange("notes", e.target.value)}
-                  />
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Assignment & Priority */}
-          <div className="lg:col-span-1">
-            <Card>
-              <CardHeader>
-                <CardTitle>Assignment</CardTitle>
-                <CardDescription>Set priority and assign to team member</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {/* Priority */}
-                <div className="space-y-2">
-                  <Label htmlFor="priority">Priority</Label>
-                  <Select
-                    value={formData.priority}
-                    onValueChange={(value) => handleChange("priority", value as "hot" | "warm" | "cold")}
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                        Creating Lead...
+                      </>
+                    ) : (
+                      <>
+                        <Save className="h-4 w-4" />
+                        Create Lead
+                      </>
+                    )}
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="w-full"
+                    onClick={() => router.back()}
+                    disabled={isSubmitting}
                   >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="hot">
-                        <div className="flex items-center gap-2">
-                          <div className="h-2 w-2 rounded-full bg-red-500" />
-                          Hot
-                        </div>
-                      </SelectItem>
-                      <SelectItem value="warm">
-                        <div className="flex items-center gap-2">
-                          <div className="h-2 w-2 rounded-full bg-orange-500" />
-                          Warm
-                        </div>
-                      </SelectItem>
-                      <SelectItem value="cold">
-                        <div className="flex items-center gap-2">
-                          <div className="h-2 w-2 rounded-full bg-blue-500" />
-                          Cold
-                        </div>
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
+                    Cancel
+                  </Button>
                 </div>
-
-                {/* Assigned To */}
-                <div className="space-y-2">
-                  <Label htmlFor="assignedTo">Assign To</Label>
-                  <Select
-                    value={formData.assignedTo}
-                    onValueChange={(value) => handleChange("assignedTo", value)}
-                  >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {teamMembers.map((member) => (
-                        <SelectItem key={member} value={member}>
-                          {member}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                {/* Info Box */}
-                <div className="pt-4 border-t">
-                  <div className="rounded-lg bg-muted p-4 space-y-2">
-                    <h4 className="font-medium text-sm">Lead Status</h4>
-                    <p className="text-xs text-muted-foreground">
-                      New leads are automatically set to <span className="font-semibold">"New"</span> status and will appear in the team member's queue.
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Action Buttons */}
-            <div className="mt-6 space-y-3">
-              <Button
-                type="submit"
-                className="w-full gap-2"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? (
-                  <>
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                    Creating Lead...
-                  </>
-                ) : (
-                  <>
-                    <Save className="h-4 w-4" />
-                    Create Lead
-                  </>
-                )}
-              </Button>
-              <Button
-                type="button"
-                variant="outline"
-                className="w-full"
-                onClick={() => router.back()}
-                disabled={isSubmitting}
-              >
-                Cancel
-              </Button>
+              </div>
             </div>
-          </div>
-        </div>
-      </form>
+          </form>
         </div>
       </div>
     </>
