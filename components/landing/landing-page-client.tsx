@@ -62,8 +62,8 @@ export function LandingPageClient() {
 
     return (
         <div className="flex flex-col min-h-screen bg-muted/10 selection:bg-[#FF3B6B] selection:text-white">
-            {/* Device Toolbar */}
-            <DeviceToolbar currentDevice={device} onDeviceChange={setDevice} />
+            {/* Device Toolbar - Hidden in production */}
+            {process.env.NODE_ENV === 'development' && <DeviceToolbar currentDevice={device} onDeviceChange={setDevice} />}
 
             {/* Main Content Wrapper - Simulator */}
             <div className={getContainerClass()}>
@@ -72,14 +72,14 @@ export function LandingPageClient() {
                     className={cn(
                         isSimulated
                             ? "absolute top-0 w-full left-0 bg-background/50"
-                            : "fixed top-[46px] w-full left-0 right-0 bg-background/80"
+                            : process.env.NODE_ENV === 'development' ? "fixed top-[46px] w-full left-0 right-0 bg-background/80" : "fixed top-0 w-full left-0 right-0 bg-background/80"
                     )}
                 />
 
                 <main className="flex-1 relative pt-16">
                     {/* Animated Lightning Background */}
                     <div className={cn("absolute top-0 left-0 right-0 overflow-hidden pointer-events-none z-0", isSimulated ? "h-full" : "h-[800px]")}>
-                        <Lightning className="opacity-40" intensity={2} />
+                        <Lightning className="opacity-70" intensity={2} />
                     </div>
 
                     {/* Hero Section */}
@@ -218,7 +218,7 @@ function TechStackSection() {
     return (
         <section ref={ref} className="py-12 bg-muted/30 border-y relative group">
             {/* Gradient overlay on hover */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#FF3B6B]/0 via-[#FF3B6B]/5 to-[#FF3B6B]/0 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#FF3B6B]/0 via-[#FF3B6B]/15 to-[#FF3B6B]/0 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
 
             <div className="container mx-auto px-4 sm:px-6 text-center relative z-10">
                 <p className={cn(
@@ -258,8 +258,8 @@ function FeaturesSection({ isMobile }: { isMobile: boolean }) {
 
     return (
         <section ref={ref} id="features" className="py-20 bg-background relative group">
-            {/* Gradient overlay on hover */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#FF3B6B]/0 via-[#FF3B6B]/5 to-[#FF3B6B]/0 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+            {/* Gradient overlay on hover - Stronger for light mode */}
+            <div className="absolute inset-0 bg-gradient-to-r from-[#FF3B6B]/0 via-[#FF3B6B]/15 to-[#FF3B6B]/0 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
 
             <div className="container mx-auto px-4 sm:px-6 relative z-10">
                 <div

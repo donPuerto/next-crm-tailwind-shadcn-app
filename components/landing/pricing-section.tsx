@@ -67,9 +67,9 @@ export function PricingSection() {
     const { ref, isVisible } = useScrollAnimation({ threshold: 0.1 });
 
     return (
-        <section ref={ref} id="pricing" className="py-16 md:py-24 bg-muted/30 relative group">
+        <section ref={ref} id="pricing" className="py-16 md:py-24 bg-muted/50 relative group">
             {/* Gradient overlay on hover */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#FF3B6B]/0 via-[#FF3B6B]/5 to-[#FF3B6B]/0 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#FF3B6B]/0 via-[#FF3B6B]/15 to-[#FF3B6B]/0 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
 
             <div className="container mx-auto px-4 sm:px-6 relative z-10">
                 <div className="text-center mb-16">
