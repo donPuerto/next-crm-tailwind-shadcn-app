@@ -1,11 +1,30 @@
-# Next.js App
+# Next.js CRM (Enterprise-Ready)
 
-A modern Next.js application built with TypeScript, Tailwind CSS v4, and a dynamic theming system.
+A modern, high-performance CRM (Customer Relationship Management) system built with **Next.js 16 (App Router)**, **TypeScript**, **Tailwind CSS v4**, and **Supabase**. Designed for multi-tenant organizations with granular RBAC and field service capabilities.
 
-## 🚀 Tech Stack
+## 🚀 CRM Core Features
 
-- **Framework:** Next.js 16 (App Router)
-- **Language:** TypeScript
+### 🏢 Entity Management
+- **Organizations & Teams**: Native multi-tenancy support for enterprise scaling.
+- **Companies & Contacts**: Advanced relationship tracking with normalized addresses and phone storage.
+- **Profiles & RBAC**: Granular permission system (Admin, Sales, Technician, etc.) with dedicated performance stats.
+
+### 📈 Sales & Field Service
+- **Sales Pipeline**: Track opportunities from Lead to Won/Lost with source attribution.
+- **Task Management**: Advanced ClickUp-style tasks with subtasks, labels, and checklists.
+- **Quotes & Invoicing**: Professional proposal generation and billing lifecycle management.
+- **Jobs & Scheduling**: Dispatching system for field technicians with GPS history tracking.
+
+### 🛠️ Collaboration & Productivity
+- **Rich Notes & Comments**: Pinned documentation and team collaboration threads.
+- **User Integrations**: Secure OAuth connectivity for Google, Slack, and Outlook.
+- **Automated Workflows**: Designed for seamless integration with **n8n** for external accounting (Xero/QuickBooks).
+
+## 💻 Tech Stack
+
+- **Framework:** Next.js 16 (App Router, Server Components)
+- **Database/Auth:** Supabase (PostgreSQL)
+- **Language:** TypeScript (Strict Mode)
 - **Styling:** Tailwind CSS v4 + Shadcn UI
 - **Package Manager:** Bun
 - **Theme System:** Dynamic Theme Switching (Colors, Radius, Styles)
@@ -14,54 +33,43 @@ A modern Next.js application built with TypeScript, Tailwind CSS v4, and a dynam
 
 ```
 app/
-├── (auth)/               # Login/Register routes
-├── dashboard/            # Main application area (Sidebar Layout)
-├── hooks/                # Custom React Hooks
+├── (auth)/               # Multi-tenant Login/Register
+├── dashboard/            # Main CRM Modules (Leads, Contacts, Sales, Analytics)
+├── hooks/                # CRM-specific React Hooks
 └── layout.tsx            # Global Root Layout
-
 components/
-├── ui/                   # shadcn/ui components (Do not modify structure)
-├── custom/               # Custom application components
-└── layout/               # Global layout components (Sidebar, Navbar)
-
+├── ui/                   # shadcn/ui shared components
+├── custom/               # CRM-specific UI components
+└── layout/               # Global layout (Sidebar, Navbar)
 lib/
-├── constants/            # Configuration constants
-└── utils.ts              # Utility functions
+├── constants/            # System-wide configuration
+└── utils.ts              # Business logic utilities
 ```
 
-## 👩‍💻 Agent Instructions & Standards
-
-This project follows strict coding standards. Please refer to the `.github/instructions/` folder for detailed guidelines.
+## 👩‍💻 Developer Standards
 
 | ID | Topic | Description |
 |---|---|---|
-| **01** | [Project Overview](.github/instructions/01-project-overview.md) | Architecture, Server Components, and Goals. |
-| **02** | [App Structure](.github/instructions/02-app-structure.md) | Folder layout, Dashboard patterns, and Routing. |
-| **03** | [Coding Standards](.github/instructions/03-coding-standards.md) | TypeScript, ESLint, Comments, and Docs. |
-| **04** | [Styling & Theming](.github/instructions/04-styling-and-theming.md) | CSS Variables, Theme System (`useTheme`), Tailwind rules. |
-| **05** | [Components & Hooks](.github/instructions/05-components-and-hooks.md) | Usage of shadcn/ui vs Custom components. |
-| **06** | [Best Practices](.github/instructions/06-performance-and-best-practices.md) | Performance, Accessibility, and Security. |
+| **01** | [Project Overview](.github/instructions/01-project-overview.md) | Architecture and CRM Goals. |
+| **04** | [Styling & Theming](.github/instructions/04-styling-and-theming.md) | CSS Variables & Theme System. |
+| **05** | [Components & Hooks](.github/instructions/05-components-and-hooks.md) | shadcn vs Custom CRM components. |
+| **08** | [Database Schema](supabase/schema.md) | Entity relationships and SQL definitions. |
 
-## 🛠️ Getting Started
+## 🛠️ Implementation & Setup
 
 1.  **Install dependencies:**
     ```bash
     bun install
     ```
-
-2.  **Run development server:**
+2.  **Environment Setup:** Update `.env.local` with your Supabase credentials.
+3.  **Run development server:**
     ```bash
     bun dev
     ```
 
-3.  **Build for production:**
-    ```bash
-    bun run build
-    ```
-
 ## ⚠️ Important Rules
 
-- **Strict Mode**: TypeScript strict mode is enabled. No `any`.
-- **Linter**: Run `bun run lint` before committing.
-- **Components**: Always check `components/ui` (shadcn) before creating custom components.
-- **Theming**: Use the `useTheme` hook for color logic; never hardcode hex values.
+- **Schema First**: Every UI change must be reflected in `supabase/schema.md`.
+- **Strict Typing**: No `any`. Utilize generated types for Supabase relations.
+- **Performance**: Prioritize Server Components for data-heavy CRM tables.
+- **Theming**: Always use `useTheme` for dynamic visual consistency.
