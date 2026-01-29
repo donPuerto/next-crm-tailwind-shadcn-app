@@ -1,5 +1,7 @@
 # Next.js CRM (Enterprise-Ready)
 
+[![Production](https://img.shields.io/badge/Production-Live-green)](https://next-crm-tailwind-shadcn-app.vercel.app/)
+
 A modern, high-performance CRM (Customer Relationship Management) system built with **Next.js 16 (App Router)**, **TypeScript**, **Tailwind CSS v4**, and **Supabase**. Designed for multi-tenant organizations with granular RBAC and field service capabilities.
 
 ## 🚀 CRM Core Features

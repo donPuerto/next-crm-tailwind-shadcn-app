@@ -419,7 +419,7 @@ export default function LeadDashboardPage() {
                   <XAxis dataKey="month" tickLine={false} axisLine={false} />
                   <YAxis tickLine={false} axisLine={false} tickFormatter={formatValueK} />
                   <ChartTooltip content={<ChartTooltipContent formatter={(value: ValueType) => `$${getValueNumber(value).toLocaleString()}`} />} />
-                  <Bar dataKey="value" fill={colors.chart3} radius={[4, 4, 0, 0]} label={{ position: 'top', formatter: formatValueK }} />
+                  <Bar dataKey="value" fill={colors.chart3} radius={[4, 4, 0, 0]} label={{ position: 'top', formatter: (value: any) => `$${(value / 1000).toFixed(0)}k` }} />
                 </BarChart>
               </ChartContainer>
             </CardContent>
