@@ -83,3 +83,8 @@ lib/
 - **Strict Typing**: No `any`. Utilize generated types for Supabase relations.
 - **Performance**: Prioritize Server Components for data-heavy CRM tables.
 - **Theming**: Always use `useTheme` for dynamic visual consistency.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
