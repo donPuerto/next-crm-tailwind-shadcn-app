@@ -13,38 +13,18 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { SidebarTrigger } from "@/components/ui/sidebar";
-import { Separator } from "@/components/ui/separator";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
 import {
   TrendingUp,
   TrendingDown,
-  Target,
   Users,
-  Clock,
   CheckCircle2,
   DollarSign,
   Award,
   Zap,
-  Phone,
   Plus,
   Settings2,
   X,
-  CalendarIcon,
-  Globe,
-  Mail,
-  Facebook,
-  MessageCircle,
-  Instagram,
-  Voicemail,
-  Wrench
+  CalendarIcon
 } from "lucide-react";
 import { Area, AreaChart, Bar, BarChart, CartesianGrid, XAxis, YAxis, Pie, PieChart, Cell } from "recharts";
 import type { NameType, ValueType } from "recharts/types/component/DefaultTooltipContent";
@@ -141,7 +121,7 @@ const defaultWidgets: Widget[] = [
 ];
 
 export default function LeadDashboardPage() {
-  const { theme, color } = useTheme();
+  const { theme: _theme, color: _color } = useTheme();
   const [widgets, setWidgets] = useState<Widget[]>(defaultWidgets);
   const [showWidgetSettings, setShowWidgetSettings] = useState(false);
   const [colors, setColors] = useState(() => {
@@ -150,7 +130,7 @@ export default function LeadDashboardPage() {
       const currentColor = (localStorage.getItem('app-color') || 'pink') as keyof typeof COLOR_CONFIG;
       const baseColor = COLOR_CONFIG[currentColor]?.hex || '#EC4899';
 
-      const adjustBrightness = (hex: string, percent: number): string => {
+      const internalAdjustBrightness = (hex: string, percent: number): string => {
         const num = parseInt(hex.replace('#', ''), 16);
         const amt = Math.round(2.55 * percent);
         const R = Math.min(255, (num >> 16) + amt);
@@ -164,9 +144,9 @@ export default function LeadDashboardPage() {
 
       return {
         chart1: baseColor,
-        chart2: adjustBrightness(baseColor, -15),
-        chart3: adjustBrightness(baseColor, -30),
-        chart4: adjustBrightness(baseColor, 15),
+        chart2: internalAdjustBrightness(baseColor, -15),
+        chart3: internalAdjustBrightness(baseColor, -30),
+        chart4: internalAdjustBrightness(baseColor, 15),
       };
     }
 
@@ -193,15 +173,11 @@ export default function LeadDashboardPage() {
 
   // Prevent hydration mismatch by only rendering after mount
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-
-  // Helper function to convert hex to oklch (simplified - uses the hex color directly)
-  const hexToColor = (hex: string): string => {
-    return hex; // Recharts accepts hex colors directly
-  };
 
   // Helper function to adjust color brightness
   const adjustBrightness = (hex: string, percent: number): string => {
@@ -261,12 +237,6 @@ export default function LeadDashboardPage() {
     };
   }, []); // Empty dependency array - only run on mount and when event fires
 
-  // Log when date range changes (for debugging/demonstration)
-  useEffect(() => {
-    // TODO: In production, this would trigger an API call to fetch filtered data
-    // For now, the data is static so visual changes won't occur
-  }, [dateRange]);
-
   const toggleWidget = (widgetId: string) => {
     setWidgets(prev => prev.map(w => w.id === widgetId ? { ...w, enabled: !w.enabled } : w));
   };
@@ -304,7 +274,6 @@ export default function LeadDashboardPage() {
   const totalLeads = filteredLeads.length;
   const convertedLeads = filteredLeads.filter(l => l.status === "converted").length;
   const lostLeads = filteredLeads.filter(l => l.status === "lost").length;
-  const conversionRate = totalLeads > 0 ? ((convertedLeads / totalLeads) * 100).toFixed(1) : "0.0";
 
   // Calculate number of days in range
   const daysDiff = Math.max(1, Math.ceil((dateRange.to.getTime() - dateRange.from.getTime()) / (1000 * 60 * 60 * 24)) + 1);
@@ -318,9 +287,6 @@ export default function LeadDashboardPage() {
   const avgDealValue = 8450;
   const totalRevenue = convertedLeads * avgDealValue;
   const revenuePerDay = (totalRevenue / daysDiff).toFixed(0);
-
-  const totalCallsMade = 511;
-  const avgResponseTime = "14 min";
 
   // Lead sources stats from filtered data with conversion rates
   const sourceStats = [
@@ -378,7 +344,7 @@ export default function LeadDashboardPage() {
       .slice(0, 6); // Show top 6 sources only
 
     // Custom label renderer for pie chart
-    const renderCustomLabel = (entry: any) => {
+    const renderCustomLabel = (entry: { name: string; value: number; percentage: string }) => {
       return `${entry.name}\n${entry.value} (${entry.percentage}%)`;
     };
 
@@ -419,7 +385,7 @@ export default function LeadDashboardPage() {
                   <XAxis dataKey="month" tickLine={false} axisLine={false} />
                   <YAxis tickLine={false} axisLine={false} tickFormatter={formatValueK} />
                   <ChartTooltip content={<ChartTooltipContent formatter={(value: ValueType) => `$${getValueNumber(value).toLocaleString()}`} />} />
-                  <Bar dataKey="value" fill={colors.chart3} radius={[4, 4, 0, 0]} label={{ position: 'top', formatter: (value: any) => `$${(value / 1000).toFixed(0)}k` }} />
+                  <Bar dataKey="value" fill={colors.chart3} radius={[4, 4, 0, 0]} label={{ position: 'top', formatter: (value: number | string | (string | number)[]) => `$${(getValueNumber(value) / 1000).toFixed(0)}k` }} />
                 </BarChart>
               </ChartContainer>
             </CardContent>
@@ -842,8 +808,6 @@ export default function LeadDashboardPage() {
                   {teamStats.map((member, index) => {
                     const maxLeads = Math.max(...teamStats.map(t => t.leads));
                     const barWidth = (member.leads / maxLeads) * 100;
-                    const convertedWidth = member.leads > 0 ? (member.converted / member.leads) * 100 : 0;
-                    const lostWidth = member.leads > 0 ? (member.lost / member.leads) * 100 : 0;
 
                     return (
                       <div key={member.name} className="space-y-2">
@@ -909,7 +873,7 @@ export default function LeadDashboardPage() {
                 <CardContent>
                   <div className="space-y-4">
                     {sourceStats.slice(0, 8).map((stat) => {
-                      const Icon = sourceIcons[stat.source as keyof typeof sourceIcons];
+                      const IconComponent = sourceIcons[stat.source as keyof typeof sourceIcons];
                       const maxCount = Math.max(...sourceStats.map(s => s.count));
                       const barWidth = stat.count > 0 ? (stat.count / maxCount) * 100 : 0;
 
@@ -917,7 +881,7 @@ export default function LeadDashboardPage() {
                         <div key={stat.source} className="space-y-1">
                           <div className="flex items-center justify-between text-sm">
                             <div className="flex items-center gap-2 flex-1">
-                              <Icon className="h-4 w-4 text-primary" />
+                              {IconComponent && <IconComponent className="h-4 w-4 text-primary" />}
                               <span className="font-medium">{sourceLabels[stat.source as keyof typeof sourceLabels]}</span>
                             </div>
                             <div className="flex items-center gap-3 text-xs text-muted-foreground">

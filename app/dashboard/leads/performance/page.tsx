@@ -3,11 +3,10 @@
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { 
+import {
   TrendingUp,
   TrendingDown,
   Target,
-  Users,
   Clock,
   CheckCircle2,
   XCircle,
@@ -83,21 +82,21 @@ export default function LeadPerformancePage() {
           </p>
         </div>
         <div className="flex gap-2">
-          <Button 
+          <Button
             variant={selectedPeriod === "week" ? "default" : "outline"}
             size="sm"
             onClick={() => setSelectedPeriod("week")}
           >
             This Week
           </Button>
-          <Button 
+          <Button
             variant={selectedPeriod === "month" ? "default" : "outline"}
             size="sm"
             onClick={() => setSelectedPeriod("month")}
           >
             This Month
           </Button>
-          <Button 
+          <Button
             variant={selectedPeriod === "quarter" ? "default" : "outline"}
             size="sm"
             onClick={() => setSelectedPeriod("quarter")}
@@ -188,10 +187,9 @@ export default function LeadPerformancePage() {
                     <div className="text-sm text-muted-foreground">{stage.percentage}%</div>
                   </div>
                   <div className="w-full bg-muted rounded-full h-3 overflow-hidden">
-                    <div 
-                      className={`h-full rounded-full ${
-                        isLast ? 'bg-green-500' : 'bg-primary'
-                      }`}
+                    <div
+                      className={`h-full rounded-full ${isLast ? 'bg-green-500' : 'bg-primary'
+                        }`}
                       style={{ width: `${stage.percentage}%` }}
                     />
                   </div>
@@ -219,12 +217,12 @@ export default function LeadPerformancePage() {
             <ChartContainer config={chartConfig} className="h-[300px] w-full">
               <AreaChart data={weeklyTrendData}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis 
-                  dataKey="week" 
+                <XAxis
+                  dataKey="week"
                   tickLine={false}
                   axisLine={false}
                 />
-                <YAxis 
+                <YAxis
                   tickLine={false}
                   axisLine={false}
                 />
@@ -257,15 +255,15 @@ export default function LeadPerformancePage() {
             <ChartContainer config={chartConfig} className="h-[300px] w-full">
               <BarChart data={responseTimeData}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis 
+                <XAxis
                   dataKey="time"
                   tickLine={false}
                   axisLine={false}
                 />
-                <YAxis 
+                <YAxis
                   tickLine={false}
                   axisLine={false}
-                  tickFormatter={(value) => `${value}%`}
+                  tickFormatter={(value: number) => `${value}%`}
                 />
                 <ChartTooltip content={<ChartTooltipContent />} />
                 <Bar dataKey="conversion" fill="hsl(var(--chart-2))" radius={[4, 4, 0, 0]} />

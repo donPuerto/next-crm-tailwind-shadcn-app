@@ -98,6 +98,16 @@ export const MENU_ACCENT_STORAGE_KEY = 'app-menu-accent';
 export const DARK_MODE_STORAGE_KEY = 'app-dark-mode';
 export const LAYOUT_MODE_STORAGE_KEY = 'app-layout-mode';
 
+// Font options
+export const AVAILABLE_SANS_FONTS = ['default', 'inter', 'noto', 'nunito', 'figtree'] as const;
+export type FontSansOption = (typeof AVAILABLE_SANS_FONTS)[number];
+
+export const AVAILABLE_SERIF_FONTS = ['default', 'georgia'] as const;
+export type FontSerifOption = (typeof AVAILABLE_SERIF_FONTS)[number];
+
+export const AVAILABLE_MONO_FONTS = ['default', 'geist-mono'] as const;
+export type FontMonoOption = (typeof AVAILABLE_MONO_FONTS)[number];
+
 /**
  * Convert hex color to oklch
  * Used for applying theme colors dynamically

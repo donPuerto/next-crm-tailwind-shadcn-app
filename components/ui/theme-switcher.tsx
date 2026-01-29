@@ -4,14 +4,21 @@ import { useTheme } from '@/app/hooks/useTheme';
 import {
   THEME_CONFIG,
   AVAILABLE_THEMES,
+  Theme,
   COLOR_CONFIG,
   AVAILABLE_COLORS,
+  ThemeColor,
   AVAILABLE_BASE_COLORS,
   BASE_COLOR_CONFIG,
   AVAILABLE_STYLES,
   STYLE_CONFIG,
+  StylePreset,
   AVAILABLE_RADII,
-  AVAILABLE_MENU_ACCENTS
+  RadiusOption,
+  AVAILABLE_MENU_ACCENTS,
+  FontSansOption,
+  FontSerifOption,
+  FontMonoOption
 } from '@/lib/constants/themes';
 import {
   Select,
@@ -53,7 +60,7 @@ export function ThemeSwitcher() {
       {/* Theme Switcher */}
       <div className="flex flex-col gap-2">
         <label className="text-sm font-medium text-foreground">Theme</label>
-        <Select value={theme} onValueChange={(v) => setTheme(v as any)}>
+        <Select value={theme} onValueChange={(v) => setTheme(v as Theme)}>
           <SelectTrigger aria-label="Select Theme" size="sm" className="w-full">
             <SelectValue placeholder="Theme" />
           </SelectTrigger>
@@ -70,7 +77,7 @@ export function ThemeSwitcher() {
       {/* Color Switcher */}
       <div className="flex flex-col gap-2">
         <label className="text-sm font-medium text-foreground">Accent Color</label>
-        <Select value={color} onValueChange={(v) => setColor(v as any)}>
+        <Select value={color} onValueChange={(v) => setColor(v as ThemeColor)}>
           <SelectTrigger aria-label="Select Accent Color" size="sm" className="w-full">
             <SelectValue placeholder="Accent Color" />
           </SelectTrigger>
@@ -94,9 +101,8 @@ export function ThemeSwitcher() {
               <button
                 key={base}
                 onClick={() => setBaseColor(base)}
-                className={`px-2 py-1 rounded border text-xs transition-colors ${
-                  baseColor === base ? 'bg-muted text-foreground border-foreground' : 'bg-background text-foreground border-border hover:bg-muted'
-                }`}
+                className={`px-2 py-1 rounded border text-xs transition-colors ${baseColor === base ? 'bg-muted text-foreground border-foreground' : 'bg-background text-foreground border-border hover:bg-muted'
+                  }`}
                 aria-label={`Set base color ${info.name}`}
               >
                 {info.name}
@@ -109,7 +115,7 @@ export function ThemeSwitcher() {
       {/* Style Preset */}
       <div className="flex flex-col gap-2">
         <label className="text-sm font-medium text-foreground">Style</label>
-        <Select value={style} onValueChange={(v) => setStyle(v as any)}>
+        <Select value={style} onValueChange={(v) => setStyle(v as StylePreset)}>
           <SelectTrigger aria-label="Select Style" size="sm" className="w-full">
             <SelectValue placeholder="Style" />
           </SelectTrigger>
@@ -126,7 +132,7 @@ export function ThemeSwitcher() {
       {/* Radius Preset */}
       <div className="flex flex-col gap-2">
         <label className="text-sm font-medium text-foreground">Radius</label>
-        <Select value={radius} onValueChange={(v) => setRadius(v as any)}>
+        <Select value={radius} onValueChange={(v) => setRadius(v as RadiusOption)}>
           <SelectTrigger aria-label="Select Radius" size="sm" className="w-full">
             <SelectValue placeholder="Radius" />
           </SelectTrigger>
@@ -148,9 +154,8 @@ export function ThemeSwitcher() {
             <button
               key={m}
               onClick={() => setMenuAccent(m)}
-              className={`px-2 py-1 rounded border text-xs transition-colors ${
-                menuAccent === m ? 'bg-muted text-foreground border-foreground' : 'bg-background text-foreground border-border hover:bg-muted'
-              }`}
+              className={`px-2 py-1 rounded border text-xs transition-colors ${menuAccent === m ? 'bg-muted text-foreground border-foreground' : 'bg-background text-foreground border-border hover:bg-muted'
+                }`}
               aria-label={`Set menu accent ${m}`}
             >
               {m}
@@ -165,7 +170,7 @@ export function ThemeSwitcher() {
         <div className="grid grid-cols-3 gap-2">
           <div className="flex flex-col gap-1">
             <span className="text-xs">Sans</span>
-            <Select value={fontSans} onValueChange={(v) => setFonts({ sans: v as any })}>
+            <Select value={fontSans} onValueChange={(v) => setFonts({ sans: v as FontSansOption })}>
               <SelectTrigger aria-label="Select Sans Font" size="sm" className="w-full">
                 <SelectValue placeholder="Sans" />
               </SelectTrigger>
@@ -180,7 +185,7 @@ export function ThemeSwitcher() {
           </div>
           <div className="flex flex-col gap-1">
             <span className="text-xs">Serif</span>
-            <Select value={fontSerif} onValueChange={(v) => setFonts({ serif: v as any })}>
+            <Select value={fontSerif} onValueChange={(v) => setFonts({ serif: v as FontSerifOption })}>
               <SelectTrigger aria-label="Select Serif Font" size="sm" className="w-full">
                 <SelectValue placeholder="Serif" />
               </SelectTrigger>
@@ -192,7 +197,7 @@ export function ThemeSwitcher() {
           </div>
           <div className="flex flex-col gap-1">
             <span className="text-xs">Mono</span>
-            <Select value={fontMono} onValueChange={(v) => setFonts({ mono: v as any })}>
+            <Select value={fontMono} onValueChange={(v) => setFonts({ mono: v as FontMonoOption })}>
               <SelectTrigger aria-label="Select Mono Font" size="sm" className="w-full">
                 <SelectValue placeholder="Mono" />
               </SelectTrigger>

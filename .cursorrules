@@ -1,9 +1,10 @@
 # AI Copilot Instructions for nextjs-app
 
 > **CRITICAL**: 
-> 1. **READ FIRST**: Before implementing any changes, read the relevant instruction files from `.github/instructions/` folder.
-> 2. **ALWAYS** use the existing `useTheme` hook and theme constants.
-> 3. **COMMENT** every HTML block and function as per the rules below.
+> 1. **READ FIRST**: Before implementing any changes, read the relevant instruction files from `.github/instructions/` folder. **ALWAYS inform the user you have read them first.**
+> 2. **FIX LINT AUTONOMOUSLY**: Whenever you encounter or cause linting/TypeScript errors, or find existing ones via `bun run lint`, fix them **immediately and autonomously** across the entire app. **DO NOT ASK FOR PERMISSION TO FIX ERRORS.**
+> 3. **ALWAYS** use the existing `useTheme` hook and theme constants.
+> 4. **COMMENT** every HTML block and function as per the rules below.
 
 ## ⚠️ Auto-Resolve Warnings Instruction
 

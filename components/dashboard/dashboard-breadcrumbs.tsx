@@ -3,7 +3,6 @@
 import React from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Home, ChevronRight } from "lucide-react"
 import { cn } from "@/lib/utils"
 import {
     Breadcrumb,
@@ -13,8 +12,6 @@ import {
     BreadcrumbPage,
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
-
-import { Button } from "@/components/ui/button"
 
 export function DashboardBreadcrumbs({ fontSize = "text-sm" }: { fontSize?: string }) {
     const pathname = usePathname()

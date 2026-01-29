@@ -28,11 +28,7 @@ export function NavbarApps() {
         Object.fromEntries(APPS.map(app => [app.id, app.defaultEnabled]))
     )
 
-    const toggleApp = (id: string, e: React.MouseEvent) => {
-        e.preventDefault()
-        e.stopPropagation()
-        setEnabledApps(prev => ({ ...prev, [id]: !prev[id] }))
-    }
+
 
     return (
         <DropdownMenu>

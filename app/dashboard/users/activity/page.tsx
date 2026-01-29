@@ -16,7 +16,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
-  Filter,
   Activity,
   User,
   FileEdit,
@@ -25,7 +24,6 @@ import {
   Eye,
   LogIn,
   LogOut,
-  Settings,
   ChevronLeft,
   ChevronRight,
   Download,
@@ -61,7 +59,7 @@ export interface ActivityLog {
   description: string;
   ip_address: string;
   timestamp: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 // Mock data - will be replaced with Supabase query

@@ -57,7 +57,7 @@ const data = [
 ]
 
 export function OverviewChart() {
-    const { theme, color } = useTheme();
+    const { color } = useTheme();
     const [chartColor, setChartColor] = useState('#adfa1d'); // Default green from screenshot
 
     useEffect(() => {
@@ -65,7 +65,9 @@ export function OverviewChart() {
         if (typeof window !== 'undefined') {
             const currentColor = (localStorage.getItem('app-color') || 'pink') as keyof typeof COLOR_CONFIG;
             const baseColor = COLOR_CONFIG[currentColor]?.hex || '#EC4899';
+            /* eslint-disable react-hooks/set-state-in-effect */
             setChartColor(baseColor);
+            /* eslint-enable react-hooks/set-state-in-effect */
         }
     }, [color]);
 
@@ -84,7 +86,7 @@ export function OverviewChart() {
                     fontSize={12}
                     tickLine={false}
                     axisLine={false}
-                    tickFormatter={(value) => `$${value}`}
+                    tickFormatter={(value: number) => `$${value}`}
                 />
                 <Bar
                     dataKey="total"

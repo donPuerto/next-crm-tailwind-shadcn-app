@@ -2,15 +2,12 @@
 
 import {
     BadgeCheck,
-    Bell,
-    CreditCard,
     HelpCircle,
     LayoutDashboard,
     Lock,
     LogOut,
     MessageSquare,
     Settings,
-    Sparkles,
 } from "lucide-react"
 
 import {

@@ -20,16 +20,16 @@
  * );
  */
 
-export type LeadSource = 
-  | "website1" 
-  | "website2" 
-  | "trade_site" 
-  | "inbound_call" 
-  | "voicemail" 
-  | "email" 
-  | "facebook_campaign" 
-  | "facebook_messenger" 
-  | "instagram" 
+export type LeadSource =
+  | "website1"
+  | "website2"
+  | "trade_site"
+  | "inbound_call"
+  | "voicemail"
+  | "email"
+  | "facebook_campaign"
+  | "facebook_messenger"
+  | "instagram"
   | "whatsapp";
 
 export type LeadStatus = "new" | "contacted" | "qualified" | "converted" | "lost";
@@ -65,17 +65,17 @@ function generateLeads(): Lead[] {
   const leads: Lead[] = [];
   const startDate = new Date('2025-01-27T00:00:00Z');
   const endDate = new Date('2026-01-27T23:59:59Z');
-  
+
   const sources: LeadSource[] = [
-    "website1", "website2", "trade_site", "inbound_call", 
-    "voicemail", "email", "facebook_campaign", "facebook_messenger", 
+    "website1", "website2", "trade_site", "inbound_call",
+    "voicemail", "email", "facebook_campaign", "facebook_messenger",
     "instagram", "whatsapp"
   ];
-  
+
   const statuses: LeadStatus[] = ["new", "contacted", "qualified", "converted", "lost"];
   const priorities: ("hot" | "warm" | "cold")[] = ["hot", "warm", "cold"];
   const salesReps = ["Emily Rodriguez", "Michael Chen", "James Wilson", "Sarah Thompson"];
-  
+
   const firstNames = [
     "John", "Jane", "Michael", "Sarah", "David", "Emily", "Robert", "Jennifer",
     "William", "Linda", "Richard", "Patricia", "Joseph", "Elizabeth", "Thomas", "Barbara",
@@ -83,14 +83,14 @@ function generateLeads(): Lead[] {
     "Mark", "Lisa", "Donald", "Betty", "Steven", "Margaret", "Paul", "Sandra",
     "Andrew", "Ashley", "Joshua", "Kimberly", "Kenneth", "Donna", "Kevin", "Carol"
   ];
-  
+
   const lastNames = [
     "Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis",
     "Rodriguez", "Martinez", "Hernandez", "Lopez", "Gonzalez", "Wilson", "Anderson", "Thomas",
     "Taylor", "Moore", "Jackson", "Martin", "Lee", "Thompson", "White", "Harris",
     "Clark", "Lewis", "Robinson", "Walker", "Perez", "Hall", "Young", "Allen"
   ];
-  
+
   const sourceDetails: Record<LeadSource, string[]> = {
     website1: ["DoorWindowPro.com - Contact Form", "DoorWindowPro.com - Quote Request", "DoorWindowPro.com - Live Chat"],
     website2: ["HomeFix24.com - Contact Form", "HomeFix24.com - Quote Request", "HomeFix24.com - Newsletter"],
@@ -103,40 +103,40 @@ function generateLeads(): Lead[] {
     instagram: ["Instagram DM", "Instagram Story Reply", "Instagram Ad Response"],
     whatsapp: ["WhatsApp Business", "WhatsApp Inquiry"]
   };
-  
+
   // Generate approximately 3-5 leads per day over the year (1095-1825 leads total)
   const totalLeads = 1500;
-  
+
   for (let i = 0; i < totalLeads; i++) {
     const createdAt = randomDate(startDate, endDate);
     const source = sources[Math.floor(Math.random() * sources.length)];
     const status = statuses[Math.floor(Math.random() * statuses.length)];
     const priority = priorities[Math.floor(Math.random() * priorities.length)];
     const assignedTo = salesReps[Math.floor(Math.random() * salesReps.length)];
-    
+
     const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
     const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
     const name = `${firstName} ${lastName}`;
-    
+
     const emailDomain = Math.random() > 0.5 ? "email.com" : "example.com";
     const email = `${firstName.toLowerCase()}.${lastName.toLowerCase()}@${emailDomain}`;
-    
+
     const areaCode = 200 + Math.floor(Math.random() * 800);
     const prefix = 200 + Math.floor(Math.random() * 800);
     const line = 1000 + Math.floor(Math.random() * 9000);
     const phone = `+1 (${areaCode}) ${prefix}-${line}`;
-    
+
     const sourceDetailOptions = sourceDetails[source];
     const sourceDetail = sourceDetailOptions[Math.floor(Math.random() * sourceDetailOptions.length)];
-    
+
     // Determine last_contacted based on status
     let lastContacted = "Not contacted";
     if (status !== "new") {
-      const contactDelay = Math.random() * 24 * 60 * 60 * 1000; // Up to 24 hours after creation
+
       const contactDate = addHours(createdAt, Math.random() * 24);
       lastContacted = contactDate.toISOString();
     }
-    
+
     leads.push({
       id: `lead-${i + 1}`,
       name,
@@ -151,7 +151,7 @@ function generateLeads(): Lead[] {
       last_contacted: lastContacted
     });
   }
-  
+
   // Sort by created_at (newest first)
   return leads.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
 }

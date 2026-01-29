@@ -19,11 +19,8 @@ import {
   UserPlus,
   Mail,
   Phone,
-  MapPin,
-  Building2,
   Star,
   Tag,
-  Filter,
   Download,
   MoreVertical,
   ArrowUpDown,
@@ -32,7 +29,6 @@ import {
   Users,
   TrendingUp,
   DollarSign,
-  Calendar,
   Search
 } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";

@@ -22,7 +22,8 @@ const User = (props: any) => { ... }
 
 ## 🛠️ Linting & ESLint
 - **Run Lint**: `bun run lint`
-- **Warnings**: Do not ignore warnings. Fix them.
+- **Zero Tolerance**: All linting errors and warnings **MUST** be fixed immediately. 
+- **Autonomous Fixing**: The AI copilot is **REQUIRED** to autonomously run linting and fix all issues across the entire codebase. Do not ask for permission before fixing existing errors.
 - **Unused Vars**: Prefix with `_` if they must exist (e.g., `_req`).
 
 ### Handling "File Not Found" Warnings
@@ -30,6 +31,12 @@ If you see errors about missing instruction files:
 1.  **Stop**: Do not create empty files to silence it.
 2.  **Check Path**: Verify the relative path in the markdown/comment.
 3.  **Fix**: Point to the correct file in `.github/instructions/`.
+
+> **CRITICAL**: 
+> 1. **READ FIRST**: Before implementing any changes, read the relevant instruction files from `.github/instructions/` folder. State clearly that you have read them in your first response.
+> 2. **FIX LINT IMMEDIATELY**: Whenever you encounter or cause linting/TypeScript errors, fix them **immediately** before proceeding or completing the task.
+> 3. **ALWAYS** use the existing `useTheme` hook and theme constants.
+> 4. **COMMENT** every HTML block and function as per the rules below.
 
 ## 📝 Documentation & Commenting
 **Mandatory Requirements:**

@@ -194,7 +194,6 @@ export default function AddLeadPage() {
   const [showCompanySuggestions, setShowCompanySuggestions] = useState(false);
   const [referralSuggestions, setReferralSuggestions] = useState<string[]>([]);
   const [showReferralSuggestions, setShowReferralSuggestions] = useState(false);
-  const [showAddReferralDialog, setShowAddReferralDialog] = useState(false);
 
   const [errors, setErrors] = useState<Partial<Record<keyof LeadFormData, string>>>({});
 
@@ -625,7 +624,7 @@ export default function AddLeadPage() {
                                 type="button"
                                 variant="outline"
                                 size="icon"
-                                onClick={() => setShowAddReferralDialog(true)}
+                                onClick={() => { }}
                                 title="Add new referral"
                               >
                                 <Plus className="h-4 w-4" />
@@ -892,7 +891,7 @@ export default function AddLeadPage() {
                       <div className="rounded-lg bg-muted p-4 space-y-2">
                         <h4 className="font-medium text-sm">Lead Status</h4>
                         <p className="text-xs text-muted-foreground">
-                          New leads are automatically set to <span className="font-semibold">"New"</span> status and will appear in the team member's queue.
+                          New leads are automatically set to <span className="font-semibold">&quot;New&quot;</span> status and will appear in the team member&apos;s queue.
                         </p>
                       </div>
                     </div>

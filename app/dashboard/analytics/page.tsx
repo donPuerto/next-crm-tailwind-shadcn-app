@@ -12,7 +12,7 @@ import {
   Activity,
   Calendar
 } from "lucide-react";
-import { Area, AreaChart, Bar, BarChart, CartesianGrid, XAxis, YAxis, ResponsiveContainer } from "recharts";
+import { Area, AreaChart, Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from "@/components/ui/chart";
 import { COLOR_CONFIG } from "@/lib/constants/themes";
@@ -62,12 +62,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-// Helper function to get computed CSS variable value
-function getComputedColor(variableName: string): string {
-  if (typeof window === 'undefined') return 'oklch(0.81 0.17 75.35)'; // fallback for SSR
-  const value = getComputedStyle(document.documentElement).getPropertyValue(variableName).trim();
-  return value || 'oklch(0.81 0.17 75.35)';
-}
+
 
 export default function AnalyticsPage() {
   const { theme, color } = useTheme();
@@ -102,7 +97,9 @@ export default function AnalyticsPage() {
       chart3: adjustBrightness(baseColor, -30), // Much darker
     };
 
+    /* eslint-disable react-hooks/set-state-in-effect */
     setColors(newColors);
+    /* eslint-enable react-hooks/set-state-in-effect */
   }, [color, theme]);
   return (
     <div className="space-y-6">
@@ -193,7 +190,7 @@ export default function AnalyticsPage() {
                 <YAxis
                   tickLine={false}
                   axisLine={false}
-                  tickFormatter={(value) => `$${value / 1000}k`}
+                  tickFormatter={(value: number) => `$${value / 1000}k`}
                 />
                 <ChartTooltip content={<ChartTooltipContent />} />
                 <Area

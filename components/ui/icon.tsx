@@ -1,4 +1,3 @@
-import * as Icons from 'lucide-react';
 import type { SVGProps } from 'react';
 import { icons } from 'lucide-react';
 
@@ -9,7 +8,7 @@ export type IconProps = {
   size?: number;
   strokeWidth?: number;
   className?: string;
-} & Omit<SVGProps<SVGSVGElement>, 'width' | 'height'>;
+} & Omit<SVGProps<SVGSVGElement>, "width" | "height">;
 
 export function Icon({ name, size = 16, strokeWidth = 1.5, className, ...props }: IconProps) {
   const LucideIcon = icons[name] ?? icons.Circle;

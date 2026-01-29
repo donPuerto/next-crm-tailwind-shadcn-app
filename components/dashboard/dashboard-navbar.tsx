@@ -2,8 +2,8 @@
 
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { Separator } from "@/components/ui/separator"
-import { Button } from "@/components/ui/button"
-import { Bell, MessageSquare, Home } from "lucide-react"
+
+
 
 import { CommandSearch } from "./command-search"
 import { NavbarApps } from "./navbar-apps"

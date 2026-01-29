@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import Link from "next/link";
 import {
   flexRender,
   getCoreRowModel,
@@ -28,26 +27,17 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { 
-  Globe,
+import {
   Phone,
-  Voicemail,
-  Mail,
-  Facebook,
-  MessageCircle,
-  Instagram,
-  Wrench,
   TrendingUp,
   Users,
   CheckCircle2,
   Clock,
-  XCircle,
   ArrowUpDown,
   ChevronLeft,
   ChevronRight,
   CalendarIcon,
-  FileDown,
-  Plus
+  FileDown
 } from "lucide-react";
 import { format } from "date-fns";
 import { leadsData, sourceIcons, sourceLabels, type Lead, type LeadSource, type LeadStatus } from "../data";
@@ -65,7 +55,7 @@ export default function AllLeadsPage() {
 
   const exportToCSV = () => {
     const headers = ['Name', 'Email', 'Phone', 'Source', 'Source Detail', 'Status', 'Priority', 'Assigned To', 'Created Date', 'Last Contacted'];
-    
+
     const rows = filteredData.map(lead => [
       lead.name,
       lead.email,
@@ -78,12 +68,12 @@ export default function AllLeadsPage() {
       format(new Date(lead.created_at), 'MMM dd, yyyy HH:mm'),
       lead.last_contacted
     ]);
-    
+
     const csvContent = [
       headers.join(','),
       ...rows.map(row => row.map(cell => `"${cell}"`).join(','))
     ].join('\n');
-    
+
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
     const url = URL.createObjectURL(blob);
@@ -241,7 +231,7 @@ export default function AllLeadsPage() {
         const diffMins = Math.floor(diffMs / 60000);
         const diffHours = Math.floor(diffMs / 3600000);
         const diffDays = Math.floor(diffMs / 86400000);
-        
+
         let timeAgo;
         if (diffMins < 60) {
           timeAgo = `${diffMins} min ago`;
@@ -250,7 +240,7 @@ export default function AllLeadsPage() {
         } else {
           timeAgo = `${diffDays}d ago`;
         }
-        
+
         return (
           <div className="text-sm text-muted-foreground">
             {timeAgo}
@@ -262,10 +252,10 @@ export default function AllLeadsPage() {
   ], []);
 
   const filteredData = useMemo(() => {
-    let data = filterSource === "all" 
-      ? leadsData 
+    let data = filterSource === "all"
+      ? leadsData
       : leadsData.filter(l => l.source === filterSource);
-    
+
     data = data.filter(lead => {
       const leadDate = new Date(lead.created_at);
       leadDate.setHours(0, 0, 0, 0);
@@ -275,7 +265,7 @@ export default function AllLeadsPage() {
       toDate.setHours(23, 59, 59, 999);
       return leadDate >= fromDate && leadDate <= toDate;
     });
-    
+
     return data;
   }, [filterSource, dateRange]);
 
@@ -300,8 +290,8 @@ export default function AllLeadsPage() {
     contacted: filteredData.filter(l => l.status === "contacted").length,
     qualified: filteredData.filter(l => l.status === "qualified").length,
     converted: filteredData.filter(l => l.status === "converted").length,
-    conversionRate: filteredData.length > 0 
-      ? ((filteredData.filter(l => l.status === "converted").length / filteredData.length) * 100).toFixed(1) 
+    conversionRate: filteredData.length > 0
+      ? ((filteredData.filter(l => l.status === "converted").length / filteredData.length) * 100).toFixed(1)
       : "0.0",
   };
 
@@ -482,9 +472,8 @@ export default function AllLeadsPage() {
                     <div
                       key={source}
                       onClick={() => setFilterSource(isActive ? "all" : source as LeadSource)}
-                      className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all ${
-                        isActive ? "border-primary bg-primary/5" : "hover:border-primary/50 hover:bg-muted/50"
-                      }`}
+                      className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all ${isActive ? "border-primary bg-primary/5" : "hover:border-primary/50 hover:bg-muted/50"
+                        }`}
                     >
                       <div className="p-2 rounded-lg bg-muted">
                         <SourceIcon className="h-4 w-4" />

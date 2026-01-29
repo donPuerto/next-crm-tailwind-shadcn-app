@@ -14,10 +14,9 @@ import {
   Eye,
   Target,
   DollarSign,
-  BarChart3,
   Plus
 } from "lucide-react";
-import { Area, AreaChart, Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import {
   ChartContainer,
   ChartTooltip,

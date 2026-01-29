@@ -2,12 +2,9 @@
 
 import * as React from "react"
 import {
-    CreditCard,
     Mail,
     PlusCircle,
-    Settings,
     User,
-    UserPlus,
     Users,
     Search,
     Phone,
@@ -32,7 +29,6 @@ import {
     CommandItem,
     CommandList,
     CommandSeparator,
-    CommandShortcut,
 } from "@/components/ui/command"
 import { Button } from "@/components/ui/button"
 import { DUMMY_CONTACTS, DUMMY_USERS, DUMMY_COMPANIES, DUMMY_OPPORTUNITIES, type Contact, type Opportunity } from "@/lib/constants/dummy-data"
@@ -56,7 +52,7 @@ export function CommandSearch() {
 
         const savedCategory = localStorage.getItem("search-category")
         if (savedCategory && ["all", "contacts", "companies", "users", "opportunities"].includes(savedCategory)) {
-            setCategory(savedCategory as any)
+            setCategory(savedCategory as "all" | "contacts" | "companies" | "users" | "opportunities")
         }
     }, [])
 

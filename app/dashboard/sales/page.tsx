@@ -1,10 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
 import { CheckCircle2, DollarSign, TrendingUp, Target } from "lucide-react";
@@ -14,16 +12,7 @@ import {
   ChartTooltipContent,
   type ChartConfig,
 } from "@/components/ui/chart";
-import { SidebarTrigger } from "@/components/ui/sidebar";
 import { DUMMY_OPPORTUNITIES, DUMMY_CONTACTS, DUMMY_COMPANIES, DUMMY_USERS } from "@/lib/constants/dummy-data";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
 
 type Period = "3months" | "30days" | "7days";
 

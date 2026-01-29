@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import {
   Theme,
   ThemeColor,
@@ -29,7 +29,10 @@ import {
   RADIUS_STORAGE_KEY,
   MENU_ACCENT_STORAGE_KEY,
   DARK_MODE_STORAGE_KEY,
-  LAYOUT_MODE_STORAGE_KEY
+  LAYOUT_MODE_STORAGE_KEY,
+  FontSansOption,
+  FontSerifOption,
+  FontMonoOption
 } from '@/lib/constants/themes';
 
 /**
@@ -47,77 +50,33 @@ export function useTheme() {
   const [layoutMode, setLayoutModeState] = useState<'layout-full' | 'layout-fixed'>('layout-full');
 
   // Font overrides (optional) - defaults to theme-defined fonts
-  type FontChoice = 'default' | 'inter' | 'noto' | 'nunito' | 'figtree';
-  const [fontSans, setFontSans] = useState<FontChoice>('default');
-  const [fontSerif, setFontSerif] = useState<'default' | 'georgia'>('default');
-  const [fontMono, setFontMono] = useState<'default' | 'geist-mono'>('default');
+  // Font overrides (optional) - defaults to theme-defined fonts
+  const [fontSans, setFontSans] = useState<FontSansOption>('default');
+  const [fontSerif, setFontSerif] = useState<FontSerifOption>('default');
+  const [fontMono, setFontMono] = useState<FontMonoOption>('default');
   const [mounted, setMounted] = useState(false);
 
-  // Initialize theme and color from localStorage on client-side
-  useEffect(() => {
-    const savedTheme = localStorage.getItem(THEME_STORAGE_KEY) as Theme | null;
-    const savedColor = localStorage.getItem(COLOR_STORAGE_KEY) as ThemeColor | null;
-    const savedBaseColor = localStorage.getItem(BASE_COLOR_STORAGE_KEY) as BaseColor | null;
-    const savedStyle = localStorage.getItem(STYLE_STORAGE_KEY) as StylePreset | null;
-    const savedRadius = localStorage.getItem(RADIUS_STORAGE_KEY) as RadiusOption | null;
-    const savedMenuAccent = localStorage.getItem(MENU_ACCENT_STORAGE_KEY) as MenuAccent | null;
-    const savedDarkMode = localStorage.getItem(DARK_MODE_STORAGE_KEY);
-    const savedLayoutMode = localStorage.getItem(LAYOUT_MODE_STORAGE_KEY) as 'layout-full' | 'layout-fixed' | null;
 
-    const initialTheme = (savedTheme && AVAILABLE_THEMES.includes(savedTheme)) ? savedTheme : DEFAULT_THEME;
-    const initialColor = (savedColor && AVAILABLE_COLORS.includes(savedColor)) ? savedColor : DEFAULT_COLOR;
-    const initialBaseColor = (savedBaseColor && AVAILABLE_BASE_COLORS.includes(savedBaseColor)) ? savedBaseColor : DEFAULT_BASE_COLOR;
-    const initialStyle = (savedStyle && AVAILABLE_STYLES.includes(savedStyle)) ? savedStyle : DEFAULT_STYLE;
-    const initialRadius = (savedRadius && AVAILABLE_RADII.includes(savedRadius)) ? savedRadius : 'md';
-    const initialMenuAccent = (savedMenuAccent && AVAILABLE_MENU_ACCENTS.includes(savedMenuAccent)) ? savedMenuAccent : DEFAULT_MENU_ACCENT;
-    const initialDark = savedDarkMode === 'true';
-    const initialLayout = savedLayoutMode === 'layout-fixed' ? 'layout-fixed' : 'layout-full';
-
-    setThemeState(initialTheme);
-    setColorState(initialColor);
-    setBaseColorState(initialBaseColor);
-    setStyleState(initialStyle);
-    setRadiusState(initialRadius);
-    setMenuAccentState(initialMenuAccent);
-    setIsDark(initialDark);
-    setLayoutModeState(initialLayout);
-
-    applyAll({
-      theme: initialTheme,
-      color: initialColor,
-      baseColor: initialBaseColor,
-      style: initialStyle,
-      radius: initialRadius,
-      menuAccent: initialMenuAccent,
-      dark: initialDark,
-      layoutMode: initialLayout,
-      fontSans,
-      fontSerif,
-      fontMono
-    });
-
-    setMounted(true);
-  }, []);
 
   /**
    * Apply theme by updating data-theme attribute on document element
    */
-  const applyTheme = (newTheme: Theme) => {
+  const applyTheme = useCallback((newTheme: Theme) => {
     if (!AVAILABLE_THEMES.includes(newTheme)) return;
     document.documentElement.setAttribute('data-theme', newTheme);
     localStorage.setItem(THEME_STORAGE_KEY, newTheme);
     setThemeState(newTheme);
-    
+
     // Dispatch custom event to notify other components
     if (typeof window !== 'undefined') {
       window.dispatchEvent(new CustomEvent('theme-changed', { detail: { theme: newTheme } }));
     }
-  };
+  }, []);
 
   /**
    * Apply color by updating CSS variables
    */
-  const applyColor = (newColor: ThemeColor) => {
+  const applyColor = useCallback((newColor: ThemeColor) => {
     if (!AVAILABLE_COLORS.includes(newColor)) return;
 
     const colorValue = COLOR_CONFIG[newColor];
@@ -141,29 +100,29 @@ export function useTheme() {
 
     localStorage.setItem(COLOR_STORAGE_KEY, newColor);
     setColorState(newColor);
-    
+
     // Dispatch custom event to notify other components
     if (typeof window !== 'undefined') {
       window.dispatchEvent(new CustomEvent('theme-changed', { detail: { color: newColor } }));
     }
-  };
+  }, []);
 
   /**
    * Apply base color (neutral surface tone)
    */
-  const applyBaseColor = (newBase: BaseColor) => {
+  const applyBaseColor = useCallback((newBase: BaseColor) => {
     if (!AVAILABLE_BASE_COLORS.includes(newBase)) return;
     const base = BASE_COLOR_CONFIG[newBase];
     const root = document.documentElement;
     root.style.setProperty('--base-color', base.hex);
     localStorage.setItem(BASE_COLOR_STORAGE_KEY, newBase);
     setBaseColorState(newBase);
-  };
+  }, []);
 
   /**
    * Apply style preset
    */
-  const applyStyle = (newStyle: StylePreset) => {
+  const applyStyle = useCallback((newStyle: StylePreset) => {
     if (!AVAILABLE_STYLES.includes(newStyle)) return;
     const s = STYLE_CONFIG[newStyle];
     const root = document.documentElement;
@@ -180,12 +139,12 @@ export function useTheme() {
     root.style.setProperty('--shadow-weight', s.shadow);
     localStorage.setItem(STYLE_STORAGE_KEY, newStyle);
     setStyleState(newStyle);
-  };
+  }, []);
 
   /**
    * Apply explicit radius override (if user chooses independent of style)
    */
-  const applyRadius = (newRadius: RadiusOption) => {
+  const applyRadius = useCallback((newRadius: RadiusOption) => {
     if (!AVAILABLE_RADII.includes(newRadius)) return;
     const root = document.documentElement;
     const radiusMap: Record<RadiusOption, string> = {
@@ -197,23 +156,23 @@ export function useTheme() {
     root.style.setProperty('--radius', radiusMap[newRadius]);
     localStorage.setItem(RADIUS_STORAGE_KEY, newRadius);
     setRadiusState(newRadius);
-  };
+  }, []);
 
   /**
    * Apply menu accent weight
    */
-  const applyMenuAccent = (newAccent: MenuAccent) => {
+  const applyMenuAccent = useCallback((newAccent: MenuAccent) => {
     if (!AVAILABLE_MENU_ACCENTS.includes(newAccent)) return;
     const root = document.documentElement;
     root.style.setProperty('--menu-accent-weight', newAccent);
     localStorage.setItem(MENU_ACCENT_STORAGE_KEY, newAccent);
     setMenuAccentState(newAccent);
-  };
+  }, []);
 
   /**
    * Apply dark mode by toggling the `dark` class on html
    */
-  const applyDarkMode = (nextDark: boolean) => {
+  const applyDarkMode = useCallback((nextDark: boolean) => {
     const root = document.documentElement;
     if (nextDark) {
       root.classList.add('dark');
@@ -222,27 +181,27 @@ export function useTheme() {
     }
     localStorage.setItem(DARK_MODE_STORAGE_KEY, String(nextDark));
     setIsDark(nextDark);
-  };
+  }, []);
 
   /**
    * Apply layout mode by toggling html class
    */
-  const applyLayoutMode = (nextMode: 'layout-full' | 'layout-fixed') => {
+  const applyLayoutMode = useCallback((nextMode: 'layout-full' | 'layout-fixed') => {
     const root = document.documentElement;
     root.classList.remove('layout-full', 'layout-fixed');
     root.classList.add(nextMode);
     localStorage.setItem(LAYOUT_MODE_STORAGE_KEY, nextMode);
     setLayoutModeState(nextMode);
-    
+
     // Auto-expand/collapse sidebar based on layout mode
     const sidebarToggle = document.querySelector('[data-sidebar="sidebar"]');
     if (sidebarToggle) {
       const sidebar = sidebarToggle.closest('[data-state]');
       const trigger = document.querySelector('[data-sidebar="trigger"]');
-      
+
       if (sidebar && trigger instanceof HTMLElement) {
         const currentState = sidebar.getAttribute('data-state');
-        
+
         // Collapse in fixed mode
         if (nextMode === 'layout-fixed' && currentState === 'expanded') {
           trigger.click();
@@ -253,16 +212,16 @@ export function useTheme() {
         }
       }
     }
-  };
+  }, []);
 
   /**
    * Apply font overrides (optional)
    */
-  const applyFonts = (opts: { sans?: FontChoice; serif?: 'default' | 'georgia'; mono?: 'default' | 'geist-mono' }) => {
+  const applyFonts = useCallback((opts: { sans?: FontSansOption; serif?: FontSerifOption; mono?: FontMonoOption }) => {
     const root = document.documentElement;
     if (opts.sans) {
       setFontSans(opts.sans);
-      const map: Record<FontChoice, string> = {
+      const map: Record<FontSansOption, string> = {
         default: 'var(--font-sans)', // keep theme default
         inter: 'var(--font-inter)',
         noto: 'var(--font-noto-sans)',
@@ -287,20 +246,20 @@ export function useTheme() {
       };
       root.style.setProperty('--font-mono', map[opts.mono]);
     }
-  };
+  }, [setFontSans, setFontSerif, setFontMono]);
 
   /**
    * Apply both theme and color together
    */
-  const applyThemeAndColor = (newTheme: Theme, newColor: ThemeColor) => {
+  const applyThemeAndColor = useCallback((newTheme: Theme, newColor: ThemeColor) => {
     applyTheme(newTheme);
     applyColor(newColor);
-  };
+  }, [applyTheme, applyColor]);
 
   /**
    * Apply all configurable options cohesively
    */
-  const applyAll = (opts: {
+  const applyAll = useCallback((opts: {
     theme?: Theme;
     color?: ThemeColor;
     baseColor?: BaseColor;
@@ -309,9 +268,9 @@ export function useTheme() {
     menuAccent?: MenuAccent;
     dark?: boolean;
     layoutMode?: 'layout-full' | 'layout-fixed';
-    fontSans?: FontChoice;
-    fontSerif?: 'default' | 'georgia';
-    fontMono?: 'default' | 'geist-mono';
+    fontSans?: FontSansOption;
+    fontSerif?: FontSerifOption;
+    fontMono?: FontMonoOption;
   }) => {
     if (opts.theme) applyTheme(opts.theme);
     if (opts.color) applyColor(opts.color);
@@ -322,7 +281,55 @@ export function useTheme() {
     if (typeof opts.dark === 'boolean') applyDarkMode(opts.dark);
     if (opts.layoutMode) applyLayoutMode(opts.layoutMode);
     applyFonts({ sans: opts.fontSans, serif: opts.fontSerif, mono: opts.fontMono });
-  };
+  }, [applyTheme, applyColor, applyBaseColor, applyStyle, applyRadius, applyMenuAccent, applyDarkMode, applyLayoutMode, applyFonts]);
+
+  // Initialize theme and color from localStorage on client-side
+  useEffect(() => {
+    const savedTheme = localStorage.getItem(THEME_STORAGE_KEY) as Theme | null;
+    const savedColor = localStorage.getItem(COLOR_STORAGE_KEY) as ThemeColor | null;
+    const savedBaseColor = localStorage.getItem(BASE_COLOR_STORAGE_KEY) as BaseColor | null;
+    const savedStyle = localStorage.getItem(STYLE_STORAGE_KEY) as StylePreset | null;
+    const savedRadius = localStorage.getItem(RADIUS_STORAGE_KEY) as RadiusOption | null;
+    const savedMenuAccent = localStorage.getItem(MENU_ACCENT_STORAGE_KEY) as MenuAccent | null;
+    const savedDarkMode = localStorage.getItem(DARK_MODE_STORAGE_KEY);
+    const savedLayoutMode = localStorage.getItem(LAYOUT_MODE_STORAGE_KEY) as 'layout-full' | 'layout-fixed' | null;
+
+    const initialTheme = (savedTheme && AVAILABLE_THEMES.includes(savedTheme)) ? savedTheme : DEFAULT_THEME;
+    const initialColor = (savedColor && AVAILABLE_COLORS.includes(savedColor)) ? savedColor : DEFAULT_COLOR;
+    const initialBaseColor = (savedBaseColor && AVAILABLE_BASE_COLORS.includes(savedBaseColor)) ? savedBaseColor : DEFAULT_BASE_COLOR;
+    const initialStyle = (savedStyle && AVAILABLE_STYLES.includes(savedStyle)) ? savedStyle : DEFAULT_STYLE;
+    const initialRadius = (savedRadius && AVAILABLE_RADII.includes(savedRadius)) ? savedRadius : 'md';
+    const initialMenuAccent = (savedMenuAccent && AVAILABLE_MENU_ACCENTS.includes(savedMenuAccent)) ? savedMenuAccent : DEFAULT_MENU_ACCENT;
+    const initialDark = savedDarkMode === 'true';
+    const initialLayout = savedLayoutMode === 'layout-fixed' ? 'layout-fixed' : 'layout-full';
+
+    /* eslint-disable react-hooks/set-state-in-effect */
+    setThemeState(initialTheme);
+    setColorState(initialColor);
+    setBaseColorState(initialBaseColor);
+    setStyleState(initialStyle);
+    setRadiusState(initialRadius);
+    setMenuAccentState(initialMenuAccent);
+    setIsDark(initialDark);
+    setLayoutModeState(initialLayout);
+    /* eslint-enable react-hooks/set-state-in-effect */
+
+    applyAll({
+      theme: initialTheme,
+      color: initialColor,
+      baseColor: initialBaseColor,
+      style: initialStyle,
+      radius: initialRadius,
+      menuAccent: initialMenuAccent,
+      dark: initialDark,
+      layoutMode: initialLayout,
+      fontSans,
+      fontSerif,
+      fontMono
+    });
+
+    setMounted(true);
+  }, [applyAll, fontMono, fontSans, fontSerif]);
 
   return {
     theme,

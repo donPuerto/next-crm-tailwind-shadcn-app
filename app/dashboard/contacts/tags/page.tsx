@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { 
+import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -21,7 +21,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { 
+import {
   Tag,
   Plus,
   MoreVertical,
@@ -30,8 +30,7 @@ import {
   Users,
   TrendingUp,
   Hash,
-  Search,
-  Palette
+  Search
 } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
@@ -191,7 +190,7 @@ export default function TagsPage() {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [editingTag, setEditingTag] = useState<Tag | null>(null);
   const [tags, setTags] = useState<Tag[]>(tagsData);
-  
+
   // Form state
   const [newTagName, setNewTagName] = useState("");
   const [newTagDescription, setNewTagDescription] = useState("");
@@ -209,9 +208,9 @@ export default function TagsPage() {
       created_by: "Don Puerto", // In production, get from auth context
       created_at: new Date().toISOString().split('T')[0],
     };
-    
+
     setTags([...tags, newTag]);
-    
+
     // Reset form
     setNewTagName("");
     setNewTagDescription("");
@@ -232,15 +231,15 @@ export default function TagsPage() {
   const handleUpdateTag = () => {
     if (!editingTag) return;
 
-    setTags(tags.map(tag => 
-      tag.id === editingTag.id 
+    setTags(tags.map(tag =>
+      tag.id === editingTag.id
         ? {
-            ...tag,
-            name: newTagName,
-            description: newTagDescription,
-            color: newTagColor,
-            category: newTagCategory,
-          }
+          ...tag,
+          name: newTagName,
+          description: newTagDescription,
+          color: newTagColor,
+          category: newTagCategory,
+        }
         : tag
     ));
 
@@ -261,7 +260,7 @@ export default function TagsPage() {
 
   const filteredTags = tags.filter(tag => {
     const matchesSearch = tag.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         tag.description.toLowerCase().includes(searchQuery.toLowerCase());
+      tag.description.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = selectedCategory === "all" || tag.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
@@ -301,7 +300,7 @@ export default function TagsPage() {
               Add a new tag to organize your contacts. Tags help you categorize and filter contacts efficiently.
             </DialogDescription>
           </DialogHeader>
-          
+
           <div className="grid gap-4 py-4">
             <div className="grid gap-2">
               <Label htmlFor="tag-name">Tag Name *</Label>
@@ -378,8 +377,8 @@ export default function TagsPage() {
             <Button variant="outline" onClick={() => setIsCreateDialogOpen(false)}>
               Cancel
             </Button>
-            <Button 
-              onClick={handleCreateTag} 
+            <Button
+              onClick={handleCreateTag}
               disabled={!newTagName.trim() || !newTagCategory}
               className="gap-2"
             >
@@ -402,7 +401,7 @@ export default function TagsPage() {
               Update the tag information. Changes will be reflected across all contacts using this tag.
             </DialogDescription>
           </DialogHeader>
-          
+
           <div className="grid gap-4 py-4">
             <div className="grid gap-2">
               <Label htmlFor="edit-tag-name">Tag Name *</Label>
@@ -493,8 +492,8 @@ export default function TagsPage() {
             }}>
               Cancel
             </Button>
-            <Button 
-              onClick={handleUpdateTag} 
+            <Button
+              onClick={handleUpdateTag}
               disabled={!newTagName.trim() || !newTagCategory}
               className="gap-2"
             >
@@ -553,7 +552,7 @@ export default function TagsPage() {
           />
         </div>
         <div className="flex gap-2">
-          <Button 
+          <Button
             variant={selectedCategory === "all" ? "default" : "outline"}
             size="sm"
             onClick={() => setSelectedCategory("all")}
@@ -561,7 +560,7 @@ export default function TagsPage() {
             All
           </Button>
           {categories.map(cat => (
-            <Button 
+            <Button
               key={cat}
               variant={selectedCategory === cat ? "default" : "outline"}
               size="sm"
@@ -623,17 +622,17 @@ export default function TagsPage() {
                   <span className="font-medium">{new Date(tag.created_at).toLocaleDateString()}</span>
                 </div>
                 <div className="flex gap-2 pt-2 border-t">
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
+                  <Button
+                    variant="outline"
+                    size="sm"
                     className="flex-1 gap-2"
                     onClick={() => handleEditTag(tag)}
                   >
                     <Edit className="h-3 w-3" />
                     Edit
                   </Button>
-                  <Button 
-                    variant="ghost" 
+                  <Button
+                    variant="ghost"
                     size="sm"
                     onClick={() => handleDeleteTag(tag.id)}
                   >

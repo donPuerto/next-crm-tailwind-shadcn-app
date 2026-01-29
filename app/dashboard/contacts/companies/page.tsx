@@ -19,7 +19,6 @@ import {
   Building2,
   Plus,
   Mail,
-  Phone,
   MapPin,
   Users,
   DollarSign,

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { 
+import {
   List,
   ListFilter,
   Plus,
@@ -40,13 +40,15 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
  * - shared_with: uuid[] (array of user ids)
  */
 
+import type { LucideIcon } from "lucide-react";
+
 interface SmartList {
   id: string;
   name: string;
   description: string;
   contact_count: number;
   color: string;
-  icon: any;
+  icon: LucideIcon;
   created_by: string;
   last_updated: string;
   is_favorite: boolean;
@@ -134,7 +136,7 @@ export default function SmartListsPage() {
 
   const filteredLists = smartListsData.filter(list => {
     const matchesSearch = list.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         list.description.toLowerCase().includes(searchQuery.toLowerCase());
+      list.description.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesFavorite = !showFavoritesOnly || list.is_favorite;
     return matchesSearch && matchesFavorite;
   });
@@ -205,7 +207,7 @@ export default function SmartListsPage() {
           onChange={(e) => setSearchQuery(e.target.value)}
           className="max-w-sm"
         />
-        <Button 
+        <Button
           variant={showFavoritesOnly ? "default" : "outline"}
           className="gap-2"
           onClick={() => setShowFavoritesOnly(!showFavoritesOnly)}
@@ -230,13 +232,13 @@ export default function SmartListsPage() {
                     <TooltipProvider>
                       <Tooltip>
                         <TooltipTrigger asChild>
-                          <Button 
-                            variant="ghost" 
+                          <Button
+                            variant="ghost"
                             size="sm"
                             className="h-8 w-8 p-0"
                           >
-                            <Star 
-                              className={`h-4 w-4 ${list.is_favorite ? 'fill-yellow-500 text-yellow-500' : ''}`} 
+                            <Star
+                              className={`h-4 w-4 ${list.is_favorite ? 'fill-yellow-500 text-yellow-500' : ''}`}
                             />
                           </Button>
                         </TooltipTrigger>

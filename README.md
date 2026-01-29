@@ -53,8 +53,10 @@ lib/
 | ID | Topic | Description |
 |---|---|---|
 | **01** | [Project Overview](.github/instructions/01-project-overview.md) | Architecture and CRM Goals. |
+| **03** | [Coding Standards](.github/instructions/03-coding-standards.md) | General coding guidelines and best practices. |
 | **04** | [Styling & Theming](.github/instructions/04-styling-and-theming.md) | CSS Variables & Theme System. |
 | **05** | [Components & Hooks](.github/instructions/05-components-and-hooks.md) | shadcn vs Custom CRM components. |
+| **07** | [TypeScript Standards](.github/instructions/07-typescript-implementation.md) | Strict typing and zero-tolerance linting. |
 | **08** | [Database Schema](supabase/schema.md) | Entity relationships and SQL definitions. |
 
 ## 🛠️ Implementation & Setup
@@ -68,6 +70,12 @@ lib/
     ```bash
     bun dev
     ```
+
+## 🛠️ Linting & ESLint
+- **Run Lint**: `bun run lint`
+- **Zero Tolerance**: All linting errors and warnings **MUST** be fixed immediately. 
+- **Autonomous Fixing**: The AI copilot is **REQUIRED** to autonomously run linting and fix all issues across the entire codebase. Do not ask for permission before fixing existing errors.
+- **Unused Vars**: Prefix with `_` if they must exist (e.g., `_req`).
 
 ## ⚠️ Important Rules
 

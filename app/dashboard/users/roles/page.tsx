@@ -3,21 +3,18 @@
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { 
+import {
   Shield,
   Crown,
   TrendingUp,
   Headphones,
-  Users,
-  Heart,
   Wrench,
   Radio,
-  ClipboardList,
-  HardHat,
   Plus,
   Check,
   X,
-  Settings
+  Settings,
+  type LucideIcon
 } from "lucide-react";
 
 /*
@@ -59,7 +56,7 @@ interface Role {
   name: string;
   description: string;
   color: string;
-  icon: any;
+  icon: LucideIcon;
   userCount: number;
   level: number;
   permissions: Permission[];
@@ -236,11 +233,10 @@ export default function RolesPage() {
                   <div
                     key={role.id}
                     onClick={() => setSelectedRole(role)}
-                    className={`p-4 rounded-lg border-2 cursor-pointer transition-all ${
-                      selectedRole.id === role.id
-                        ? getRoleCardColor(role.color)
-                        : "border-transparent hover:border-border"
-                    }`}
+                    className={`p-4 rounded-lg border-2 cursor-pointer transition-all ${selectedRole.id === role.id
+                      ? getRoleCardColor(role.color)
+                      : "border-transparent hover:border-border"
+                      }`}
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
@@ -346,7 +342,7 @@ export default function RolesPage() {
               <div className="mt-6 p-4 rounded-lg bg-muted/50">
                 <h3 className="font-medium mb-2">Role Hierarchy</h3>
                 <p className="text-sm text-muted-foreground">
-                  This role is at <strong>Level {selectedRole.level}</strong> in the hierarchy. 
+                  This role is at <strong>Level {selectedRole.level}</strong> in the hierarchy.
                   Lower numbers have higher authority. Roles can only manage users with higher level numbers.
                 </p>
               </div>

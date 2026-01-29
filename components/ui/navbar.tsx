@@ -16,6 +16,13 @@ import {
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { useTheme } from "@/app/hooks/useTheme";
 import {
+  Theme,
+  ThemeColor,
+  StylePreset,
+  RadiusOption,
+  FontSansOption,
+  FontSerifOption,
+  FontMonoOption,
   AVAILABLE_THEMES,
   THEME_CONFIG,
   AVAILABLE_COLORS,
@@ -88,7 +95,7 @@ export function Navbar() {
                 <div className="grid gap-3">
                   <div className="grid gap-1">
                     <span className="text-xs text-muted-foreground">Selecting theme</span>
-                    <Select value={theme} onValueChange={(v) => setTheme(v as any)}>
+                    <Select value={theme} onValueChange={(v) => setTheme(v as Theme)}>
                       <SelectTrigger aria-label="Select Theme" size="sm" className="w-full">
                         <SelectValue placeholder="Theme" />
                       </SelectTrigger>
@@ -104,7 +111,7 @@ export function Navbar() {
 
                   <div className="grid gap-1">
                     <span className="text-xs text-muted-foreground">Selecting theme color</span>
-                    <Select value={color} onValueChange={(v) => setColor(v as any)}>
+                    <Select value={color} onValueChange={(v) => setColor(v as ThemeColor)}>
                       <SelectTrigger aria-label="Select Accent Color" size="sm" className="w-full">
                         <SelectValue placeholder="Accent Color" />
                       </SelectTrigger>
@@ -120,7 +127,7 @@ export function Navbar() {
 
                   <div className="grid gap-1">
                     <span className="text-xs text-muted-foreground">Radius</span>
-                    <Select value={radius} onValueChange={(v) => setRadius(v as any)}>
+                    <Select value={radius} onValueChange={(v) => setRadius(v as RadiusOption)}>
                       <SelectTrigger aria-label="Select Radius" size="sm" className="w-full">
                         <SelectValue placeholder="Radius" />
                       </SelectTrigger>
@@ -137,7 +144,7 @@ export function Navbar() {
                   <div className="grid gap-1">
                     <span className="text-xs text-muted-foreground">Change font</span>
                     <div className="grid grid-cols-3 gap-2">
-                      <Select value={fontSans} onValueChange={(v) => setFonts({ sans: v as any })}>
+                      <Select value={fontSans} onValueChange={(v) => setFonts({ sans: v as FontSansOption })}>
                         <SelectTrigger aria-label="Select Sans Font" size="sm" className="w-full">
                           <SelectValue placeholder="Sans" />
                         </SelectTrigger>
@@ -149,7 +156,7 @@ export function Navbar() {
                           <SelectItem value="figtree">Figtree</SelectItem>
                         </SelectContent>
                       </Select>
-                      <Select value={fontSerif} onValueChange={(v) => setFonts({ serif: v as any })}>
+                      <Select value={fontSerif} onValueChange={(v) => setFonts({ serif: v as FontSerifOption })}>
                         <SelectTrigger aria-label="Select Serif Font" size="sm" className="w-full">
                           <SelectValue placeholder="Serif" />
                         </SelectTrigger>
@@ -158,7 +165,7 @@ export function Navbar() {
                           <SelectItem value="georgia">Georgia</SelectItem>
                         </SelectContent>
                       </Select>
-                      <Select value={fontMono} onValueChange={(v) => setFonts({ mono: v as any })}>
+                      <Select value={fontMono} onValueChange={(v) => setFonts({ mono: v as FontMonoOption })}>
                         <SelectTrigger aria-label="Select Mono Font" size="sm" className="w-full">
                           <SelectValue placeholder="Mono" />
                         </SelectTrigger>
@@ -172,7 +179,7 @@ export function Navbar() {
 
                   <div className="grid gap-1">
                     <span className="text-xs text-muted-foreground">Style</span>
-                    <Select value={style} onValueChange={(v) => setStyle(v as any)}>
+                    <Select value={style} onValueChange={(v) => setStyle(v as StylePreset)}>
                       <SelectTrigger aria-label="Select Style" size="sm" className="w-full">
                         <SelectValue placeholder="Style" />
                       </SelectTrigger>
@@ -188,7 +195,7 @@ export function Navbar() {
 
                   <div className="grid gap-1">
                     <span className="text-xs text-muted-foreground">Toggle layout</span>
-                    <Select value={layoutMode} onValueChange={(v) => setLayoutMode(v as any)}>
+                    <Select value={layoutMode} onValueChange={(v) => setLayoutMode(v as 'layout-full' | 'layout-fixed')}>
                       <SelectTrigger aria-label="Select Layout" size="sm" className="w-full">
                         <SelectValue placeholder="Layout" />
                       </SelectTrigger>
@@ -220,10 +227,10 @@ export function Navbar() {
           {mounted && (
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button 
-                  variant="outline" 
-                  size="icon" 
-                  aria-label="Toggle layout mode" 
+                <Button
+                  variant="outline"
+                  size="icon"
+                  aria-label="Toggle layout mode"
                   onClick={() => setLayoutMode(layoutMode === 'layout-full' ? 'layout-fixed' : 'layout-full')}
                 >
                   <Icon name={layoutMode === 'layout-full' ? "GalleryHorizontal" : "PanelLeft"} size={16} />
@@ -236,7 +243,7 @@ export function Navbar() {
           )}
 
           {mounted && (
-              <Tooltip>
+            <Tooltip>
               <TooltipTrigger asChild>
                 <Button variant="outline" size="icon" aria-label="Toggle dark mode" onClick={() => setDarkMode(!isDark)}>
                   <Icon name={isDark ? "Sun" : "Moon"} size={16} />

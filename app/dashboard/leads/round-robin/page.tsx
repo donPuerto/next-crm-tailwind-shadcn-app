@@ -3,10 +3,10 @@
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { 
+import {
   Users,
   UserPlus,
   Settings,
@@ -165,7 +165,7 @@ export default function RoundRobinPage() {
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-2">
             <Label htmlFor="round-robin-toggle">Round Robin</Label>
-            <Switch 
+            <Switch
               id="round-robin-toggle"
               checked={isRoundRobinActive}
               onCheckedChange={setIsRoundRobinActive}
@@ -253,13 +253,12 @@ export default function RoundRobinPage() {
         </CardHeader>
         <CardContent>
           <div className="grid gap-3 sm:grid-cols-3">
-            <div 
+            <div
               onClick={() => setDistributionType("equal")}
-              className={`p-4 border rounded-lg cursor-pointer transition-all ${
-                distributionType === "equal" 
-                  ? "border-primary bg-primary/5" 
+              className={`p-4 border rounded-lg cursor-pointer transition-all ${distributionType === "equal"
+                  ? "border-primary bg-primary/5"
                   : "hover:border-primary/50"
-              }`}
+                }`}
             >
               <div className="flex items-center gap-2 mb-2">
                 <Users className="h-4 w-4" />
@@ -270,13 +269,12 @@ export default function RoundRobinPage() {
               </p>
             </div>
 
-            <div 
+            <div
               onClick={() => setDistributionType("weighted")}
-              className={`p-4 border rounded-lg cursor-pointer transition-all ${
-                distributionType === "weighted" 
-                  ? "border-primary bg-primary/5" 
+              className={`p-4 border rounded-lg cursor-pointer transition-all ${distributionType === "weighted"
+                  ? "border-primary bg-primary/5"
                   : "hover:border-primary/50"
-              }`}
+                }`}
             >
               <div className="flex items-center gap-2 mb-2">
                 <TrendingUp className="h-4 w-4" />
@@ -287,13 +285,12 @@ export default function RoundRobinPage() {
               </p>
             </div>
 
-            <div 
+            <div
               onClick={() => setDistributionType("availability")}
-              className={`p-4 border rounded-lg cursor-pointer transition-all ${
-                distributionType === "availability" 
-                  ? "border-primary bg-primary/5" 
+              className={`p-4 border rounded-lg cursor-pointer transition-all ${distributionType === "availability"
+                  ? "border-primary bg-primary/5"
                   : "hover:border-primary/50"
-              }`}
+                }`}
             >
               <div className="flex items-center gap-2 mb-2">
                 <Clock className="h-4 w-4" />
@@ -335,7 +332,7 @@ export default function RoundRobinPage() {
                       <span className="capitalize">{member.status}</span>
                     </div>
                   </div>
-                  
+
                   <div className="grid grid-cols-6 gap-4 mt-3 text-sm">
                     <div>
                       <p className="text-muted-foreground text-xs">Today</p>
@@ -358,7 +355,7 @@ export default function RoundRobinPage() {
                       <p className="font-semibold">{member.avg_response_time}</p>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Switch 
+                      <Switch
                         checked={member.is_active}
                         disabled
                       />
@@ -371,12 +368,11 @@ export default function RoundRobinPage() {
                   {/* Progress bar */}
                   <div className="mt-3">
                     <div className="w-full bg-muted rounded-full h-2 overflow-hidden">
-                      <div 
-                        className={`h-full rounded-full ${
-                          member.leads_assigned_today >= member.max_leads_per_day 
-                            ? 'bg-orange-500' 
+                      <div
+                        className={`h-full rounded-full ${member.leads_assigned_today >= member.max_leads_per_day
+                            ? 'bg-orange-500'
                             : 'bg-primary'
-                        }`}
+                          }`}
                         style={{ width: `${(member.leads_assigned_today / member.max_leads_per_day) * 100}%` }}
                       />
                     </div>
