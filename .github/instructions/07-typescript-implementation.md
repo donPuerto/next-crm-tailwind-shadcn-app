@@ -7,7 +7,8 @@ Maintain a "zero tolerance" environment for linting errors and TypeScript type v
 1. **No-Explicit-Any**: The use of `any` is strictly prohibited. Always use specific types, interfaces, or `unknown` (if the type is truly unknown).
 2. **No-Unused-Vars**: All declared variables, imports, and functions must be used.
 3. **Strict Type Checking**: TypeScript strict mode is enabled. Don't use non-null assertions (`!`) or type casts (`as any`) to bypass the compiler.
-4. **Autonomous Correction**: The AI Copilot is mandated to identify and fix linting and TypeSript errors autonomously and immediately across the entire application.
+4. **Build Verification**: Every change must be verified by running `bun run build` to catch compilation errors that ESLint might miss.
+5. **Autonomous Correction**: The AI Copilot is mandated to identify and fix linting, TypeScript, and build errors autonomously and immediately across the entire application.
 
 ## Best Practices
 
@@ -39,8 +40,10 @@ Always import only the icons you use. Periodically run lint to identify and remo
 Wrap internal helper functions in `useCallback` when they are dependencies for `useEffect` to avoid unnecessary re-renders and potential infinite loops.
 
 ## Verification Workflow
-Before completing any task, run the following command to ensure zero errors:
+Before completing any task, run the following commands to ensure zero errors:
 ```bash
 bun run lint
+bun run build
 ```
-No task is considered complete until `bun run lint` exits with code 0.
+No task is considered complete until both `bun run lint` and `bun run build` exit with code 0.
+
