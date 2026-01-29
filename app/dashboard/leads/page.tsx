@@ -415,7 +415,7 @@ export default function LeadDashboardPage() {
                 <BarChart data={conversionDataByValue}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="month" tickLine={false} axisLine={false} />
-                  <YAxis tickLine={false} axisLine={false} tickFormatter={(value: any) => `$${(value / 1000).toFixed(0)}k`} />
+                  <YAxis tickLine={false} axisLine={false} tickFormatter={(value: ValueType) => `$${(getValueNumber(value) / 1000).toFixed(0)}k`} />
                   <ChartTooltip content={<ChartTooltipContent formatter={(value: ValueType) => `$${getValueNumber(value).toLocaleString()}`} />} />
                   <Bar dataKey="value" fill={colors.chart3} radius={[4, 4, 0, 0]} label={{ position: 'top', formatter: (value: ValueType) => `$${(getValueNumber(value) / 1000).toFixed(0)}k` }} />
                 </BarChart>

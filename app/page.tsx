@@ -9,7 +9,7 @@ export default function Home() {
       <main className="layout-container layout-padding mx-auto py-10">
         <section className="mb-8">
           <div className="flex items-center gap-3">
-            <Icon name="Home" size={22} className="text-foreground" />
+            <Icon name="House" size={22} className="text-foreground" />
             <h1 className="text-2xl font-semibold tracking-tight">Theming Demo</h1>
           </div>
           <p className="mt-2 text-sm text-muted-foreground">
