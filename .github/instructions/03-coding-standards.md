@@ -22,8 +22,8 @@ const User = (props: any) => { ... }
 
 ## 🛠️ Linting & ESLint
 - **Run Lint**: `bun run lint`
-- **Zero Tolerance**: All linting errors and warnings **MUST** be fixed immediately. 
-- **Autonomous Fixing**: The AI copilot is **REQUIRED** to autonomously run linting and fix all issues across the entire codebase. Do not ask for permission before fixing existing errors.
+### 6. Zero Tolerance for Linting and Build Errors
+The AI copilot is **REQUIRED** to autonomously run linting and build checks and fix all issues across the entire codebase immediately and autonomously without asking for permission. No task is considered complete until `bun run lint` and `bun run build` both pass with zero errors.
 - **Unused Vars**: Prefix with `_` if they must exist (e.g., `_req`).
 
 ### Handling "File Not Found" Warnings

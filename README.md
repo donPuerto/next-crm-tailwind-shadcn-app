@@ -71,10 +71,11 @@ lib/
     bun dev
     ```
 
-## 🛠️ Linting & ESLint
+## 🛠️ Linting & Build Verification
 - **Run Lint**: `bun run lint`
-- **Zero Tolerance**: All linting errors and warnings **MUST** be fixed immediately. 
-- **Autonomous Fixing**: The AI copilot is **REQUIRED** to autonomously run linting and fix all issues across the entire codebase. Do not ask for permission before fixing existing errors.
+- **Run Build**: `bun run build`
+- **Zero Tolerance**: All linting and build errors **MUST** be fixed immediately. 
+- **Autonomous Fixing**: The AI copilot is **REQUIRED** to autonomously run linting and build checks and fix all issues across the entire codebase. Do not ask for permission before fixing existing errors.
 - **Unused Vars**: Prefix with `_` if they must exist (e.g., `_req`).
 
 ## ⚠️ Important Rules
