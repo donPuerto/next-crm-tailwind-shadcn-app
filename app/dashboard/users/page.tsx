@@ -260,6 +260,11 @@ export default function UsersPage() {
                 <div className="text-sm">
                   <span className="text-muted-foreground">Jobs:</span> <span className="font-medium">{user.jobs_completed || 0}</span>
                 </div>
+                {user.avg_job_rating && (
+                  <div className="text-sm">
+                    <span className="text-muted-foreground">Rating:</span> <span className="font-medium text-amber-500">★ {user.avg_job_rating}</span>
+                  </div>
+                )}
                 {user.current_location && (
                   <div className="text-sm flex items-center gap-1">
                     <MapPin className="h-3 w-3 text-blue-500" />
@@ -271,20 +276,42 @@ export default function UsersPage() {
             {isSales && (
               <>
                 <div className="text-sm">
-                  <span className="text-muted-foreground">Deals:</span> <span className="font-medium">{user.deals_managed || 0}</span>
+                  <span className="text-muted-foreground">Opportunities:</span> <span className="font-medium">{user.opportunities_managed || 0}</span>
                 </div>
                 <div className="text-sm">
                   <span className="text-muted-foreground">Revenue:</span> <span className="font-medium text-green-600">${((user.revenue_generated || 0) / 1000).toFixed(0)}k</span>
                 </div>
+                {(user.calls_connected !== undefined || user.emails_sent !== undefined || user.sms_sent !== undefined) && (
+                  <div className="text-[10px] text-muted-foreground mt-1 flex flex-col gap-0.5 border-l-2 border-primary/10 pl-2">
+                    {user.calls_connected !== undefined && (
+                      <div className="flex justify-between gap-2">
+                        <span>📞 {user.calls_connected} connected</span>
+                        <span className="opacity-50">{user.calls_voicemails} VM</span>
+                      </div>
+                    )}
+                    {user.emails_sent !== undefined && (
+                      <div className="flex justify-between gap-2">
+                        <span>✉️ {user.emails_sent} sent</span>
+                        <span className="opacity-50">{user.emails_replies_received} rep</span>
+                      </div>
+                    )}
+                    {user.sms_sent !== undefined && (
+                      <div className="flex justify-between gap-2">
+                        <span>💬 {user.sms_sent} sent</span>
+                        <span className="opacity-50">{user.sms_received} rec</span>
+                      </div>
+                    )}
+                  </div>
+                )}
               </>
             )}
             {isSupport && (
               <>
                 <div className="text-sm">
-                  <span className="text-muted-foreground">Tickets:</span> <span className="font-medium">{user.tickets_resolved || 0}</span>
+                  <span className="text-muted-foreground">Tickets:</span> <span className="font-medium">{user.tickets_resolved || 0} / {user.tickets_assigned || 0}</span>
                 </div>
                 <div className="text-sm">
-                  <span className="text-muted-foreground">Avg. Time:</span> <span className="font-medium">2.5h</span>
+                  <span className="text-muted-foreground">Avg. Time:</span> <span className="font-medium">{user.avg_resolution_time || '2.5h'}</span>
                 </div>
               </>
             )}
@@ -294,8 +321,20 @@ export default function UsersPage() {
                   <span className="text-muted-foreground">Campaigns:</span> <span className="font-medium">{user.campaigns_managed || 0}</span>
                 </div>
                 <div className="text-sm">
-                  <span className="text-muted-foreground">Leads:</span> <span className="font-medium">1,250</span>
+                  <span className="text-muted-foreground">Leads:</span> <span className="font-medium">{user.leads_assigned || 0}</span>
                 </div>
+                {user.leads_converted !== undefined && (
+                  <div className="text-[10px] text-muted-foreground mt-1 flex flex-col gap-0.5 border-l-2 border-green-500/20 pl-2">
+                    <div className="flex justify-between gap-2 text-green-600 font-medium">
+                      <span>⚡ Converted</span>
+                      <span>{user.leads_converted}</span>
+                    </div>
+                    <div className="flex justify-between gap-2 opacity-60">
+                      <span>Qualified</span>
+                      <span>{user.leads_qualified || 0}</span>
+                    </div>
+                  </div>
+                )}
               </>
             )}
             {isDispatcher && (
@@ -307,6 +346,19 @@ export default function UsersPage() {
                   <span className="text-muted-foreground">On Field:</span> <span className="font-medium">3</span>
                 </div>
               </>
+            )}
+            {(user.tasks_completed !== undefined || user.tasks_pending !== undefined) && (
+              <div className="mt-1 pt-1 border-t border-border/50">
+                <div className="text-[11px] flex items-center justify-between font-bold">
+                  <span className="text-muted-foreground uppercase tracking-tighter">Tasks</span>
+                  <div className="flex gap-2">
+                    <span className="text-green-600">✓ {user.tasks_completed || 0}</span>
+                    <span className={user.tasks_pending && user.tasks_pending > 10 ? "text-red-500" : "text-amber-600"}>
+                      ! {user.tasks_pending || 0}
+                    </span>
+                  </div>
+                </div>
+              </div>
             )}
             {user.role === "admin" && (
               <>

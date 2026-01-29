@@ -26,16 +26,58 @@ export interface User {
     address?: string;
     last_active_at: string;
     created_at: string;
-    deals_managed?: number;
-    revenue_generated?: number;
-    tickets_resolved?: number;
-    avg_resolution_time?: string;
+    // 1. Leads & Conversion
+    leads_assigned?: number;
+    leads_contacted?: number;
+    leads_qualified?: number;
     leads_converted?: number;
-    leads_count?: number;
-    campaigns_managed?: number;
+    leads_lost?: number;
+    // 2. Communication (Calls)
+    calls_assigned?: number;
+    calls_dials?: number;
+    calls_connected?: number;
+    calls_voicemails?: number;
+    calls_lost?: number;
+    avg_call_duration?: string;
+    // 3. Communication (Emails)
+    emails_assigned?: number;
+    emails_sent?: number;
+    emails_replies_received?: number;
+    emails_conversations?: number;
+    emails_lost?: number;
+    // 4. Communication (SMS)
+    sms_assigned?: number;
+    sms_sent?: number;
+    sms_received?: number;
+    sms_conversations?: number;
+    sms_lost?: number;
+    // 5. Tasks
+    tasks_assigned?: number;
+    tasks_in_progress?: number;
+    tasks_completed?: number;
+    tasks_lost?: number;
+    // 6. Sales & Opportunities
+    opportunities_assigned?: number;
+    opportunities_in_progress?: number;
+    opportunities_won?: number;
+    opportunities_lost?: number;
+    pipeline_value?: number;
+    revenue_generated?: number;
+    // 7. Field Service & Booking
+    jobs_assigned?: number;
+    jobs_dispatched?: number;
+    jobs_on_field?: number;
     jobs_completed?: number;
-    dispatched_count?: number;
-    on_field_count?: number;
+    jobs_lost?: number;
+    avg_job_rating?: number;
+    // 8. Support & Marketing
+    tickets_assigned?: number;
+    tickets_in_progress?: number;
+    tickets_resolved?: number;
+    tickets_lost?: number;
+    avg_resolution_time?: string;
+    campaigns_managed?: number;
+    // Access & Identity
     access_level?: "Full" | "Restricted" | "Limited";
     teams?: string[];
     current_location?: string;
@@ -165,7 +207,36 @@ export const DUMMY_USERS: User[] = [
         territory: "West Coast",
         last_active_at: "15 minutes ago",
         created_at: "2024-02-10",
-        deals_managed: 32,
+        // 2. Communication (Calls)
+        calls_assigned: 700,
+        calls_dials: 650,
+        calls_connected: 542,
+        calls_voicemails: 108,
+        calls_lost: 50,
+        avg_call_duration: "4m 15s",
+        // 3. Communication (Emails)
+        emails_assigned: 1500,
+        emails_replies_received: 450,
+        emails_sent: 1240,
+        emails_conversations: 200,
+        emails_lost: 50,
+        // 4. Communication (SMS)
+        sms_assigned: 500,
+        sms_sent: 450,
+        sms_received: 380,
+        sms_conversations: 120,
+        sms_lost: 20,
+        // 5. Tasks
+        tasks_assigned: 60,
+        tasks_in_progress: 12,
+        tasks_completed: 45,
+        tasks_lost: 3,
+        // 6. Sales & Opportunities
+        opportunities_assigned: 32,
+        opportunities_in_progress: 4,
+        opportunities_won: 24,
+        opportunities_lost: 4,
+        pipeline_value: 450000,
         revenue_generated: 198000,
         mobile: "+1 (555) 111-2222",
         address: "200 Sales Lane, Seattle, WA",
@@ -182,9 +253,42 @@ export const DUMMY_USERS: User[] = [
         territory: "East Coast",
         last_active_at: "1 hour ago",
         created_at: "2024-03-05",
-        deals_managed: 28,
-        revenue_generated: 167000,
+        // 1. Leads & Conversion
+        leads_assigned: 156,
+        leads_contacted: 142,
+        leads_qualified: 88,
         leads_converted: 42,
+        leads_lost: 15,
+        // 2. Communication (Calls)
+        calls_assigned: 500,
+        calls_dials: 450,
+        calls_connected: 385,
+        calls_voicemails: 65,
+        calls_lost: 30,
+        // 3. Communication (Emails)
+        emails_assigned: 1100,
+        emails_replies_received: 320,
+        emails_sent: 950,
+        emails_conversations: 150,
+        emails_lost: 30,
+        // 4. Communication (SMS)
+        sms_assigned: 300,
+        sms_sent: 280,
+        sms_received: 210,
+        sms_conversations: 85,
+        sms_lost: 10,
+        // 5. Tasks
+        tasks_assigned: 60,
+        tasks_in_progress: 15,
+        tasks_completed: 38,
+        tasks_lost: 7,
+        // 6. Sales & Opportunities
+        opportunities_assigned: 28,
+        opportunities_in_progress: 4,
+        opportunities_won: 18,
+        opportunities_lost: 6,
+        pipeline_value: 320000,
+        revenue_generated: 167000,
         mobile: "+1 (555) 222-3333",
         address: "300 East Blvd, New York, NY",
     },
@@ -199,7 +303,11 @@ export const DUMMY_USERS: User[] = [
         department: "Customer Support",
         last_active_at: "30 minutes ago",
         created_at: "2024-03-20",
+        // 8. Support & Marketing
+        tickets_assigned: 250,
+        tickets_in_progress: 15,
         tickets_resolved: 234,
+        tickets_lost: 1,
         avg_resolution_time: "2.5h",
         mobile: "+1 (555) 333-4444",
         address: "400 Support St, Chicago, IL",
@@ -216,7 +324,11 @@ export const DUMMY_USERS: User[] = [
         last_active_at: "2 hours ago",
         created_at: "2024-04-01",
         campaigns_managed: 18,
-        leads_count: 1250,
+        leads_assigned: 1250,
+        leads_contacted: 1100,
+        leads_qualified: 420,
+        leads_converted: 65,
+        leads_lost: 45,
         mobile: "+1 (555) 444-5555",
         address: "500 Marketing Ave, Los Angeles, CA",
     },
@@ -233,7 +345,11 @@ export const DUMMY_USERS: User[] = [
         current_location: "3847 Maple Ave, Austin, TX",
         last_active_at: "10 minutes ago",
         created_at: "2024-04-15",
+        // 7. Field Service & Booking
+        jobs_assigned: 180,
         jobs_completed: 156,
+        jobs_lost: 4,
+        avg_job_rating: 4.8,
         mobile: "+1 (555) 555-6666",
         address: "3847 Maple Ave, Austin, TX",
     },
@@ -248,8 +364,10 @@ export const DUMMY_USERS: User[] = [
         department: "Operations",
         last_active_at: "5 minutes ago",
         created_at: "2024-05-01",
-        dispatched_count: 156,
-        on_field_count: 3,
+        // 7. Field Service & Booking
+        jobs_assigned: 200,
+        jobs_dispatched: 156,
+        jobs_on_field: 3,
     },
     {
         id: "u8",
@@ -262,8 +380,27 @@ export const DUMMY_USERS: User[] = [
         department: "Operations",
         last_active_at: "1 hour ago",
         created_at: "2024-05-10",
-        deals_managed: 24,
+        // 2. Communication (Calls)
+        calls_assigned: 200,
+        calls_dials: 150,
+        calls_connected: 120,
+        calls_voicemails: 30,
+        // 4. Communication (SMS)
+        sms_assigned: 50,
+        sms_sent: 25,
+        sms_received: 20,
+        // 5. Tasks
+        tasks_assigned: 20,
+        tasks_in_progress: 4,
+        tasks_completed: 12,
+        // 6. Sales & Opportunities
+        opportunities_assigned: 24,
+        opportunities_in_progress: 6,
+        opportunities_won: 15,
+        pipeline_value: 580000,
         revenue_generated: 425000,
+        // 7. Field Service & Booking
+        jobs_assigned: 25,
         jobs_completed: 18,
     },
     {
@@ -278,7 +415,10 @@ export const DUMMY_USERS: User[] = [
         certification: "Electrician Level 2",
         last_active_at: "5 minutes ago",
         created_at: "2024-06-01",
+        // 7. Field Service & Booking
+        jobs_assigned: 100,
         jobs_completed: 89,
+        jobs_lost: 2,
     },
     {
         id: "u10",
@@ -292,7 +432,10 @@ export const DUMMY_USERS: User[] = [
         certification: "Plumbing Specialist",
         last_active_at: "Just now",
         created_at: "2024-06-15",
+        // 7. Field Service & Booking
+        jobs_assigned: 75,
         jobs_completed: 64,
+        jobs_lost: 3,
     },
     {
         id: "u11",
@@ -306,7 +449,10 @@ export const DUMMY_USERS: User[] = [
         certification: "Roofing Expert",
         last_active_at: "45 minutes ago",
         created_at: "2024-07-01",
+        // 7. Field Service & Booking
+        jobs_assigned: 130,
         jobs_completed: 112,
+        jobs_lost: 5,
     },
     {
         id: "u12",
@@ -320,7 +466,10 @@ export const DUMMY_USERS: User[] = [
         certification: "Solar Panel Installer",
         last_active_at: "10 minutes ago",
         created_at: "2024-07-10",
+        // 7. Field Service & Booking
+        jobs_assigned: 50,
         jobs_completed: 45,
+        jobs_lost: 2,
         mobile: "+1 (555) 345-2222",
         address: "742 Evergreen Terrace, Springfield",
     },
