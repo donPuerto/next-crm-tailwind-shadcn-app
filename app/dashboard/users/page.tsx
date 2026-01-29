@@ -276,7 +276,7 @@ export default function UsersPage() {
             {isSales && (
               <>
                 <div className="text-sm">
-                  <span className="text-muted-foreground">Opportunities:</span> <span className="font-medium">{user.opportunities_managed || 0}</span>
+                  <span className="text-muted-foreground">Opportunities:</span> <span className="font-medium">{user.opportunities_assigned || 0}</span>
                 </div>
                 <div className="text-sm">
                   <span className="text-muted-foreground">Revenue:</span> <span className="font-medium text-green-600">${((user.revenue_generated || 0) / 1000).toFixed(0)}k</span>
