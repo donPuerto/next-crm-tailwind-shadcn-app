@@ -317,10 +317,10 @@ export function CommandSearch() {
                                                     <span className="text-[10px] font-bold text-muted-foreground/70 capitalize group-data-[selected=true]:text-primary-800/70 dark:group-data-[selected=true]:text-primary-100/70">{user.status.replace('_', ' ')}</span>
                                                 </div>
                                                 <span className="text-[10px] font-bold text-muted-foreground/40 group-data-[selected=true]:text-primary-900/40 dark:group-data-[selected=true]:text-primary-100/40 uppercase tracking-tighter">{user.department}</span>
-                                                {(user.tasks_completed !== undefined || user.tasks_pending !== undefined) && (
+                                                {(user.tasks_completed !== undefined || user.tasks_in_progress !== undefined) && (
                                                     <div className="flex gap-2 text-[9px] font-black opacity-60">
                                                         <span className="text-green-600">✓{user.tasks_completed || 0}</span>
-                                                        <span className="text-amber-600">!{user.tasks_pending || 0}</span>
+                                                        <span className="text-amber-600">!{user.tasks_in_progress || 0}</span>
                                                     </div>
                                                 )}
                                             </div>

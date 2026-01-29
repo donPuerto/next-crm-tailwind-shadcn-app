@@ -347,14 +347,14 @@ export default function UsersPage() {
                 </div>
               </>
             )}
-            {(user.tasks_completed !== undefined || user.tasks_pending !== undefined) && (
+            {(user.tasks_completed !== undefined || user.tasks_in_progress !== undefined) && (
               <div className="mt-1 pt-1 border-t border-border/50">
                 <div className="text-[11px] flex items-center justify-between font-bold">
                   <span className="text-muted-foreground uppercase tracking-tighter">Tasks</span>
                   <div className="flex gap-2">
                     <span className="text-green-600">✓ {user.tasks_completed || 0}</span>
-                    <span className={user.tasks_pending && user.tasks_pending > 10 ? "text-red-500" : "text-amber-600"}>
-                      ! {user.tasks_pending || 0}
+                    <span className={user.tasks_in_progress && user.tasks_in_progress > 10 ? "text-red-500" : "text-amber-600"}>
+                      ! {user.tasks_in_progress || 0}
                     </span>
                   </div>
                 </div>
