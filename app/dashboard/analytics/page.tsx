@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useTheme } from "@/app/hooks/useTheme";
 import {
   TrendingUp,
   Users,
@@ -65,7 +64,6 @@ const chartConfig = {
 
 
 export default function AnalyticsPage() {
-  const { theme, color } = useTheme();
   const [colors, setColors] = useState({
     chart1: "oklch(0.81 0.17 75.35)",
     chart2: "oklch(0.55 0.22 264.53)",
@@ -85,22 +83,35 @@ export default function AnalyticsPage() {
       .toString(16).slice(1);
   };
 
-  // Update chart colors when theme or color changes
+  // Update chart colors when theme color changes
   useEffect(() => {
-    const baseColor = COLOR_CONFIG[color]?.hex || '#EC4899';
+    const updateColors = () => {
+      const currentColor = (localStorage.getItem('app-color') || 'pink') as keyof typeof COLOR_CONFIG;
+      const baseColor = COLOR_CONFIG[currentColor]?.hex || '#EC4899';
 
+      // Generate 3 variations of the selected color
+      const newColors = {
+        chart1: baseColor,
+        chart2: adjustBrightness(baseColor, -15), // Darker
+        chart3: adjustBrightness(baseColor, -30), // Much darker
+      };
 
-    // Generate 3 variations of the selected color
-    const newColors = {
-      chart1: baseColor,
-      chart2: adjustBrightness(baseColor, -15), // Darker
-      chart3: adjustBrightness(baseColor, -30), // Much darker
+      setColors(newColors);
     };
 
-    /* eslint-disable react-hooks/set-state-in-effect */
-    setColors(newColors);
-    /* eslint-enable react-hooks/set-state-in-effect */
-  }, [color, theme]);
+    updateColors();
+
+    // Listen for theme-changed events
+    window.addEventListener('theme-changed', updateColors);
+    
+    // Poll for changes (fallback)
+    const intervalId = setInterval(updateColors, 500);
+
+    return () => {
+      window.removeEventListener('theme-changed', updateColors);
+      clearInterval(intervalId);
+    };
+  }, []);
   return (
     <div className="space-y-6">
       {/* Header */}

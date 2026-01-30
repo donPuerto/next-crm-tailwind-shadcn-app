@@ -25,18 +25,27 @@ export default function DashboardPage() {
       <Tabs defaultValue="overview" className="space-y-4">
         <TabsList>
           <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="analytics" disabled>
-            Analytics
-          </TabsTrigger>
-          <TabsTrigger value="reports" disabled>
-            Reports
-          </TabsTrigger>
-          <TabsTrigger value="notifications" disabled>
-            Notifications
-          </TabsTrigger>
+          <TabsTrigger value="analytics">Analytics</TabsTrigger>
+          <TabsTrigger value="reports">Reports</TabsTrigger>
+          <TabsTrigger value="notifications">Notifications</TabsTrigger>
         </TabsList>
         <TabsContent value="overview" className="space-y-4">
           <OverviewTab />
+        </TabsContent>
+        <TabsContent value="analytics" className="space-y-4">
+          <div className="rounded-base border border-border bg-card p-6 text-sm text-muted-foreground">
+            Analytics content coming soon.
+          </div>
+        </TabsContent>
+        <TabsContent value="reports" className="space-y-4">
+          <div className="rounded-base border border-border bg-card p-6 text-sm text-muted-foreground">
+            Reports content coming soon.
+          </div>
+        </TabsContent>
+        <TabsContent value="notifications" className="space-y-4">
+          <div className="rounded-base border border-border bg-card p-6 text-sm text-muted-foreground">
+            Notifications content coming soon.
+          </div>
         </TabsContent>
       </Tabs>
     </div>

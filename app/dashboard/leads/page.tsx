@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
-import { useTheme } from "@/app/hooks/useTheme";
 import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -121,7 +120,6 @@ const defaultWidgets: Widget[] = [
 ];
 
 export default function LeadDashboardPage() {
-  const { theme: _theme, color: _color } = useTheme();
   const [widgets, setWidgets] = useState<Widget[]>(defaultWidgets);
   const [showWidgetSettings, setShowWidgetSettings] = useState(false);
   const [colors, setColors] = useState(() => {

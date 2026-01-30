@@ -46,7 +46,7 @@ export function TestimonialsSection() {
                         Loved by teams everywhere
                     </h2>
                     <p className="text-lg text-muted-foreground font-medium max-w-2xl mx-auto">
-                        Don't just take our word for it. Here's what real users have to say.
+                        Don&apos;t just take our word for it. Here&apos;s what real users have to say.
                     </p>
                 </div>
 
@@ -77,7 +77,7 @@ export function TestimonialsSection() {
 
                                 {/* Content */}
                                 <p className="text-muted-foreground leading-relaxed font-medium">
-                                    "{testimonial.content}"
+                                    &quot;{testimonial.content}&quot;
                                 </p>
 
                                 {/* Author */}

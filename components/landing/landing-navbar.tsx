@@ -15,7 +15,8 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Icon } from "@/components/ui/icon";
-import { useTheme } from "@/app/hooks/useTheme";
+import { useTheme } from "next-themes";
+import { useThemeConfig } from "@/components/themes/active-theme";
 import { AVAILABLE_THEMES, THEME_CONFIG } from "@/lib/constants/themes";
 
 const NAV_ITEMS = [
@@ -43,7 +44,13 @@ interface LandingNavbarProps {
 export function LandingNavbar({ className }: LandingNavbarProps) {
     const [isScrolled, setIsScrolled] = React.useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
-    const { theme, setTheme, isDark, setDarkMode, mounted } = useTheme();
+    const { theme: darkMode, setTheme: setDarkMode } = useTheme();
+    const { activeTheme, setActiveTheme } = useThemeConfig();
+    const [mounted, setMounted] = React.useState(false);
+
+    React.useEffect(() => {
+        setMounted(true);
+    }, []);
 
     React.useEffect(() => {
         const handleScroll = () => {
@@ -108,16 +115,16 @@ export function LandingNavbar({ className }: LandingNavbarProps) {
                             <DropdownMenuContent align="end" className="w-48">
                                 <DropdownMenuLabel>Appearance</DropdownMenuLabel>
                                 <DropdownMenuSeparator />
-                                <DropdownMenuItem onClick={() => setDarkMode(!isDark)}>
-                                    <Icon name={isDark ? "Sun" : "Moon"} className="mr-2 h-4 w-4" />
-                                    {isDark ? "Light Mode" : "Dark Mode"}
+                                <DropdownMenuItem onClick={() => setDarkMode(darkMode === 'dark' ? 'light' : 'dark')}>
+                                    <Icon name={darkMode === 'dark' ? "Sun" : "Moon"} className="mr-2 h-4 w-4" />
+                                    {darkMode === 'dark' ? "Light Mode" : "Dark Mode"}
                                 </DropdownMenuItem>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuLabel className="text-xs text-muted-foreground">Themes</DropdownMenuLabel>
                                 {AVAILABLE_THEMES.slice(0, 5).map((t) => (
-                                    <DropdownMenuItem key={t} onClick={() => setTheme(t)} className="justify-between">
+                                    <DropdownMenuItem key={t} onClick={() => setActiveTheme(t)} className="justify-between">
                                         {THEME_CONFIG[t].name}
-                                        {theme === t && <Icon name="Check" className="h-3 w-3" />}
+                                        {activeTheme === t && <Icon name="Check" className="h-3 w-3" />}
                                     </DropdownMenuItem>
                                 ))}
                             </DropdownMenuContent>

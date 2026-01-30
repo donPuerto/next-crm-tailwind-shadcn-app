@@ -355,7 +355,7 @@ export default function AllLeadsPage() {
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0" align="end">
-                  <div className="flex gap-2 p-3 border-b">
+                  <div className="flex gap-2 p-3 border-b [data-theme=neobrutalism]&:border-b-2 [data-theme=neobrutalism]&:border-border">
                     <Button variant="outline" size="sm" onClick={() => {
                       const today = new Date();
                       today.setHours(0, 0, 0, 0);
@@ -381,7 +381,7 @@ export default function AllLeadsPage() {
                     }}>Last 6 Months</Button>
                   </div>
                   <div className="flex">
-                    <div className="p-3 border-r">
+                    <div className="p-3 border-r [data-theme=neobrutalism]&:border-r-2 [data-theme=neobrutalism]&:border-border">
                       <p className="text-sm font-medium mb-2">From</p>
                       <Calendar mode="single" selected={dateRange.from} onSelect={(date) => date && setDateRange(prev => ({ ...prev, from: date }))} initialFocus />
                     </div>

@@ -1,5 +1,5 @@
-/* Light Mode Variables: Defined on body for correct scope */
-[data-theme='mono'] body {
+/* Light Mode Variables: Defined on root to allow global heritage */
+[data-theme='mono'] {
     --background: oklch(1 0 0);
     --foreground: oklch(0.1448 0 0);
     --card: oklch(1 0 0);
@@ -58,8 +58,8 @@
     --spacing: 0.25rem;
 }
 
-/* Dark Mode Variables: Defined on body for correct scope */
-[data-theme='mono'].dark body {
+/* Dark Mode Variables: Defined on root for correct scope */
+[data-theme='mono'].dark {
     --background: oklch(0.1448 0 0);
     --foreground: oklch(0.9851 0 0);
     --card: oklch(0.2134 0 0);
@@ -92,9 +92,10 @@
     --sidebar-accent-foreground: oklch(0.9851 0 0);
     --sidebar-border: oklch(1 0 0);
     --sidebar-ring: oklch(0.4386 0 0);
-    --font-sans: var(--font-mono), ui-monospace, monospace;
-    --font-serif: var(--font-mono), ui-monospace, monospace;
-    --font-mono: var(--font-mono), ui-monospace, monospace;
+    --sidebar-ring: oklch(0.709 0 0);
+    --font-sans: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    --font-serif: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    /* --font-mono is already correctly defined globally by Next.js on the body */
     --radius: 0rem;
     --shadow-x: 0px;
     --shadow-y: 1px;

@@ -170,7 +170,7 @@ function Sidebar({
       <div
         data-slot="sidebar"
         className={cn(
-          "bg-sidebar text-sidebar-foreground flex h-full w-(--sidebar-width) flex-col",
+          "bg-sidebar text-sidebar-foreground flex h-full w-(--sidebar-width) flex-col [[data-theme=neobrutalism]_&]:border-r-2 [[data-theme=neobrutalism]_&]:border-border [[data-theme=neobrutalism]_&]:shadow-shadow [[data-theme=neobrutalism]_&]:from-main/30 [[data-theme=neobrutalism]_&]:via-secondary-background/20 [[data-theme=neobrutalism]_&]:to-transparent [[data-theme=neobrutalism]_&]:bg-gradient-to-b",
           className
         )}
         {...props}
@@ -244,7 +244,7 @@ function Sidebar({
         <div
           data-sidebar="sidebar"
           data-slot="sidebar-inner"
-          className="bg-sidebar group-data-[variant=floating]:border-sidebar-border flex h-full w-full flex-col border-r border-border group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:shadow-sm"
+          className="bg-sidebar group-data-[variant=floating]:border-sidebar-border flex h-full w-full flex-col border-r border-border group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:shadow-sm [[data-theme=neobrutalism]_&]:border-r-2 [[data-theme=neobrutalism]_&]:border-border [[data-theme=neobrutalism]_&]:shadow-shadow"
         >
           {children}
         </div>

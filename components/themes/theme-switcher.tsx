@@ -69,9 +69,9 @@ export function ThemeSwitcher() {
                     <span className='sr-only'>Theme settings</span>
                 </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align='end' className='w-80 p-4'>
+            <DropdownMenuContent align='end' className='w-80 p-6'>
                 {/* Header */}
-                <div className='flex items-center justify-between mb-4'>
+                <div className='flex items-center justify-between mb-6'>
                     <span className='text-sm font-semibold leading-none'>Theme Settings</span>
                     <Button
                         variant='ghost'
@@ -91,7 +91,7 @@ export function ThemeSwitcher() {
                         Theme Style
                     </Label>
                     <Select value={activeTheme} onValueChange={setActiveTheme}>
-                        <SelectTrigger className='h-8'>
+                        <SelectTrigger className='h-9 w-full'>
                             <SelectValue placeholder='Select theme' />
                         </SelectTrigger>
                         <SelectContent>
@@ -104,14 +104,14 @@ export function ThemeSwitcher() {
                     </Select>
                 </div>
 
-                <div className='my-4 h-px bg-border/50' />
+                <div className='my-6 h-px bg-border/50' />
 
                 {/* Theme Color Selection (Grid) */}
-                <div className='space-y-3'>
+                <div className='space-y-4'>
                     <Label className='text-xs text-muted-foreground font-medium uppercase tracking-wider'>
                         Theme Color
                     </Label>
-                    <div className='grid grid-cols-5 gap-2'>
+                    <div className='grid grid-cols-5 gap-3'>
                         {AVAILABLE_COLORS.map((color) => (
                             <button
                                 key={color}
@@ -131,11 +131,11 @@ export function ThemeSwitcher() {
                     </div>
                 </div>
 
-                <div className='my-4 h-px bg-border/50' />
+                <div className='my-6 h-px bg-border/50' />
 
                 {/* Radius Slider */}
-                <div className='space-y-3'>
-                    <div className='flex items-center justify-between'>
+                <div className='space-y-4'>
+                    <div className='flex items-center justify-between gap-2'>
                         <Label className='text-xs text-muted-foreground font-medium uppercase tracking-wider'>
                             Radius
                         </Label>

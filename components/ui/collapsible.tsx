@@ -2,6 +2,8 @@
 
 import * as CollapsiblePrimitive from "@radix-ui/react-collapsible"
 
+import { cn } from "@/lib/utils"
+
 function Collapsible({
   ...props
 }: React.ComponentProps<typeof CollapsiblePrimitive.Root>) {
@@ -9,11 +11,16 @@ function Collapsible({
 }
 
 function CollapsibleTrigger({
+  className,
   ...props
 }: React.ComponentProps<typeof CollapsiblePrimitive.CollapsibleTrigger>) {
   return (
     <CollapsiblePrimitive.CollapsibleTrigger
       data-slot="collapsible-trigger"
+      className={cn(
+        "[[data-theme=neobrutalism]_&]:border-2 [[data-theme=neobrutalism]_&]:border-border [[data-theme=neobrutalism]_&]:rounded-base [[data-theme=neobrutalism]_&]:font-base [[data-theme=neobrutalism]_&]:shadow-shadow [[data-theme=neobrutalism]_&]:bg-main [[data-theme=neobrutalism]_&]:text-main-foreground",
+        className
+      )}
       {...props}
     />
   )

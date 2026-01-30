@@ -45,7 +45,7 @@ export function HowItWorksSection() {
                         How it works
                     </h2>
                     <p className="text-lg text-muted-foreground font-medium max-w-2xl mx-auto">
-                        Get up and running in minutes, not months. Here's how simple it is.
+                        Get up and running in minutes, not months. Here&apos;s how simple it is.
                     </p>
                 </div>
 

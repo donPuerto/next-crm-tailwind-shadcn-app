@@ -1,7 +1,6 @@
 "use client"
 
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts"
-import { useTheme } from "@/app/hooks/useTheme"
 import { useEffect, useState } from "react"
 import { COLOR_CONFIG } from "@/lib/constants/themes"
 
@@ -57,19 +56,31 @@ const data = [
 ]
 
 export function OverviewChart() {
-    const { color } = useTheme();
     const [chartColor, setChartColor] = useState('#adfa1d'); // Default green from screenshot
 
     useEffect(() => {
         // Dynamically set color based on current theme preference
-        if (typeof window !== 'undefined') {
-            const currentColor = (localStorage.getItem('app-color') || 'pink') as keyof typeof COLOR_CONFIG;
-            const baseColor = COLOR_CONFIG[currentColor]?.hex || '#EC4899';
-            /* eslint-disable react-hooks/set-state-in-effect */
-            setChartColor(baseColor);
-            /* eslint-enable react-hooks/set-state-in-effect */
-        }
-    }, [color]);
+        const updateColor = () => {
+            if (typeof window !== 'undefined') {
+                const currentColor = (localStorage.getItem('app-color') || 'pink') as keyof typeof COLOR_CONFIG;
+                const baseColor = COLOR_CONFIG[currentColor]?.hex || '#EC4899';
+                setChartColor(baseColor);
+            }
+        };
+
+        updateColor();
+
+        // Listen for theme-changed events
+        window.addEventListener('theme-changed', updateColor);
+
+        // Poll for changes (fallback)
+        const intervalId = setInterval(updateColor, 500);
+
+        return () => {
+            window.removeEventListener('theme-changed', updateColor);
+            clearInterval(intervalId);
+        };
+    }, []);
 
     return (
         <ResponsiveContainer width="100%" height={350}>

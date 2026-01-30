@@ -8,11 +8,16 @@ import {
     useState
 } from 'react';
 
-import { DEFAULT_THEME, ThemeColor, COLOR_CONFIG } from '@/components/themes/theme.config';
+import { DEFAULT_THEME, ThemeColor, COLOR_CONFIG, AVAILABLE_COLORS } from '@/components/themes/theme.config';
 
 const THEME_COOKIE = 'active_theme';
 const COLOR_COOKIE = 'active_color';
 
+/**
+ * Persist theme values as cookies for SSR alignment.
+ * @param name - Cookie name
+ * @param value - Cookie value
+ */
 function setCookie(name: string, value: string) {
     if (typeof window === 'undefined') return;
     document.cookie = `${name}=${value}; path=/; max-age=31536000; SameSite=Lax; ${window.location.protocol === 'https:' ? 'Secure;' : ''}`;
@@ -27,41 +32,73 @@ type ThemeContextType = {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
+/**
+ * Active theme provider that syncs theme and color with cookies and DOM.
+ * @param children - Wrapped application content
+ * @param initialTheme - Initial theme from SSR cookies
+ * @returns Theme context provider
+ */
 export function ActiveThemeProvider({
     children,
-    initialTheme
+    initialTheme,
+    initialColor
 }: {
     children: ReactNode;
     initialTheme?: string;
+    initialColor?: string;
 }) {
     const themeToUse = initialTheme || DEFAULT_THEME;
     const [activeTheme, setActiveTheme] = useState<string>(themeToUse);
-    const [activeColor, setActiveColor] = useState<ThemeColor | undefined>(undefined);
+    const [activeColor, setActiveColor] = useState<ThemeColor | undefined>(() => {
+        if (initialColor && (AVAILABLE_COLORS as readonly string[]).includes(initialColor)) {
+            return initialColor as ThemeColor;
+        }
+        return undefined;
+    });
 
-    // Handle Theme Style Change
+    // Ensure active color is set on first load (cookie only)
+    useEffect(() => {
+        if (activeColor) return;
+
+        if (initialColor && (AVAILABLE_COLORS as readonly string[]).includes(initialColor)) {
+            setActiveColor(initialColor as ThemeColor);
+        }
+    }, [activeColor, initialColor]);
+
+    // Apply theme style changes and notify listeners
     useEffect(() => {
         const currentTheme = document.documentElement.getAttribute('data-theme');
         if (currentTheme !== activeTheme) {
             setCookie(THEME_COOKIE, activeTheme);
+            localStorage.setItem('app-theme', activeTheme);
             document.documentElement.removeAttribute('data-theme');
 
-            // Cleanup old theme classes
+            // Cleanup old theme classes to avoid style leakage
             Array.from(document.body.classList)
                 .filter((className) => className.startsWith('theme-'))
                 .forEach((className) => document.body.classList.remove(className));
 
-            // Set new theme
+            // Set new theme attribute for CSS variables
             if (activeTheme) {
                 document.documentElement.setAttribute('data-theme', activeTheme);
             }
+
+            // Broadcast theme change for charts and listeners
+            window.dispatchEvent(new CustomEvent('theme-changed', { detail: { theme: activeTheme } }));
         }
     }, [activeTheme]);
 
-    // Handle Color Change
+    // Apply color changes and notify listeners
     useEffect(() => {
-        if (!activeColor) return;
+        if (!activeColor) {
+            document.documentElement.removeAttribute('data-color');
+            document.documentElement.style.removeProperty('--primary');
+            document.documentElement.style.removeProperty('--ring');
+            return;
+        }
 
         setCookie(COLOR_COOKIE, activeColor);
+        localStorage.setItem('app-color', activeColor);
         const colorConfig = COLOR_CONFIG[activeColor];
         if (colorConfig) {
             // Override CSS variables for primary color
@@ -71,16 +108,24 @@ export function ActiveThemeProvider({
 
             // Also helpful to set a data attribute for styling hooks
             document.documentElement.setAttribute('data-color', activeColor);
+
+            // Broadcast color change for charts and listeners
+            window.dispatchEvent(new CustomEvent('theme-changed', { detail: { color: activeColor } }));
         }
     }, [activeColor]);
 
     return (
+        // Theme context provider wrapper
         <ThemeContext.Provider value={{ activeTheme, setActiveTheme, activeColor, setActiveColor }}>
             {children}
         </ThemeContext.Provider>
     );
 }
 
+/**
+ * Access the active theme context.
+ * @returns Theme context values
+ */
 export function useThemeConfig() {
     const context = useContext(ThemeContext);
     if (context === undefined) {

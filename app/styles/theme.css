@@ -1,6 +1,6 @@
 /* Import individual theme files */
 @import './themes/claude.css';
-@import './themes/neobrutualism.css';
+@import './themes/neobrutalism.css';
 @import './themes/supabase.css';
 @import './themes/vercel.css';
 @import './themes/mono.css';
@@ -14,43 +14,16 @@ body {
     --header-height: calc(var(--spacing, 0.25rem) * 12 + 1px);
 }
 
-/* Apply theme fonts to body */
+/* Apply theme fonts to body for all themes */
+/* This ensures theme-specific fonts override Next.js font variables */
+/* Font variables are defined on [data-theme] (html element) */
+/* We need to override Next.js font variables on body to use html's values */
+/* Using initial removes the property, allowing parent (html) values to cascade */
 [data-theme] body {
+    /* Remove Next.js font variables to allow theme variables from html to cascade */
+    --font-sans: initial;
+    --font-mono: initial;
+    --font-serif: initial;
+    /* Apply font-family - will now resolve from html's [data-theme] variables */
     font-family: var(--font-sans);
-}
-
-/* View Transition Wave Effect */
-::view-transition-old(root),
-::view-transition-new(root) {
-    animation: none;
-    mix-blend-mode: normal;
-}
-
-::view-transition-old(root) {
-    /* Ensure the outgoing view (old theme) is beneath */
-    z-index: 0;
-}
-
-::view-transition-new(root) {
-    /* Ensure the incoming view (new theme) is always on top */
-    z-index: 1;
-}
-
-@keyframes reveal {
-    from {
-        /* Use CSS variables for the origin, defaulting to center if not set */
-        clip-path: circle(0% at var(--x, 50%) var(--y, 50%));
-        opacity: 0.7;
-    }
-
-    to {
-        /* Use CSS variables for the origin, defaulting to center if not set */
-        clip-path: circle(150% at var(--x, 50%) var(--y, 50%));
-        opacity: 1;
-    }
-}
-
-::view-transition-new(root) {
-    /* Apply the reveal animation */
-    animation: reveal 0.4s ease-in-out forwards;
 }

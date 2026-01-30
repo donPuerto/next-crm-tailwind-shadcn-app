@@ -1,10 +1,12 @@
 // Theme configuration constants
-export const AVAILABLE_THEMES = ['vercel', 'neo-brutalism'] as const;
+export const AVAILABLE_THEMES = ['vercel', 'neobrutalism'] as const;
 export type Theme = (typeof AVAILABLE_THEMES)[number];
 
 export const AVAILABLE_COLORS = [
+  'red',
   'neutral',
   'amber',
+  'yellow',
   'blue',
   'cyan',
   'emerald',
@@ -12,8 +14,13 @@ export const AVAILABLE_COLORS = [
   'green',
   'indigo',
   'lime',
+  'teal',
   'orange',
-  'pink'
+  'pink',
+  'rose',
+  'sky',
+  'violet',
+  'purple'
 ] as const;
 export type ThemeColor = (typeof AVAILABLE_COLORS)[number];
 
@@ -26,15 +33,17 @@ export const THEME_CONFIG: Record<Theme, { name: string; description: string }> 
     name: 'Vercel',
     description: 'Clean, minimal, professional'
   },
-  'neo-brutalism': {
+  neobrutalism: {
     name: 'Neo Brutalism',
     description: 'Bold, raw, high-contrast'
   }
 };
 
 export const COLOR_CONFIG: Record<ThemeColor, { name: string; hex: string }> = {
+  red: { name: 'Red', hex: '#FF4D50' },
   neutral: { name: 'Neutral', hex: '#808080' },
   amber: { name: 'Amber', hex: '#FFA500' },
+  yellow: { name: 'Yellow', hex: '#FACC00' },
   blue: { name: 'Blue', hex: '#3B82F6' },
   cyan: { name: 'Cyan', hex: '#06B6D4' },
   emerald: { name: 'Emerald', hex: '#10B981' },
@@ -42,8 +51,13 @@ export const COLOR_CONFIG: Record<ThemeColor, { name: string; hex: string }> = {
   green: { name: 'Green', hex: '#22C55E' },
   indigo: { name: 'Indigo', hex: '#4F46E5' },
   lime: { name: 'Lime', hex: '#84CC16' },
+  teal: { name: 'Teal', hex: '#00D6BD' },
   orange: { name: 'Orange', hex: '#F97316' },
-  pink: { name: 'Pink', hex: '#EC4899' }
+  pink: { name: 'Pink', hex: '#EC4899' },
+  rose: { name: 'Rose', hex: '#FF6678' },
+  sky: { name: 'Sky', hex: '#0099FF' },
+  violet: { name: 'Violet', hex: '#A985FF' },
+  purple: { name: 'Purple', hex: '#CA7AFF' }
 };
 
 export const BASE_COLOR_CONFIG: Record<BaseColor, { name: string; hex: string }> = {

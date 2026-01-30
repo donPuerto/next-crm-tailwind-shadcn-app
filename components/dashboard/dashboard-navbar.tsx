@@ -15,7 +15,7 @@ import { ThemeSwitcher } from "@/components/themes/theme-switcher"
 
 export function DashboardNavbar() {
     return (
-        <header className="sticky top-0 z-10 flex h-16 shrink-0 items-center gap-4 border-b bg-background px-4 md:px-8 shadow-sm">
+        <header className="sticky top-0 z-10 flex h-16 shrink-0 items-center gap-4 border-b bg-background px-4 md:px-8 shadow-sm [[data-theme=neobrutalism]_&]:border-b-2 [[data-theme=neobrutalism]_&]:border-border [[data-theme=neobrutalism]_&]:shadow-shadow [[data-theme=neobrutalism]_&]:bg-sidebar [[data-theme=neobrutalism]_&]:from-main/30 [[data-theme=neobrutalism]_&]:via-secondary-background/20 [[data-theme=neobrutalism]_&]:to-transparent [[data-theme=neobrutalism]_&]:bg-gradient-to-b">
             <div className="flex items-center h-full">
                 <SidebarTrigger className="-ml-1" />
                 <div className="w-px h-6 bg-border ml-3 mr-5 shrink-0" aria-hidden="true" />
