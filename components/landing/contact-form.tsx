@@ -53,37 +53,37 @@ export function ContactForm({ forceMobile = false }: ContactFormProps) {
                                 </p>
                             </div>
 
-                            <div className="space-y-4 flex-1">
-                                {/* Email Card */}
-                                <div className="flex items-start gap-4 p-4 rounded-xl border border-[#FF3B6B]/20 bg-[#FF3B6B]/5 hover:bg-[#FF3B6B]/10 transition-colors">
-                                    <div className="bg-[#FF3B6B]/10 p-2.5 rounded-lg text-[#FF3B6B]">
+                            <div className="space-y-6 flex-1">
+                                {/* Email */}
+                                <div className="flex items-start gap-4">
+                                    <div className="p-2.5 rounded-lg text-[#FF3B6B]">
                                         <Mail className="h-5 w-5" />
                                     </div>
                                     <div>
-                                        <p className="font-bold text-sm">Email</p>
-                                        <p className="text-[#FF3B6B] font-medium break-all">don.puerto.1003@gmail.com</p>
+                                        <p className="font-semibold text-sm text-muted-foreground mb-1">Email</p>
+                                        <p className="text-foreground font-medium break-all">don.puerto.1003@gmail.com</p>
                                     </div>
                                 </div>
 
-                                {/* Phone Card */}
-                                <div className="flex items-start gap-4 p-4 rounded-xl border border-[#FF3B6B]/20 bg-[#FF3B6B]/5 hover:bg-[#FF3B6B]/10 transition-colors">
-                                    <div className="bg-[#FF3B6B]/10 p-2.5 rounded-lg text-[#FF3B6B]">
+                                {/* Phone */}
+                                <div className="flex items-start gap-4">
+                                    <div className="p-2.5 rounded-lg text-[#FF3B6B]">
                                         <Phone className="h-5 w-5" />
                                     </div>
                                     <div>
-                                        <p className="font-bold text-sm">Phone</p>
-                                        <p className="text-[#FF3B6B] font-medium">0976 093 8376</p>
+                                        <p className="font-semibold text-sm text-muted-foreground mb-1">Phone</p>
+                                        <p className="text-foreground font-medium">0976 093 8376</p>
                                     </div>
                                 </div>
 
-                                {/* Location Card */}
-                                <div className="flex items-start gap-4 p-4 rounded-xl border border-[#FF3B6B]/20 bg-[#FF3B6B]/5 hover:bg-[#FF3B6B]/10 transition-colors">
-                                    <div className="bg-[#FF3B6B]/10 p-2.5 rounded-lg text-[#FF3B6B]">
+                                {/* Location */}
+                                <div className="flex items-start gap-4">
+                                    <div className="p-2.5 rounded-lg text-[#FF3B6B]">
                                         <MapPin className="h-5 w-5" />
                                     </div>
                                     <div>
-                                        <p className="font-bold text-sm">Location</p>
-                                        <p className="text-[#FF3B6B] font-medium">Davao City, Philippines</p>
+                                        <p className="font-semibold text-sm text-muted-foreground mb-1">Location</p>
+                                        <p className="text-foreground font-medium">Davao City, Philippines</p>
                                     </div>
                                 </div>
                             </div>

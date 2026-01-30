@@ -183,26 +183,26 @@ function HeroSection({ isMobile }: { isMobile: boolean }) {
                     </Button>
                 </div>
 
-                {/* Social Proof with Gradient Avatars */}
+                {/* Social Proof with Gradient Avatars - Improved Contrast */}
                 <div className={cn(
-                    "mt-12 flex items-center gap-4 text-xs md:text-sm font-medium text-muted-foreground bg-white/40 backdrop-blur-md px-5 py-2 rounded-full border shadow-sm transition-all duration-1000 delay-500",
+                    "mt-12 flex items-center gap-4 text-sm md:text-base font-semibold bg-white dark:bg-card border-2 border-[#FF3B6B]/20 px-6 py-3 rounded-full shadow-lg shadow-[#FF3B6B]/10 hover:shadow-xl hover:shadow-[#FF3B6B]/20 transition-all duration-700 delay-500",
                     isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
                 )}>
                     <div className="flex -space-x-3">
                         {/* Gradient Avatar 1 */}
-                        <div className="w-7 h-7 rounded-full border-2 border-white bg-gradient-to-br from-[#FF3B6B] to-[#E63560] flex items-center justify-center text-[10px] font-bold text-white overflow-hidden">
+                        <div className="w-8 h-8 rounded-full border-2 border-white dark:border-card bg-gradient-to-br from-[#FF3B6B] to-[#E63560] flex items-center justify-center text-xs font-bold text-white overflow-hidden shadow-md">
                             SC
                         </div>
                         {/* Gradient Avatar 2 */}
-                        <div className="w-7 h-7 rounded-full border-2 border-white bg-gradient-to-br from-[#E63560] to-[#FF3B6B] flex items-center justify-center text-[10px] font-bold text-white overflow-hidden">
+                        <div className="w-8 h-8 rounded-full border-2 border-white dark:border-card bg-gradient-to-br from-[#E63560] to-[#FF3B6B] flex items-center justify-center text-xs font-bold text-white overflow-hidden shadow-md">
                             MJ
                         </div>
                         {/* Gradient Avatar 3 */}
-                        <div className="w-7 h-7 rounded-full border-2 border-white bg-gradient-to-br from-[#FF3B6B] via-[#E63560] to-[#FF3B6B] flex items-center justify-center text-[10px] font-bold text-white overflow-hidden">
+                        <div className="w-8 h-8 rounded-full border-2 border-white dark:border-card bg-gradient-to-br from-[#FF3B6B] via-[#E63560] to-[#FF3B6B] flex items-center justify-center text-xs font-bold text-white overflow-hidden shadow-md">
                             ER
                         </div>
                     </div>
-                    <p>Trusted by <span className="font-bold text-foreground">500+</span> pros.</p>
+                    <p className="text-foreground">Trusted by <span className="font-extrabold text-[#FF3B6B]">500+</span> pros.</p>
                 </div>
             </div>
         </section>

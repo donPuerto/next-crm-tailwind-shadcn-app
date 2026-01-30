@@ -8,10 +8,11 @@ import { Separator } from "@/components/ui/separator"
 import { CommandSearch } from "./command-search"
 import { NavbarApps } from "./navbar-apps"
 import { UserNav } from "./user-nav"
-import { ThemeToggle } from "./theme-toggle"
 import { LanguageSwitcher } from "./language-switcher"
 import { NotificationsSheet } from "./notifications-sheet"
 import { ChatSheet } from "./chat-sheet"
+import { ThemeSelector } from "@/components/themes/theme-selector"
+import { ThemeModeToggle } from "@/components/themes/theme-mode-toggle"
 
 export function DashboardNavbar() {
     return (
@@ -27,8 +28,11 @@ export function DashboardNavbar() {
                 {/* Language */}
                 <LanguageSwitcher />
 
-                {/* Theme Toggle */}
-                <ThemeToggle />
+                {/* Theme Selector */}
+                <ThemeSelector />
+
+                {/* Theme Mode Toggle */}
+                <ThemeModeToggle />
 
                 {/* Notifications */}
                 <NotificationsSheet />
