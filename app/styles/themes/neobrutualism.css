@@ -1,4 +1,5 @@
-[data-theme='mono'] {
+/* Light Mode Variables: Defined on body for correct scope */
+[data-theme='neobrutualism'] body {
     --background: oklch(1 0 0);
     --foreground: oklch(0.1448 0 0);
     --card: oklch(1 0 0);
@@ -31,9 +32,9 @@
     --sidebar-accent-foreground: oklch(0.2046 0 0);
     --sidebar-border: oklch(0.9219 0 0);
     --sidebar-ring: oklch(0.709 0 0);
-    --font-sans: Geist Mono, monospace;
-    --font-serif: Geist Mono, monospace;
-    --font-mono: Geist Mono, monospace;
+    --font-sans: var(--font-mono), ui-monospace, monospace;
+    --font-serif: var(--font-mono), ui-monospace, monospace;
+    --font-mono: var(--font-mono), ui-monospace, monospace;
     --radius: 0rem;
     --shadow-x: 0px;
     --shadow-y: 1px;
@@ -57,7 +58,8 @@
     --spacing: 0.25rem;
 }
 
-[data-theme='mono'].dark {
+/* Dark Mode Variables: Defined on body for correct scope */
+[data-theme='neobrutualism'].dark body {
     --background: oklch(0.1448 0 0);
     --foreground: oklch(0.9851 0 0);
     --card: oklch(0.2134 0 0);
@@ -90,9 +92,9 @@
     --sidebar-accent-foreground: oklch(0.9851 0 0);
     --sidebar-border: oklch(1 0 0);
     --sidebar-ring: oklch(0.4386 0 0);
-    --font-sans: Geist Mono, monospace;
-    --font-serif: Geist Mono, monospace;
-    --font-mono: Geist Mono, monospace;
+    --font-sans: var(--font-mono), ui-monospace, monospace;
+    --font-serif: var(--font-mono), ui-monospace, monospace;
+    --font-mono: var(--font-mono), ui-monospace, monospace;
     --radius: 0rem;
     --shadow-x: 0px;
     --shadow-y: 1px;
@@ -114,7 +116,8 @@
     --shadow-2xl: 0px 1px 0px 0px hsl(0 0% 0% / 0);
 }
 
-[data-theme='mono'] {
+/* Tailwind Theme Configuration */
+[data-theme='neobrutualism'] {
     @theme inline {
         --color-background: var(--background);
         --color-foreground: var(--foreground);

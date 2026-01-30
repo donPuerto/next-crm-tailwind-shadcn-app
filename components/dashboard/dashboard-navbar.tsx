@@ -11,8 +11,7 @@ import { UserNav } from "./user-nav"
 import { LanguageSwitcher } from "./language-switcher"
 import { NotificationsSheet } from "./notifications-sheet"
 import { ChatSheet } from "./chat-sheet"
-import { ThemeSelector } from "@/components/themes/theme-selector"
-import { ThemeModeToggle } from "@/components/themes/theme-mode-toggle"
+import { ThemeSwitcher } from "@/components/themes/theme-switcher"
 
 export function DashboardNavbar() {
     return (
@@ -28,11 +27,8 @@ export function DashboardNavbar() {
                 {/* Language */}
                 <LanguageSwitcher />
 
-                {/* Theme Selector */}
-                <ThemeSelector />
-
-                {/* Theme Mode Toggle */}
-                <ThemeModeToggle />
+                {/* Theme Switcher (includes colors, radius, and dark/light mode) */}
+                <ThemeSwitcher />
 
                 {/* Notifications */}
                 <NotificationsSheet />

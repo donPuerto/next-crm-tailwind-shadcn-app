@@ -1,4 +1,5 @@
-[data-theme='vercel'] {
+/* Apply variables to body where they are defined */
+[data-theme='vercel'] body {
     --background: oklch(0.99 0 0);
     --foreground: oklch(0 0 0);
     --card: oklch(1 0 0);
@@ -31,9 +32,9 @@
     --sidebar-accent-foreground: oklch(0 0 0);
     --sidebar-border: oklch(0.94 0 0);
     --sidebar-ring: oklch(0 0 0);
-    --font-sans: Geist, sans-serif;
+    --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
     --font-serif: Georgia, serif;
-    --font-mono: Geist Mono, monospace;
+    --font-mono: var(--font-mono), ui-monospace, monospace;
     --radius: 0.5rem;
     --shadow-x: 0px;
     --shadow-y: 1px;
@@ -58,7 +59,7 @@
     --spacing: 0.25rem;
 }
 
-[data-theme='vercel'].dark {
+[data-theme='vercel'].dark body {
     --background: oklch(0 0 0);
     --foreground: oklch(1 0 0);
     --card: oklch(0.14 0 0);
@@ -91,9 +92,9 @@
     --sidebar-accent-foreground: oklch(1 0 0);
     --sidebar-border: oklch(0.32 0 0);
     --sidebar-ring: oklch(0.72 0 0);
-    --font-sans: Geist, sans-serif;
+    --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
     --font-serif: Georgia, serif;
-    --font-mono: Geist Mono, monospace;
+    --font-mono: var(--font-mono), ui-monospace, monospace;
     --radius: 0.5rem;
     --shadow-x: 0px;
     --shadow-y: 1px;

@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/select';
 import { Palette } from 'lucide-react';
 
-import { THEMES } from './theme.config';
+import { THEMES } from '@/components/themes/theme.config';
 
 export function ThemeSelector() {
     const { activeTheme, setActiveTheme } = useThemeConfig();
