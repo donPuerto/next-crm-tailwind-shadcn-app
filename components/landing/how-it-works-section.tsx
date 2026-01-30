@@ -2,6 +2,7 @@
 
 import { UserPlus, Settings, Rocket, TrendingUp } from "lucide-react";
 import { useScrollAnimation } from "@/app/hooks/use-scroll-animation";
+import { useThemeColor } from "@/app/hooks/use-theme-color";
 import { cn } from "@/lib/utils";
 
 const STEPS = [
@@ -33,11 +34,14 @@ const STEPS = [
 
 export function HowItWorksSection() {
     const { ref, isVisible } = useScrollAnimation({ threshold: 0.15 });
+    const { color: themeColor } = useThemeColor();
 
     return (
         <section ref={ref} id="how-it-works" className="py-16 md:py-24 bg-background relative group">
             {/* Gradient overlay on hover */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#FF3B6B]/0 via-[#FF3B6B]/15 to-[#FF3B6B]/0 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700" style={{
+                background: `linear-gradient(to right, ${themeColor}00, ${themeColor}26, ${themeColor}00)`
+            }} />
 
             <div className="container mx-auto px-4 sm:px-6 relative z-10">
                 <div className="text-center mb-16">
@@ -53,7 +57,9 @@ export function HowItWorksSection() {
                     {/* Desktop: Horizontal Timeline */}
                     <div className="hidden md:grid md:grid-cols-4 gap-8 relative">
                         {/* Connecting Line */}
-                        <div className="absolute top-16 left-0 right-0 h-0.5 bg-gradient-to-r from-[#FF3B6B]/20 via-[#FF3B6B]/40 to-[#FF3B6B]/20" />
+                        <div className="absolute top-16 left-0 right-0 h-0.5" style={{
+                            backgroundImage: `linear-gradient(to right, ${themeColor}33, ${themeColor}66, ${themeColor}33)`
+                        }} />
 
                         {STEPS.map((step, index) => (
                             <div
@@ -67,13 +73,16 @@ export function HowItWorksSection() {
                                 style={{ transitionDelay: `${index * 150}ms` }}
                             >
                                 {/* Icon Circle */}
-                                <div className="relative z-10 mx-auto w-32 h-32 rounded-full bg-gradient-to-br from-[#FF3B6B] to-[#E63560] flex items-center justify-center shadow-xl shadow-[#FF3B6B]/30 group-hover:scale-110 transition-transform duration-300">
-                                    <step.icon className="w-14 h-14 text-white" />
+                                <div className="relative z-10 mx-auto w-32 h-32 rounded-full flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform duration-300 text-white" style={{
+                                    backgroundImage: `linear-gradient(to bottom right, ${themeColor}, ${themeColor}cc)`,
+                                    boxShadow: `0 20px 25px -5px ${themeColor}4d`
+                                }}>
+                                    <step.icon className="w-14 h-14" />
                                 </div>
 
                                 {/* Step Number */}
                                 <div className="text-center mt-6 mb-3">
-                                    <span className="text-6xl font-black text-[#FF3B6B]/10">
+                                    <span className="text-6xl font-black" style={{ color: `${themeColor}1a` }}>
                                         {step.number}
                                     </span>
                                 </div>
@@ -103,13 +112,16 @@ export function HowItWorksSection() {
                                 style={{ transitionDelay: `${index * 150}ms` }}
                             >
                                 {/* Icon Circle */}
-                                <div className="flex-shrink-0 w-20 h-20 rounded-full bg-gradient-to-br from-[#FF3B6B] to-[#E63560] flex items-center justify-center shadow-lg shadow-[#FF3B6B]/30">
-                                    <step.icon className="w-10 h-10 text-white" />
+                                <div className="flex-shrink-0 w-20 h-20 rounded-full flex items-center justify-center shadow-lg text-white" style={{
+                                    backgroundImage: `linear-gradient(to bottom right, ${themeColor}, ${themeColor}cc)`,
+                                    boxShadow: `0 10px 15px -3px ${themeColor}4d`
+                                }}>
+                                    <step.icon className="w-10 h-10" />
                                 </div>
 
                                 {/* Content */}
                                 <div className="flex-1 pt-2">
-                                    <div className="text-4xl font-black text-[#FF3B6B]/10 mb-2">
+                                    <div className="text-4xl font-black mb-2" style={{ color: `${themeColor}1a` }}>
                                         {step.number}
                                     </div>
                                     <h3 className="text-xl font-bold mb-2">{step.title}</h3>

@@ -50,20 +50,13 @@ export function ActiveThemeProvider({
     const themeToUse = initialTheme || DEFAULT_THEME;
     const [activeTheme, setActiveTheme] = useState<string>(themeToUse);
     const [activeColor, setActiveColor] = useState<ThemeColor | undefined>(() => {
+        // Only set color from cookie if user explicitly selected one
+        // Otherwise, let theme's CSS handle the default color
         if (initialColor && (AVAILABLE_COLORS as readonly string[]).includes(initialColor)) {
             return initialColor as ThemeColor;
         }
         return undefined;
     });
-
-    // Ensure active color is set on first load (cookie only)
-    useEffect(() => {
-        if (activeColor) return;
-
-        if (initialColor && (AVAILABLE_COLORS as readonly string[]).includes(initialColor)) {
-            setActiveColor(initialColor as ThemeColor);
-        }
-    }, [activeColor, initialColor]);
 
     // Apply theme style changes and notify listeners
     useEffect(() => {
@@ -83,17 +76,34 @@ export function ActiveThemeProvider({
                 document.documentElement.setAttribute('data-theme', activeTheme);
             }
 
+            // Reset color to undefined when switching themes
+            // This lets the theme's own CSS variables define the primary color
+            // Only apply a color override if user explicitly selected one
+            if (activeColor) {
+                setActiveColor(undefined);
+            }
+            
+            // Always clear color cookies/localStorage when theme changes
+            // This prevents old color selections from persisting across theme switches
+            document.cookie = `${COLOR_COOKIE}=; path=/; max-age=0; SameSite=Lax;`;
+            localStorage.removeItem('app-color');
+
             // Broadcast theme change for charts and listeners
             window.dispatchEvent(new CustomEvent('theme-changed', { detail: { theme: activeTheme } }));
         }
-    }, [activeTheme]);
+    }, [activeTheme, activeColor]);
 
     // Apply color changes and notify listeners
     useEffect(() => {
         if (!activeColor) {
+            // Clear color override - use theme's default color
             document.documentElement.removeAttribute('data-color');
             document.documentElement.style.removeProperty('--primary');
             document.documentElement.style.removeProperty('--ring');
+            
+            // Clear cookies and localStorage when no color is selected
+            document.cookie = `${COLOR_COOKIE}=; path=/; max-age=0; SameSite=Lax;`;
+            localStorage.removeItem('app-color');
             return;
         }
 

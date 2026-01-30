@@ -12,6 +12,19 @@ export const THEMES = [
     { name: 'Notebook', value: 'notebook' }
 ];
 
+/**
+ * Default colors for each theme (used in landing page when no override)
+ * Maps theme name to hex color approximating their CSS --primary
+ */
+export const THEME_DEFAULT_COLORS: Record<string, string> = {
+    claude: '#d97757',      // coral/salmon
+    neobrutalism: '#ec4899', // pink
+    supabase: '#10b981',    // emerald
+    vercel: '#525252',      // neutral gray (better visibility)
+    mono: '#525252',        // neutral gray
+    notebook: '#3b82f6'     // blue
+};
+
 export const AVAILABLE_COLORS = [
     'red',
     'neutral',

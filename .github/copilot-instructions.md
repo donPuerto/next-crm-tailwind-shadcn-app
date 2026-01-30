@@ -110,7 +110,7 @@ components/
 └── typography.tsx
 
 app/
-├── hooks/                # Custom hooks (useTheme, useMobile, etc.)
+├── hooks/                # Custom hooks (use-theme-color.ts, use-mobile.ts, etc. - kebab-case)
 ├── dashboard/
 │   ├── layout.tsx        # Sidebar wrapper layout
 │   ├── [section]/
@@ -131,7 +131,7 @@ lib/
 - **Custom components**: PascalCase (`Header.tsx`, `AdminStats.tsx`)
 - **Folders**: lowercase-with-hyphens (`user-profile/`, `sales-reports/`)
 - **Dynamic routes**: brackets (`[id]/`, `[slug]/`)
-- **Hooks**: `use` prefix (`useTheme`, `useMobile`)
+- **Hooks**: kebab-case files (`use-theme-color.ts`, `use-mobile.ts`) with camelCase exports (`useThemeColor()`, `useMobile()`)
 - **All files**: `.tsx` (not `.ts` for components)
 
 ### 4. **Styling Guidelines**
@@ -275,7 +275,9 @@ export function ClientChart() {
 ```
 
 ### 7. **Hooks & Utilities**
-- **Hooks location**: `app/hooks/` (e.g., `useTheme.ts`, `useMobile.ts`)
+- **Hooks location**: `app/hooks/` (all files use kebab-case: `use-theme-color.ts`, `use-mobile.ts`)
+- **Hooks file naming**: `use-feature-name.ts` (kebab-case, all lowercase)
+- **Hooks export naming**: `export function useFeatureName() { ... }` (camelCase for the exported function)
 - **Utilities location**: `lib/` (e.g., `lib/utils.ts` for shadcn; create new files as needed)
 - **Hook naming**: `use` prefix; one job per hook
 - **Utility pattern**: Pure functions, clear names, brief comments
@@ -365,7 +367,7 @@ export function ThemedComponent() {
 
 ### Creating a Reusable Hook
 ```tsx
-// app/hooks/useCustom.ts
+// app/hooks/use-custom.ts (kebab-case file name)
 'use client';
 
 import { useState, useCallback } from 'react';

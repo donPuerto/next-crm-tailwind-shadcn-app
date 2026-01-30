@@ -23,9 +23,11 @@
 **Priority**: Logic should live in Hooks (`useLogic`) or Utilities (`utils.ts`) before Components.
 
 ### Custom Hooks (`app/hooks/`)
-- **Naming**: `use[Feature]`.
-- **Example**: `useMobile.ts` for handling viewport logic.
+- **File Naming**: `use-feature-name.ts` (kebab-case, all lowercase).
+  - Example: `use-mobile.ts`, `use-theme-color.ts`
+  - Export naming: `export function useFeatureName() { ... }` (camelCase for exported function)
 - **Reuse**: Check if a hook exists before writing `useEffect`.
+- **All Hooks in `app/hooks/`**: Follow consistent kebab-case naming across all custom hooks.
 
 ### Utilities (`lib/`)
 - **`utils.ts`**: Reserved for shadcn helper `cn` (clsx + tailwind-merge).

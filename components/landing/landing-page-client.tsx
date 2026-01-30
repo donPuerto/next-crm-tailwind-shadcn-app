@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useThemeColor } from "@/app/hooks/use-theme-color";
 import { DeviceToolbar, DeviceType } from "@/components/landing/device-toolbar";
 import { LandingNavbar } from "@/components/landing/landing-navbar";
 import { ContactForm } from "@/components/landing/contact-form";
@@ -33,6 +34,7 @@ import { useScrollAnimation } from "@/app/hooks/use-scroll-animation";
 export function LandingPageClient() {
     const [device, setDevice] = React.useState<DeviceType>("full");
     const [mounted, setMounted] = React.useState(false);
+    const { color: themeColor } = useThemeColor();
 
     React.useEffect(() => {
         setMounted(true);
@@ -61,7 +63,15 @@ export function LandingPageClient() {
     if (!mounted) return null;
 
     return (
-        <div className="flex flex-col min-h-screen bg-muted/10 selection:bg-[#FF3B6B] selection:text-white">
+        <div className="flex flex-col min-h-screen bg-muted/10" style={{
+            userSelect: 'text'
+        }}>
+            <style>{`
+                div[style*="user-select"] ::selection {
+                    background-color: ${themeColor};
+                    color: white;
+                }
+            `}</style>
             {/* Device Toolbar - Hidden in production */}
             {process.env.NODE_ENV === 'development' && <DeviceToolbar currentDevice={device} onDeviceChange={setDevice} />}
 
@@ -127,6 +137,7 @@ export function LandingPageClient() {
  * Hero Section Component
  */
 function HeroSection({ isMobile }: { isMobile: boolean }) {
+    const { color: themeColor } = useThemeColor();
     const { ref, isVisible } = useScrollAnimation({ threshold: 0.1 });
 
     return (
@@ -139,11 +150,16 @@ function HeroSection({ isMobile }: { isMobile: boolean }) {
                 <Badge
                     variant="outline"
                     className={cn(
-                        "mb-6 py-2 px-4 rounded-full border-[#FF3B6B]/40 bg-[#FF3B6B]/10 backdrop-blur-sm text-foreground text-xs md:text-sm font-bold shadow-lg shadow-[#FF3B6B]/20 transition-all duration-700",
+                        "mb-6 py-2 px-4 rounded-full backdrop-blur-sm text-foreground text-xs md:text-sm font-bold shadow-lg transition-all duration-700",
                         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
                     )}
+                    style={{
+                        borderColor: `${themeColor}66`,
+                        backgroundColor: `${themeColor}1a`,
+                        boxShadow: `0 10px 15px ${themeColor}33`
+                    }}
                 >
-                    <Sparkles className="w-3.5 h-3.5 mr-2 text-[#FF3B6B]" />
+                    <Sparkles className="w-3.5 h-3.5 mr-2" style={{ color: themeColor }} />
                     New: AI-Powered Automation
                 </Badge>
 
@@ -154,7 +170,7 @@ function HeroSection({ isMobile }: { isMobile: boolean }) {
                     isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
                 )}>
                     Powerful CRM. <br />
-                    <span className="text-[#FF3B6B] drop-shadow-sm">
+                    <span className="drop-shadow-sm" style={{ color: themeColor }}>
                         Simple Setup.
                     </span>
                 </h1>
@@ -173,7 +189,21 @@ function HeroSection({ isMobile }: { isMobile: boolean }) {
                     isMobile ? "flex-col" : "flex-col sm:flex-row sm:w-auto",
                     isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
                 )}>
-                    <Button size="lg" className="h-12 px-8 rounded-full text-base font-bold shadow-lg shadow-[#FF3B6B]/20 bg-[#FF3B6B] hover:bg-[#E63560] hover:-translate-y-1 transition-all duration-300" asChild>
+                    <Button
+                        size="lg"
+                        className="h-12 px-8 rounded-full text-base font-bold shadow-lg hover:-translate-y-1 transition-all duration-300 text-white"
+                        style={{
+                            backgroundColor: themeColor,
+                            boxShadow: `0 10px 15px ${themeColor}33`
+                        }}
+                        onMouseEnter={(e) => {
+                            e.currentTarget.style.filter = 'brightness(0.9)';
+                        }}
+                        onMouseLeave={(e) => {
+                            e.currentTarget.style.filter = 'brightness(1)';
+                        }}
+                        asChild
+                    >
                         <Link href="/dashboard">
                             Start for Free <ArrowRight className="ml-2 w-4 h-4" />
                         </Link>
@@ -185,24 +215,43 @@ function HeroSection({ isMobile }: { isMobile: boolean }) {
 
                 {/* Social Proof with Gradient Avatars - Improved Contrast */}
                 <div className={cn(
-                    "mt-12 flex items-center gap-4 text-sm md:text-base font-semibold bg-white dark:bg-card border-2 border-[#FF3B6B]/20 px-6 py-3 rounded-full shadow-lg shadow-[#FF3B6B]/10 hover:shadow-xl hover:shadow-[#FF3B6B]/20 transition-all duration-700 delay-500",
+                    "mt-12 flex items-center gap-4 text-sm md:text-base font-semibold bg-white dark:bg-card border-2 px-6 py-3 rounded-full transition-all duration-700 delay-500",
                     isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-                )}>
+                )}
+                style={{
+                    borderColor: `${themeColor}33`,
+                    boxShadow: `0 10px 15px ${themeColor}1a`
+                }}
+                onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor = `${themeColor}66`;
+                    e.currentTarget.style.boxShadow = `0 20px 25px ${themeColor}33`;
+                }}
+                onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor = `${themeColor}33`;
+                    e.currentTarget.style.boxShadow = `0 10px 15px ${themeColor}1a`;
+                }}
+                >
                     <div className="flex -space-x-3">
                         {/* Gradient Avatar 1 */}
-                        <div className="w-8 h-8 rounded-full border-2 border-white dark:border-card bg-gradient-to-br from-[#FF3B6B] to-[#E63560] flex items-center justify-center text-xs font-bold text-white overflow-hidden shadow-md">
+                        <div className="w-8 h-8 rounded-full border-2 border-white dark:border-card flex items-center justify-center text-xs font-bold text-white overflow-hidden shadow-md" style={{
+                            backgroundImage: `linear-gradient(to bottom right, ${themeColor}, ${themeColor}99)`
+                        }}>
                             SC
                         </div>
                         {/* Gradient Avatar 2 */}
-                        <div className="w-8 h-8 rounded-full border-2 border-white dark:border-card bg-gradient-to-br from-[#E63560] to-[#FF3B6B] flex items-center justify-center text-xs font-bold text-white overflow-hidden shadow-md">
+                        <div className="w-8 h-8 rounded-full border-2 border-white dark:border-card flex items-center justify-center text-xs font-bold text-white overflow-hidden shadow-md" style={{
+                            backgroundImage: `linear-gradient(to bottom right, ${themeColor}99, ${themeColor})`
+                        }}>
                             MJ
                         </div>
                         {/* Gradient Avatar 3 */}
-                        <div className="w-8 h-8 rounded-full border-2 border-white dark:border-card bg-gradient-to-br from-[#FF3B6B] via-[#E63560] to-[#FF3B6B] flex items-center justify-center text-xs font-bold text-white overflow-hidden shadow-md">
+                        <div className="w-8 h-8 rounded-full border-2 border-white dark:border-card flex items-center justify-center text-xs font-bold text-white overflow-hidden shadow-md" style={{
+                            backgroundImage: `linear-gradient(to bottom right, ${themeColor}, ${themeColor}99, ${themeColor})`
+                        }}>
                             ER
                         </div>
                     </div>
-                    <p className="text-foreground">Trusted by <span className="font-extrabold text-[#FF3B6B]">500+</span> pros.</p>
+                    <p className="text-foreground">Trusted by <span className="font-extrabold" style={{ color: themeColor }}>500+</span> pros.</p>
                 </div>
             </div>
         </section>
@@ -213,12 +262,15 @@ function HeroSection({ isMobile }: { isMobile: boolean }) {
  * Tech Stack Section Component
  */
 function TechStackSection() {
+    const { color: themeColor } = useThemeColor();
     const { ref, isVisible } = useScrollAnimation({ threshold: 0.3 });
 
     return (
         <section ref={ref} className="py-12 bg-muted/30 border-y relative group">
             {/* Gradient overlay on hover */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#FF3B6B]/0 via-[#FF3B6B]/15 to-[#FF3B6B]/0 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700" style={{
+                background: `linear-gradient(to right, ${themeColor}00, ${themeColor}26, ${themeColor}00)`
+            }} />
 
             <div className="container mx-auto px-4 sm:px-6 text-center relative z-10">
                 <p className={cn(
@@ -234,7 +286,7 @@ function TechStackSection() {
                     <div className="flex items-center gap-2 font-bold text-lg">
                         <Terminal className="w-5 h-5" /> Next.js 16
                     </div>
-                    <div className="flex items-center gap-2 font-bold text-lg text-[#FF3B6B]">
+                    <div className="flex items-center gap-2 font-bold text-lg" style={{ color: themeColor }}>
                         <Cpu className="w-5 h-5" /> Tailwind v4
                     </div>
                     <div className="flex items-center gap-2 font-bold text-lg text-emerald-500">
@@ -253,13 +305,16 @@ function TechStackSection() {
  * Features Section Component
  */
 function FeaturesSection({ isMobile }: { isMobile: boolean }) {
+    const { color: themeColor } = useThemeColor();
     const { ref, isVisible } = useScrollAnimation({ threshold: 0.1 });
     const { ref: headerRef, isVisible: headerVisible } = useScrollAnimation({ threshold: 0.2 });
 
     return (
         <section ref={ref} id="features" className="py-20 bg-background relative group">
             {/* Gradient overlay on hover - Stronger for light mode */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#FF3B6B]/0 via-[#FF3B6B]/15 to-[#FF3B6B]/0 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700" style={{
+                background: `linear-gradient(to right, ${themeColor}00, ${themeColor}26, ${themeColor}00)`
+            }} />
 
             <div className="container mx-auto px-4 sm:px-6 relative z-10">
                 <div
@@ -280,13 +335,25 @@ function FeaturesSection({ isMobile }: { isMobile: boolean }) {
                         <Card
                             key={i}
                             className={cn(
-                                "relative overflow-hidden border border-border/50 bg-white dark:bg-card hover:border-[#FF3B6B]/30 hover:shadow-xl hover:shadow-[#FF3B6B]/5 transition-all duration-300 rounded-2xl group/card hover:-translate-y-1 transform",
+                                "relative overflow-hidden border border-border/50 bg-white dark:bg-card hover:shadow-xl transition-all duration-300 rounded-2xl group/card hover:-translate-y-1 transform",
                                 isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
                             )}
-                            style={{ transitionDelay: `${i * 100}ms` }}
+                            style={{ 
+                                transitionDelay: `${i * 100}ms`,
+                                borderColor: `${themeColor}4d`,
+                            }}
+                            onMouseEnter={(e) => {
+                                e.currentTarget.style.boxShadow = `0 20px 25px ${themeColor}0d`;
+                            }}
+                            onMouseLeave={(e) => {
+                                e.currentTarget.style.boxShadow = '';
+                            }}
                         >
                             <CardHeader>
-                                <div className={cn("w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-transform duration-500 group-hover/card:scale-110 group-hover/card:rotate-3 shadow-inner bg-pink-50 text-[#FF3B6B]")}>
+                                <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-transform duration-500 group-hover/card:scale-110 group-hover/card:rotate-3 shadow-inner" style={{
+                                    backgroundColor: `${themeColor}0f`,
+                                    color: themeColor
+                                }}>
                                     <feature.icon className="w-6 h-6" />
                                 </div>
                                 <CardTitle className="text-xl">{feature.title}</CardTitle>

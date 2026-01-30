@@ -2,6 +2,7 @@
 
 import { Workflow, Mail, Calendar, MessageSquare, Database, Zap } from "lucide-react";
 import { useScrollAnimation } from "@/app/hooks/use-scroll-animation";
+import { useThemeColor } from "@/app/hooks/use-theme-color";
 import { cn } from "@/lib/utils";
 
 const INTEGRATIONS = [
@@ -45,11 +46,14 @@ const INTEGRATIONS = [
 
 export function IntegrationsSection() {
     const { ref, isVisible } = useScrollAnimation({ threshold: 0.2 });
+    const { color: themeColor } = useThemeColor();
 
     return (
         <section ref={ref} id="integrations" className="py-16 md:py-24 bg-muted/70 relative group">
             {/* Gradient overlay on hover */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#FF3B6B]/0 via-[#FF3B6B]/15 to-[#FF3B6B]/0 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700" style={{
+                background: `linear-gradient(to right, ${themeColor}00, ${themeColor}26, ${themeColor}00)`
+            }} />
 
             <div className="container mx-auto px-4 sm:px-6 relative z-10">
                 <div className="text-center mb-16">
@@ -66,12 +70,20 @@ export function IntegrationsSection() {
                         <div
                             key={index}
                             className={cn(
-                                "group/card flex flex-col items-center justify-center p-6 rounded-2xl border-2 border-border bg-background hover:border-[#FF3B6B]/40 hover:shadow-xl hover:shadow-[#FF3B6B]/10 transition-all duration-500 hover:-translate-y-2 transform cursor-pointer",
+                                "group/card flex flex-col items-center justify-center p-6 rounded-2xl border-2 border-border bg-background transition-all duration-500 hover:-translate-y-2 transform cursor-pointer",
                                 isVisible
                                     ? "opacity-100 scale-100"
                                     : "opacity-0 scale-90"
                             )}
                             style={{ transitionDelay: `${index * 100}ms` }}
+                            onMouseEnter={(e) => {
+                                e.currentTarget.style.borderColor = `${themeColor}66`;
+                                e.currentTarget.style.boxShadow = `0 20px 25px ${themeColor}1a`;
+                            }}
+                            onMouseLeave={(e) => {
+                                e.currentTarget.style.borderColor = '';
+                                e.currentTarget.style.boxShadow = '';
+                            }}
                         >
                             {/* Icon */}
                             <div
@@ -89,7 +101,16 @@ export function IntegrationsSection() {
                             </div>
 
                             {/* Name */}
-                            <h3 className="font-bold text-sm text-center mb-1 group-hover/card:text-[#FF3B6B] transition-colors">
+                            <h3 className="font-bold text-sm text-center mb-1 transition-colors" style={{
+                                "--hover-text": themeColor
+                            } as React.CSSProperties}
+                            onMouseEnter={(e) => {
+                                e.currentTarget.style.color = themeColor;
+                            }}
+                            onMouseLeave={(e) => {
+                                e.currentTarget.style.color = 'currentColor';
+                            }}
+                            >
                                 {integration.name}
                             </h3>
 
@@ -105,7 +126,16 @@ export function IntegrationsSection() {
                 <div className="text-center mt-12">
                     <p className="text-muted-foreground font-medium">
                         And many more through our API.
-                        <a href="#" className="text-[#FF3B6B] hover:text-[#E63560] font-bold ml-1 underline underline-offset-4">
+                        <a href="#" className="font-bold ml-1 underline underline-offset-4" style={{
+                            color: themeColor
+                        }}
+                        onMouseEnter={(e) => {
+                            e.currentTarget.style.filter = 'brightness(0.9)';
+                        }}
+                        onMouseLeave={(e) => {
+                            e.currentTarget.style.filter = 'brightness(1)';
+                        }}
+                        >
                             View all integrations →
                         </a>
                     </p>

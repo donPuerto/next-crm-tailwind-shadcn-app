@@ -3,6 +3,7 @@
 import { Star, Quote } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { useScrollAnimation } from "@/app/hooks/use-scroll-animation";
+import { useThemeColor } from "@/app/hooks/use-theme-color";
 import { cn } from "@/lib/utils";
 
 const TESTIMONIALS = [
@@ -34,11 +35,14 @@ const TESTIMONIALS = [
 
 export function TestimonialsSection() {
     const { ref, isVisible } = useScrollAnimation({ threshold: 0.15 });
+    const { color: themeColor } = useThemeColor();
 
     return (
         <section ref={ref} id="testimonials" className="py-16 md:py-24 bg-background relative group">
             {/* Gradient overlay on hover */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#FF3B6B]/0 via-[#FF3B6B]/15 to-[#FF3B6B]/0 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700" style={{
+                background: `linear-gradient(to right, ${themeColor}00, ${themeColor}26, ${themeColor}00)`
+            }} />
 
             <div className="container mx-auto px-4 sm:px-6 relative z-10">
                 <div className="text-center mb-16">
@@ -55,23 +59,32 @@ export function TestimonialsSection() {
                         <Card
                             key={index}
                             className={cn(
-                                "border-[#FF3B6B]/20 hover:border-[#FF3B6B]/40 hover:shadow-xl hover:shadow-[#FF3B6B]/10 transition-all duration-500 hover:-translate-y-2 transform",
-                                isVisible
-                                    ? "opacity-100 translate-y-0"
-                                    : "opacity-0 translate-y-8"
+                                "border-2 transition-all duration-500 hover:-translate-y-2 transform",
+                                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
                             )}
-                            style={{ transitionDelay: `${index * 150}ms` }}
+                            style={{
+                                transitionDelay: `${index * 150}ms`,
+                                borderColor: `${themeColor}33`
+                            }}
+                            onMouseEnter={(e) => {
+                                e.currentTarget.style.borderColor = `${themeColor}66`;
+                                e.currentTarget.style.boxShadow = `0 20px 25px -5px ${themeColor}1a`;
+                            }}
+                            onMouseLeave={(e) => {
+                                e.currentTarget.style.borderColor = `${themeColor}33`;
+                                e.currentTarget.style.boxShadow = '';
+                            }}
                         >
                             <CardContent className="p-6 space-y-4">
                                 {/* Quote Icon */}
-                                <div className="text-[#FF3B6B]/20">
+                                <div style={{ color: `${themeColor}33` }}>
                                     <Quote className="w-10 h-10" />
                                 </div>
 
                                 {/* Rating */}
                                 <div className="flex gap-1">
                                     {Array.from({ length: testimonial.rating }).map((_, i) => (
-                                        <Star key={i} className="w-4 h-4 fill-[#FF3B6B] text-[#FF3B6B]" />
+                                        <Star key={i} className="w-4 h-4" style={{ fill: themeColor, color: themeColor }} />
                                     ))}
                                 </div>
 
@@ -82,7 +95,9 @@ export function TestimonialsSection() {
 
                                 {/* Author */}
                                 <div className="flex items-center gap-3 pt-4 border-t">
-                                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#FF3B6B] to-[#E63560] flex items-center justify-center text-white font-bold text-sm">
+                                    <div className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-sm" style={{
+                                        backgroundImage: `linear-gradient(to bottom right, ${themeColor}, ${themeColor}99)`
+                                    }}>
                                         {testimonial.initials}
                                     </div>
                                     <div>

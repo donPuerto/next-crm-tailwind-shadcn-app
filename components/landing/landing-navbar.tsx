@@ -6,18 +6,8 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/ui/logo";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Icon } from "@/components/ui/icon";
-import { useTheme } from "next-themes";
-import { useThemeConfig } from "@/components/themes/active-theme";
-import { AVAILABLE_THEMES, THEME_CONFIG } from "@/lib/constants/themes";
+import { ThemeSwitcher } from "@/components/themes/theme-switcher";
+import { useThemeColor } from "@/app/hooks/use-theme-color";
 
 const NAV_ITEMS = [
     { label: "Features", href: "#features" },
@@ -44,12 +34,28 @@ interface LandingNavbarProps {
 export function LandingNavbar({ className }: LandingNavbarProps) {
     const [isScrolled, setIsScrolled] = React.useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
-    const { theme: darkMode, setTheme: setDarkMode } = useTheme();
-    const { activeTheme, setActiveTheme } = useThemeConfig();
     const [mounted, setMounted] = React.useState(false);
+    const [radiusValue, setRadiusValue] = React.useState("0.5rem");
+    const { color, mounted: colorMounted } = useThemeColor();
 
     React.useEffect(() => {
         setMounted(true);
+        
+        // Get initial radius value from CSS variable
+        const root = document.documentElement;
+        const radiusValue = getComputedStyle(root).getPropertyValue('--radius').trim();
+        if (radiusValue) setRadiusValue(radiusValue);
+        
+        // Listen for radius changes via MutationObserver on style attribute
+        const observer = new MutationObserver(() => {
+            const newRadius = getComputedStyle(root).getPropertyValue('--radius').trim();
+            if (newRadius && newRadius !== radiusValue) {
+                setRadiusValue(newRadius);
+            }
+        });
+        
+        observer.observe(root, { attributes: true, attributeFilter: ['style'] });
+        return () => observer.disconnect();
     }, []);
 
     React.useEffect(() => {
@@ -75,8 +81,12 @@ export function LandingNavbar({ className }: LandingNavbarProps) {
                 <div className="flex items-center gap-2">
                     <Link href="/" className="flex items-center gap-2 group">
                         <div className="relative">
-                            <div className="absolute inset-0 bg-[#FF3B6B]/20 rounded-lg blur-lg opacity-0 group-hover:opacity-100 transition-opacity" />
-                            <Logo size="md" className="relative bg-background group-hover:scale-105 transition-transform duration-300 text-[#FF3B6B] border-[#FF3B6B]/20" />
+                            <div className="absolute inset-0 rounded-lg blur-lg opacity-0 group-hover:opacity-100 transition-opacity bg-primary/20" />
+                            <Logo 
+                                size="md" 
+                                className="relative bg-background group-hover:scale-105 transition-transform duration-300 text-primary border-primary/20" 
+                                color={colorMounted ? color : undefined} 
+                            />
                         </div>
                         <span className="font-bold text-base sm:text-lg tracking-tight hidden sm:inline-block">
                             Don Puerto
@@ -90,52 +100,27 @@ export function LandingNavbar({ className }: LandingNavbarProps) {
                         <Link
                             key={item.href}
                             href={item.href}
-                            className="text-base font-semibold text-muted-foreground hover:text-[#FF3B6B] transition-colors relative group"
+                            className="text-base font-semibold text-muted-foreground hover:text-primary transition-colors relative group"
                         >
                             {item.label}
-                            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#FF3B6B] rounded-full group-hover:w-full transition-all duration-300" />
+                            <span className="absolute -bottom-1 left-0 w-0 h-0.5 rounded-full bg-primary group-hover:w-full transition-all duration-300" />
                         </Link>
                     ))}
                 </nav>
 
                 {/* Actions Area */}
                 <div className="flex items-center gap-2 sm:gap-3">
-                    {/* Theme Dropdown - Always visible */}
-                    {mounted && (
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Button
-                                    variant="ghost"
-                                    size="icon"
-                                    className="rounded-full hover:bg-[#FF3B6B]/10 hover:text-[#FF3B6B] transition-colors"
-                                >
-                                    <Icon name="Palette" size={20} />
-                                </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end" className="w-48">
-                                <DropdownMenuLabel>Appearance</DropdownMenuLabel>
-                                <DropdownMenuSeparator />
-                                <DropdownMenuItem onClick={() => setDarkMode(darkMode === 'dark' ? 'light' : 'dark')}>
-                                    <Icon name={darkMode === 'dark' ? "Sun" : "Moon"} className="mr-2 h-4 w-4" />
-                                    {darkMode === 'dark' ? "Light Mode" : "Dark Mode"}
-                                </DropdownMenuItem>
-                                <DropdownMenuSeparator />
-                                <DropdownMenuLabel className="text-xs text-muted-foreground">Themes</DropdownMenuLabel>
-                                {AVAILABLE_THEMES.slice(0, 5).map((t) => (
-                                    <DropdownMenuItem key={t} onClick={() => setActiveTheme(t)} className="justify-between">
-                                        {THEME_CONFIG[t].name}
-                                        {activeTheme === t && <Icon name="Check" className="h-3 w-3" />}
-                                    </DropdownMenuItem>
-                                ))}
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-                    )}
+                    {/* Theme Switcher - Always visible */}
+                    {mounted && <ThemeSwitcher />}
 
                     {/* Star on GitHub - Visible XL and above */}
                     <Button
                         variant="outline"
                         size="sm"
-                        className="rounded-full hidden xl:flex border-[#FF3B6B]/20 hover:bg-[#FF3B6B]/5 hover:border-[#FF3B6B]/40 transition-all"
+                        className="hidden xl:flex transition-all"
+                        style={{
+                            borderRadius: radiusValue,
+                        }}
                         asChild
                     >
                         <Link href="https://github.com/donpuerto" target="_blank">
@@ -146,7 +131,10 @@ export function LandingNavbar({ className }: LandingNavbarProps) {
                     {/* Dashboard Button - Visible SM and above */}
                     <Button
                         size="sm"
-                        className="rounded-full px-4 sm:px-6 shadow-lg shadow-[#FF3B6B]/20 hover:shadow-[#FF3B6B]/40 transition-all hover:scale-105 active:scale-95 bg-[#FF3B6B] hover:bg-[#E63560] hidden sm:flex"
+                        className="px-4 sm:px-6 transition-all hover:scale-105 active:scale-95 hidden sm:flex"
+                        style={{
+                            borderRadius: radiusValue,
+                        }}
                         asChild
                     >
                         <Link href="/dashboard">
@@ -158,7 +146,10 @@ export function LandingNavbar({ className }: LandingNavbarProps) {
                     <Button
                         variant="ghost"
                         size="icon"
-                        className="lg:hidden rounded-full hover:bg-[#FF3B6B]/10 hover:text-[#FF3B6B]"
+                        className="lg:hidden"
+                        style={{
+                            borderRadius: radiusValue,
+                        }}
                         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                     >
                         {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -176,7 +167,10 @@ export function LandingNavbar({ className }: LandingNavbarProps) {
                                 key={item.href}
                                 href={item.href}
                                 onClick={() => setMobileMenuOpen(false)}
-                                className="text-lg font-medium p-2 hover:bg-muted rounded-lg transition-colors hover:text-[#FF3B6B]"
+                                className="text-lg font-medium p-2 rounded-md hover:bg-primary/10 hover:text-primary transition-colors"
+                                style={{
+                                    borderRadius: radiusValue,
+                                }}
                             >
                                 {item.label}
                             </Link>
@@ -186,7 +180,10 @@ export function LandingNavbar({ className }: LandingNavbarProps) {
 
                         {/* Mobile-only Dashboard Button (for XS screens) */}
                         <Button
-                            className="w-full justify-center rounded-full bg-[#FF3B6B] hover:bg-[#E63560] sm:hidden"
+                            className="w-full justify-center sm:hidden"
+                            style={{
+                                borderRadius: radiusValue,
+                            }}
                             asChild
                         >
                             <Link href="/dashboard">
@@ -197,7 +194,10 @@ export function LandingNavbar({ className }: LandingNavbarProps) {
                         {/* GitHub Link in Mobile Menu */}
                         <Button
                             variant="outline"
-                            className="w-full justify-center rounded-full border-[#FF3B6B]/20 hover:bg-[#FF3B6B]/5"
+                            className="w-full justify-center"
+                            style={{
+                                borderRadius: radiusValue,
+                            }}
                             asChild
                         >
                             <Link href="https://github.com/donpuerto" target="_blank">
