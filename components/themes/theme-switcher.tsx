@@ -1,6 +1,6 @@
 'use client';
 
-import { Check, Moon, Palette, Sun } from 'lucide-react';
+import { Check, Moon, Palette, Sun, Settings2 } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import * as React from 'react';
 
@@ -21,16 +21,20 @@ import {
 import { Slider } from '@/components/ui/slider';
 import { useThemeConfig } from './active-theme';
 import { THEMES, COLOR_CONFIG, AVAILABLE_COLORS } from '@/components/themes/theme.config';
+import { ThemeEditorSidebar } from './theme-editor-sidebar';
 
 /**
  * Dual Theme Switcher
  * Select for Theme Style (Layout/Fonts)
  * Grid for Theme Color (Primary Color)
+ * Customize button opens advanced theme editor
  */
 export function ThemeSwitcher() {
     const { setTheme, resolvedTheme } = useTheme();
     const { activeTheme, setActiveTheme, activeColor, setActiveColor } = useThemeConfig();
     const [radius, setRadius] = React.useState(0.5);
+    const [editorOpen, setEditorOpen] = React.useState(false);
+    const [dropdownOpen, setDropdownOpen] = React.useState(false);
 
     const handleThemeToggle = React.useCallback(
         (e?: React.MouseEvent) => {
@@ -62,14 +66,15 @@ export function ThemeSwitcher() {
     };
 
     return (
-        <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-                <Button variant='ghost' size='icon' className='h-9 w-9'>
-                    <Palette className='h-4 w-4' />
-                    <span className='sr-only'>Theme settings</span>
-                </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align='end' className='w-80 p-6'>
+        <>
+            <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
+                <DropdownMenuTrigger asChild>
+                    <Button variant='ghost' size='icon' className='h-9 w-9'>
+                        <Palette className='h-4 w-4' />
+                        <span className='sr-only'>Theme settings</span>
+                    </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align='end' className='w-80 p-6'>
                 {/* Header */}
                 <div className='flex items-center justify-between mb-6'>
                     <span className='text-sm font-semibold leading-none'>Theme Settings</span>
@@ -152,7 +157,26 @@ export function ThemeSwitcher() {
                         className='cursor-pointer'
                     />
                 </div>
+
+                <div className='my-6 h-px bg-border/50' />
+
+                {/* Advanced Customization Button */}
+                <Button
+                    variant='outline'
+                    className='w-full'
+                    onClick={() => {
+                        setEditorOpen(true);
+                        setDropdownOpen(false);
+                    }}
+                >
+                    <Settings2 className='h-4 w-4 mr-2' />
+                    Advanced Customization
+                </Button>
             </DropdownMenuContent>
         </DropdownMenu>
+
+        {/* Theme Editor Sidebar */}
+        <ThemeEditorSidebar open={editorOpen} onOpenChange={setEditorOpen} />
+        </>
     );
 }
